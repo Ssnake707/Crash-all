@@ -1,5 +1,6 @@
 using Infrastructure.AssetManagement;
 using Infrastructure.Factory;
+using Infrastructure.Factory.Interface;
 using Infrastructure.SceneLoaders;
 using Infrastructure.States.Interface;
 using Services.PersistentProgress;
@@ -51,12 +52,9 @@ namespace Infrastructure.States
 
         private void OnLoaded()
         {
-            switch (SceneManager.GetActiveScene().name)
-            {
-                case SceneNames.Main:
-                    _level = new GameFactory(_progress, _saveLoadService, _staticDataService, _assetProvider, _stateMachine);
-                    break;
-            }
+            if (SceneManager.GetActiveScene().name.Equals(_staticDataService.Scenes.MainScene))
+                _level = new GameFactory(_progress, _saveLoadService, _staticDataService, _assetProvider,
+                    _stateMachine);
 
             _level.Init();
             _level.NextState(_stateMachine);

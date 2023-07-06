@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using Infrastructure.SceneLoaders;
 using Infrastructure.States.Interface;
@@ -8,12 +9,11 @@ namespace Infrastructure.States
 {
     public class BootstrapState : IState
     {
-        private const string InitialScene = "Boot";
         private readonly ISceneLoader _sceneLoader;
         private readonly IStaticDataService _staticDataService;
         private readonly LoadingCurtain _loadingCurtain;
+        private readonly IAssetProvider _assetProvider;
         private GameStateMachine _stateMachine;
-        private IAssetProvider _assetProvider;
 
         [Inject]
         public BootstrapState(ISceneLoader sceneLoader,
@@ -30,20 +30,23 @@ namespace Infrastructure.States
         public void Init(GameStateMachine stateMachine) =>
             _stateMachine = stateMachine;
 
-        public void Enter()
+        public async void Enter()
         {
             _loadingCurtain.Show();
-            _sceneLoader.Load(InitialScene, EnterLoadLevel);
+            await InitServices();
+            _sceneLoader.Load(_staticDataService.Scenes.InitialScene, EnterLoadLevel);
         }
 
         public void Exit() =>
             _loadingCurtain.Hide();
 
-        private async void EnterLoadLevel()
+        private void EnterLoadLevel() => 
+            _stateMachine.Enter<LoadProgressState>();
+
+        private async Task InitServices()
         {
             _assetProvider.InitializeAddressables();
             await _staticDataService.LoadAsync();
-            _stateMachine.Enter<LoadProgressState>();
         }
     }
 }
