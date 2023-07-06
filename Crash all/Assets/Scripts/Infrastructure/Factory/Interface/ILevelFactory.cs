@@ -1,6 +1,6 @@
 using Infrastructure.States;
 
-namespace Infrastructure.Factory
+namespace Infrastructure.Factory.Interface
 {
     public interface ILevel
     {

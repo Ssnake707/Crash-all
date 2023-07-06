@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Infrastructure.AssetManagement;
+using Infrastructure.Factory.Interface;
 using Infrastructure.States;
 using Services.PersistentProgress;
 using Services.SaveLoad;
