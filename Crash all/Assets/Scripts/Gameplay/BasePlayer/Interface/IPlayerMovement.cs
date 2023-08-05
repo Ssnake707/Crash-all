@@ -1,4 +1,4 @@
-namespace BasePlayer.Interface
+namespace Gameplay.BasePlayer.Interface
 {
     public interface IPlayerMovement
     {

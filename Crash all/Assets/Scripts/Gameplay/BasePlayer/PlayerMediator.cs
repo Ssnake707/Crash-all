@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BasePlayer
+namespace Gameplay.BasePlayer
 {
     public abstract class PlayerMediator : MonoBehaviour
     {

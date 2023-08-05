@@ -1,8 +1,8 @@
-using BasePlayer.Interface;
+using Gameplay.BasePlayer.Interface;
 using StaticData.BasePlayer;
 using UnityEngine;
 
-namespace BasePlayer
+namespace Gameplay.BasePlayer
 {
     public class Player : PlayerMediator
     {
