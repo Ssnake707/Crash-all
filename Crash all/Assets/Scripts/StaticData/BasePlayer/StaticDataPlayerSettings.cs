@@ -1,14 +1,16 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StaticData.BasePlayer
 {
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Static data/Player settings", order = 0)]
     public class StaticDataPlayerSettings : ScriptableObject
     {
-        [Header("Speed")] 
+        [Header("Movement settings")] 
         public float Speed;
         public float SpeedTurn;
-        public float SpeedRotating;
+        public float DefaultMaxAngularVelocity;
+        public float ForceRotating;
 
         [Header("Animation"), Space(15)] 
         public string AnimParameterMove;

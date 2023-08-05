@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   SpeedTurn: 10
-  SpeedRotating: -100
+  DefaultMaxAngularVelocity: 10
+  ForceRotating: -500000
   AnimParameterMove: IsMove
   AnimParameterSpeed: Speed

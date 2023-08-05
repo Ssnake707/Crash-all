@@ -12,12 +12,14 @@ namespace Gameplay.BasePlayer
         private readonly Rigidbody _rigidbody;
 
         public PlayerMovement(PlayerMediator playerMediator, StaticDataPlayerSettings playerSettings,
-            Transform transformPlayer, Rigidbody rigidbody)
+            Transform transformPlayer, Rigidbody rigidbody, Transform centerOfMass)
         {
             _playerMediator = playerMediator;
             _playerSettings = playerSettings;
             _transformPlayer = transformPlayer;
             _rigidbody = rigidbody;
+            _rigidbody.centerOfMass = centerOfMass.position;
+            _rigidbody.maxAngularVelocity = _playerSettings.DefaultMaxAngularVelocity;
         }
 
         public void Tick()
@@ -40,14 +42,9 @@ namespace Gameplay.BasePlayer
 
         private void Move(float horizontal, float vertical)
         {
+            _rigidbody.angularVelocity = Vector3.zero;
             MoveForward(horizontal, vertical);
             Rotate(horizontal, vertical);
-        }
-
-        private void Rotating()
-        {
-            Quaternion q = Quaternion.Euler(new Vector3(0f, _playerSettings.SpeedRotating, 0f) * Time.fixedDeltaTime);
-            _rigidbody.MoveRotation(_rigidbody.rotation * q);
         }
 
         private void MoveForward(float horizontal, float vertical)
@@ -60,11 +57,19 @@ namespace Gameplay.BasePlayer
 
         private void Rotate(float horizontal, float vertical)
         {
-            if (horizontal == 0f && vertical == 0f) return;
             _transformPlayer.rotation = Quaternion.Slerp(_transformPlayer.rotation,
                 Quaternion.Euler(Vector3.up *
                                  (Mathf.Rad2Deg * Mathf.Atan2(horizontal, vertical))),
-                _playerSettings.SpeedTurn * Time.deltaTime);
+                _playerSettings.SpeedTurn * Time.fixedDeltaTime);
+        }
+
+        private void Rotating()
+        {
+            _rigidbody.AddTorque(_transformPlayer.up * (_playerSettings.ForceRotating * Time.fixedDeltaTime), ForceMode.Acceleration);
+            
+            // Old rotating
+            /* Quaternion q = Quaternion.Euler(new Vector3(0f, _playerSettings.SpeedRotating, 0f) * Time.fixedDeltaTime);
+             _rigidbody.MoveRotation(_rigidbody.rotation * q);*/
         }
     }
 }

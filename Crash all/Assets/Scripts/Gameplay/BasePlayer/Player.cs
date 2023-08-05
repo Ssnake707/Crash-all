@@ -11,6 +11,7 @@ namespace Gameplay.BasePlayer
         
         [SerializeField] private StaticDataPlayerSettings _playerSettings;
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private Transform _centerOfMass;
         [SerializeField] private Transform _transformPlayer;
         [SerializeField] private Animator _animator;
         
@@ -20,7 +21,7 @@ namespace Gameplay.BasePlayer
 
         private void Awake()
         {
-            _playerMovement = new PlayerMovement(this, _playerSettings, _transformPlayer, _rigidbody);
+            _playerMovement = new PlayerMovement(this, _playerSettings, _transformPlayer, _rigidbody, _centerOfMass);
             _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
             _isCanMove = true;
         }
