@@ -23,13 +23,31 @@ namespace BasePlayer
         public void Tick()
         {
             if (!_playerMediator.CanMove) return;
-            Move(SimpleInput.GetAxis("Horizontal"), SimpleInput.GetAxis("Vertical"));
+            float horizontal = SimpleInput.GetAxis("Horizontal");
+            float vertical = SimpleInput.GetAxis("Vertical");
+            float speed = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
+            if (speed == 0f)
+            {
+                _playerMediator.PlayerRotating();
+                Rotating();
+            }
+            else
+            {
+                _playerMediator.PlayerMove(speed);
+                Move(horizontal, vertical);
+            }
         }
 
         private void Move(float horizontal, float vertical)
         {
             MoveForward(horizontal, vertical);
             Rotate(horizontal, vertical);
+        }
+
+        private void Rotating()
+        {
+            Quaternion q = Quaternion.Euler(new Vector3(0f, _playerSettings.SpeedRotating, 0f) * Time.fixedDeltaTime);
+            _rigidbody.MoveRotation(_rigidbody.rotation * q);
         }
 
         private void MoveForward(float horizontal, float vertical)
