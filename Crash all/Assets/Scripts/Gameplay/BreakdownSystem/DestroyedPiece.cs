@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using Gameplay.BreakdownSystem.Interface;
 using UnityEngine;
 
 namespace Gameplay.BreakdownSystem
 {
-    public class DestroyedPiece : MonoBehaviour
+    public class DestroyedPiece : MonoBehaviour, IDestroyedPiece
     {
-        [HideInInspector] public bool _visited = false;
-        public List<DestroyedPiece> _connectedTo;
+        public bool IsVisited { get; set; }
+        public List<IDestroyedPiece> ConnectedTo { get; private set; }
 
         private Vector3 _startPos;
         private Quaternion _startRotating;
@@ -16,7 +17,7 @@ namespace Gameplay.BreakdownSystem
 
         public void Construct()
         {
-            _connectedTo = new List<DestroyedPiece>();
+            ConnectedTo = new List<IDestroyedPiece>();
 
             _startPos = transform.position;
             _startRotating = transform.rotation;
@@ -49,11 +50,11 @@ namespace Gameplay.BreakdownSystem
         private void AddNeighbour(Collision collision)
         {
             if (_configured) return;
-            DestroyedPiece neighbour = collision.gameObject.GetComponent<DestroyedPiece>();
-            if (!neighbour) return;
+            IDestroyedPiece neighbour = collision.gameObject.GetComponent<IDestroyedPiece>();
+            if (neighbour == null) return;
 
-            if (!_connectedTo.Contains(neighbour))
-                _connectedTo.Add(neighbour);
+            if (!ConnectedTo.Contains(neighbour))
+                ConnectedTo.Add(neighbour);
         }
     }
 }
