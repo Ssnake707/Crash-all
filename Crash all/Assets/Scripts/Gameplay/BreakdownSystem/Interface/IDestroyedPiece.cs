@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gameplay.BreakdownSystem.Interface
 {
@@ -6,7 +7,8 @@ namespace Gameplay.BreakdownSystem.Interface
     {
         bool IsVisited { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; }
-        void Construct();
+        void Construct(IEntity entity);
         void MakeStatic();
+        void Collision(Collision collision);
     }
 }

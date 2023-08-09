@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Gameplay.BreakdownSystem.Interface;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.BreakdownSystem
@@ -12,11 +13,13 @@ namespace Gameplay.BreakdownSystem
         private Vector3 _startPos;
         private Quaternion _startRotating;
         private Vector3 _startScale;
-
+        
         private bool _configured = false;
+        private IEntity _entity;
 
-        public void Construct()
+        public void Construct(IEntity entity)
         {
+            _entity = entity;
             ConnectedTo = new List<IDestroyedPiece>();
 
             _startPos = transform.position;
@@ -24,14 +27,6 @@ namespace Gameplay.BreakdownSystem
             _startScale = transform.localScale;
 
             transform.localScale *= 1.02f;
-        }
-
-        public void Damage(Vector3 force)
-        {
-        }
-
-        public void Drop()
-        {
         }
 
         public void MakeStatic()
@@ -42,6 +37,16 @@ namespace Gameplay.BreakdownSystem
             transform.localScale = _startScale;
             transform.position = _startPos;
             transform.rotation = _startRotating;
+        }
+        
+        public void Collision(Collision collision)
+        {
+            if (ConnectedTo.Count == 0) return;
+            transform.parent = null;
+            ConnectedTo.Clear();
+            Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
+            rigidBody.AddForce(collision.impulse);
+            _entity.RecalculateEntity();
         }
 
         private void OnCollisionEnter(Collision collision) => 

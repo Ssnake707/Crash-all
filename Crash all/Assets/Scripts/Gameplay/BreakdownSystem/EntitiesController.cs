@@ -24,6 +24,7 @@ namespace Gameplay.BreakdownSystem
             {
                 _totalDestroyObjects += item.transform.childCount;
                 item.Construct(_entityFactory, _entitySettings);
+                item.InitDestroyedPieces();
             }
         }
     }

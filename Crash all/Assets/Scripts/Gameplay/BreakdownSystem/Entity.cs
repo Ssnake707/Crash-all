@@ -9,7 +9,6 @@ namespace Gameplay.BreakdownSystem
 {
     public class Entity : MonoBehaviour, IEntity
     {
-        [SerializeField] private float _strengthEntity;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
         private StaticDataEntitySettings _entitySettings;
@@ -18,6 +17,10 @@ namespace Gameplay.BreakdownSystem
         {
             _entityFactory = entityFactory;
             _entitySettings = entitySettings;
+        }
+
+        public void InitDestroyedPieces()
+        {
             FillDestroyedPieces();
             StartCoroutine(RunPhysicsSteps(10));
         }
@@ -34,25 +37,43 @@ namespace Gameplay.BreakdownSystem
                 rigidBody.useGravity = false;
                 MeshCollider meshCollider = child.AddComponent<MeshCollider>();
                 meshCollider.convex = true;
-                destroyedPiece.Construct();
+                destroyedPiece.Construct(this);
                 _destroyedPieces.Add(destroyedPiece);
             }
         }
 
-        private void RecalculateEntity()
+        public void RecalculateEntity()
         {
             foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
                 destroyedPiece.IsVisited = false;
 
-            BreadthFistSearch(_destroyedPieces[0]);
+            bool isNextIteration = false;
+            do
+            {
+                List<IDestroyedPiece> newEntity = BreadthFistSearch(_destroyedPieces[0]);
+                if (newEntity.Count != 1)
+                {
+                    //TODO: Создать новый entity    
+                }
+                
+                foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
+                {
+                    if (destroyedPiece.IsVisited) continue;
+                    isNextIteration = true;
+                }
+            } while (isNextIteration);
+            
+            
         }
 
-        private void BreadthFistSearch(IDestroyedPiece startDestroyedPiece)
+        private List<IDestroyedPiece> BreadthFistSearch(IDestroyedPiece startDestroyedPiece)
         {
             Queue<IDestroyedPiece> queue = new Queue<IDestroyedPiece>();
             startDestroyedPiece.IsVisited = true;
             queue.Enqueue(startDestroyedPiece);
-
+            List<IDestroyedPiece> result = new List<IDestroyedPiece>();
+            _destroyedPieces.Remove(startDestroyedPiece);
+            result.Add(startDestroyedPiece);
             while (queue.Count > 0)
             {
                 IDestroyedPiece destroyedPiece = queue.Dequeue();
@@ -60,9 +81,13 @@ namespace Gameplay.BreakdownSystem
                 {
                     if (piece.IsVisited) continue;
                     piece.IsVisited = true;
+                    _destroyedPieces.Remove(piece);
+                    result.Add(piece);
                     queue.Enqueue(piece);
                 }
             }
+
+            return result;
         }
 
         private IEnumerator RunPhysicsSteps(int stepCount)
@@ -76,14 +101,12 @@ namespace Gameplay.BreakdownSystem
             transform.AddComponent<Rigidbody>();
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (_entitySettings.MinImpulseForDestroy > other.impulse.magnitude) return;
-            IDestroyedPiece destroyedPiece = other.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
+            if (_entitySettings.MinImpulseForDestroy > collision.impulse.magnitude) return;
+            IDestroyedPiece destroyedPiece = collision.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
             if (destroyedPiece == null) return;
-
-            if (other.impulse.magnitude > _strengthEntity)
-                Debug.Log("DESTROY");
+            destroyedPiece.Collision(collision);
         }
     }
 }
