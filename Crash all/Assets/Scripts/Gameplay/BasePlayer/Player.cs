@@ -1,5 +1,5 @@
 using Gameplay.BasePlayer.Interface;
-using StaticData.BasePlayer;
+using StaticData.Player;
 using UnityEngine;
 
 namespace Gameplay.BasePlayer

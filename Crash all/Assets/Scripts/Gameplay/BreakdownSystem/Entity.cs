@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Gameplay.BreakdownSystem.Interface;
+using StaticData.Entity;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,16 +9,15 @@ namespace Gameplay.BreakdownSystem
 {
     public class Entity : MonoBehaviour, IEntity
     {
+        [SerializeField] private float _strengthEntity;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
+        private StaticDataEntitySettings _entitySettings;
 
-        public void Construct(IEntityFactory entityFactory)
+        public void Construct(IEntityFactory entityFactory, StaticDataEntitySettings entitySettings)
         {
             _entityFactory = entityFactory;
-        }
-
-        private void Awake()
-        {
+            _entitySettings = entitySettings;
             FillDestroyedPieces();
             StartCoroutine(RunPhysicsSteps(10));
         }
@@ -44,9 +43,11 @@ namespace Gameplay.BreakdownSystem
         {
             foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
                 destroyedPiece.IsVisited = false;
+
+            BreadthFistSearch(_destroyedPieces[0]);
         }
 
-        private void BreadthFistSearch(DestroyedPiece startDestroyedPiece)
+        private void BreadthFistSearch(IDestroyedPiece startDestroyedPiece)
         {
             Queue<IDestroyedPiece> queue = new Queue<IDestroyedPiece>();
             startDestroyedPiece.IsVisited = true;
@@ -77,8 +78,12 @@ namespace Gameplay.BreakdownSystem
 
         private void OnCollisionEnter(Collision other)
         {
+            if (_entitySettings.MinImpulseForDestroy > other.impulse.magnitude) return;
             IDestroyedPiece destroyedPiece = other.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
             if (destroyedPiece == null) return;
+
+            if (other.impulse.magnitude > _strengthEntity)
+                Debug.Log("DESTROY");
         }
     }
 }
