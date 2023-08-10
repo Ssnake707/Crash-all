@@ -21,8 +21,8 @@ namespace Editor.EntityEditor
         {
             EditorGUILayout.Space(15);
             GUILayout.BeginVertical("GroupBox");
-            GUILayout.Label("Set id");
-            if (GUILayout.Button("Set id for all object"))
+            GUILayout.Label("Components and id creator");
+            if (GUILayout.Button("Create"))
             {
                 Entity entity = (Entity)target;
                 AddDestroyedPiecesToChild(entity);
@@ -34,9 +34,9 @@ namespace Editor.EntityEditor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical("GroupBox");
-            GUILayout.Label("Static data entity");
+            GUILayout.Label("Static data entity creator");
             GUI.enabled = Application.isPlaying;
-            if (GUILayout.Button("Fill static data entity"))
+            if (GUILayout.Button("Create"))
             {
                 Entity entity = (Entity)target;
                 SetDataEntity(entity);
