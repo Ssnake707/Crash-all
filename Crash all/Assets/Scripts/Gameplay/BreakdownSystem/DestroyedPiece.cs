@@ -53,7 +53,6 @@ namespace Gameplay.BreakdownSystem
             transform.parent = null;
             ConnectedTo.Clear();
             IsDisconnect = true;
-            _entity = null;
             Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
             rigidBody.AddForce(collision.impulse);
         }
