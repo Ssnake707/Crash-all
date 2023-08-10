@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
@@ -21,7 +22,13 @@ namespace Gameplay.BreakdownSystem
 
         public void InitDestroyedPieces()
         {
-            
+            _destroyedPieces = new List<IDestroyedPiece>();
+            foreach (IDestroyedPiece destroyedPiece in transform.GetComponentsInChildren<IDestroyedPiece>())
+                _destroyedPieces.Add(destroyedPiece);
+            _destroyedPieces.OrderBy(x => x.Id);
+            foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
+                destroyedPiece.InitDestroyedPieces(this, _destroyedPieces,
+                    _dataEntity.DestroyedPiecesIds[destroyedPiece.Id]);
         }
 
         public void SetDestroyedPieces(List<IDestroyedPiece> destroyedPieces)
@@ -39,7 +46,7 @@ namespace Gameplay.BreakdownSystem
         {
             foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
                 destroyedPiece.IsVisited = false;
-            
+
             List<IDestroyedPiece> entity = BreadthFistSearch(_destroyedPieces[0]);
             bool isNextIteration;
             do
@@ -53,13 +60,11 @@ namespace Gameplay.BreakdownSystem
                     newEntity = BreadthFistSearch(destroyedPiece);
                     break;
                 }
-               
+
                 if (newEntity != null && newEntity.Count != 1)
-                {
-                    //TODO: Создать новый entity    
                     _entityFactory.CreateEntity(newEntity);
-                }
             } while (isNextIteration);
+
             _destroyedPieces = entity;
         }
 
@@ -89,15 +94,14 @@ namespace Gameplay.BreakdownSystem
         private void OnCollisionEnter(Collision collision)
         {
             if (_entitySettings.MinImpulseForDestroy > collision.impulse.magnitude) return;
-            IDestroyedPiece destroyedPiece = collision.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
+            IDestroyedPiece destroyedPiece =
+                collision.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
             if (destroyedPiece == null) return;
+            
             if (collision.rigidbody)
-            {
                 if (collision.transform.TryGetComponent<PlayerMediator>(out PlayerMediator playerMediator))
-                {
                     collision.rigidbody.velocity = Vector3.zero;
-                }
-            }
+            
             destroyedPiece.Collision(collision);
         }
     }

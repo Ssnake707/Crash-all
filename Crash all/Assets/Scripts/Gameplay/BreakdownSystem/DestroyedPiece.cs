@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Gameplay.BreakdownSystem.Interface;
+using StaticData.Entity;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,12 +15,16 @@ namespace Gameplay.BreakdownSystem
         public List<IDestroyedPiece> ConnectedTo { get; private set; }
 
         [SerializeField] private int _id;
+
         private IEntity _entity;
 
-        public void SetDefaultValue(IEntity entity)
+        public void InitDestroyedPieces(IEntity entity, List<IDestroyedPiece> destroyedPieces,
+            DestroyedPiecesId destroyedPiecesId)
         {
-            SetEntity(entity);
+            _entity = entity;
             ConnectedTo = new List<IDestroyedPiece>();
+            foreach (int idPiece in destroyedPiecesId.IdPieces) 
+                ConnectedTo.Add(destroyedPieces[idPiece]);
         }
 
         public void SetEntity(IEntity entity) =>
@@ -27,6 +32,7 @@ namespace Gameplay.BreakdownSystem
 
         public void Collision(Collision collision)
         {
+            if (ConnectedTo == null) return;
             if (ConnectedTo.Count == 0) return;
             DisconnectPiece(collision);
             _entity.RecalculateEntity();

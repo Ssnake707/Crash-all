@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
 using UnityEngine;
@@ -39,6 +40,7 @@ namespace Gameplay.BreakdownSystem.HelperForEditor
                 destroyedPiecesIds[i].IdPieces = idPieces;
             }
 
+            destroyedPiecesIds.OrderBy(x => x.Id);
             dataEntity.DestroyedPiecesIds = destroyedPiecesIds;
             onFinish?.Invoke();
         }
