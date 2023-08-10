@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Gameplay.BreakdownSystem.Helper
+namespace Gameplay.BreakdownSystem.HelperForEditor
 {
     public class DestroyedPieceCreator : MonoBehaviour
     {

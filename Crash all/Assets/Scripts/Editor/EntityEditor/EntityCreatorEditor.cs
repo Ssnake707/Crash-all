@@ -1,5 +1,5 @@
 using Gameplay.BreakdownSystem;
-using Gameplay.BreakdownSystem.Helper;
+using Gameplay.BreakdownSystem.HelperForEditor;
 using StaticData.Entity;
 using Unity.VisualScripting;
 using UnityEditor;

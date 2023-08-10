@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.BreakdownSystem
@@ -23,8 +21,7 @@ namespace Gameplay.BreakdownSystem
 
         public void InitDestroyedPieces()
         {
-            //FillDestroyedPieces();
-            //StartCoroutine(RunPhysicsSteps(10));
+            
         }
 
         public void SetDestroyedPieces(List<IDestroyedPiece> destroyedPieces)
@@ -66,30 +63,12 @@ namespace Gameplay.BreakdownSystem
             _destroyedPieces = entity;
         }
 
-        /*private void FillDestroyedPieces()
-        {
-            _destroyedPieces = new List<IDestroyedPiece>();
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                Transform child = transform.GetChild(i);
-                IDestroyedPiece destroyedPiece = child.gameObject.AddComponent<DestroyedPiece>();
-                Rigidbody rigidBody = child.gameObject.AddComponent<Rigidbody>();
-                rigidBody.isKinematic = false;
-                rigidBody.useGravity = false;
-                MeshCollider meshCollider = child.AddComponent<MeshCollider>();
-                meshCollider.convex = true;
-                destroyedPiece.SetDefaultValue(this);
-                _destroyedPieces.Add(destroyedPiece);
-            }
-        }*/
-
         private List<IDestroyedPiece> BreadthFistSearch(IDestroyedPiece startDestroyedPiece)
         {
             Queue<IDestroyedPiece> queue = new Queue<IDestroyedPiece>();
             startDestroyedPiece.IsVisited = true;
             queue.Enqueue(startDestroyedPiece);
             List<IDestroyedPiece> result = new List<IDestroyedPiece>();
-            //_destroyedPieces.Remove(startDestroyedPiece);
             result.Add(startDestroyedPiece);
             while (queue.Count > 0)
             {
@@ -99,7 +78,6 @@ namespace Gameplay.BreakdownSystem
                     if (piece.IsVisited) continue;
                     if (piece.IsDisconnect) continue;
                     piece.IsVisited = true;
-                    //_destroyedPieces.Remove(piece);
                     result.Add(piece);
                     queue.Enqueue(piece);
                 }
@@ -107,18 +85,6 @@ namespace Gameplay.BreakdownSystem
 
             return result;
         }
-
-        // private IEnumerator RunPhysicsSteps(int stepCount)
-        // {
-        //     for (int i = 0; i < stepCount; i++)
-        //         yield return new WaitForFixedUpdate();
-        //
-        //     foreach (IDestroyedPiece piece in _destroyedPieces)
-        //         piece.MakeStatic();
-        //
-        //     Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
-        //     rigidBody.mass = 100f;
-        // }
 
         private void OnCollisionEnter(Collision collision)
         {

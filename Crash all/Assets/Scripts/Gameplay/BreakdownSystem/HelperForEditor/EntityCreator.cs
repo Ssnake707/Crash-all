@@ -5,7 +5,7 @@ using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
 using UnityEngine;
 
-namespace Gameplay.BreakdownSystem.Helper
+namespace Gameplay.BreakdownSystem.HelperForEditor
 {
     public class EntityCreator : MonoBehaviour
     {

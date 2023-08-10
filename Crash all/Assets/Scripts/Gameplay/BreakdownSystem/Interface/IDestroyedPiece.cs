@@ -9,9 +9,7 @@ namespace Gameplay.BreakdownSystem.Interface
         Transform Transform { get; }
         bool IsVisited { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; }
-        bool IsDisconnect { get; set; }
-        void SetDefaultValue(IEntity entity);
-        void MakeStatic();
+        bool IsDisconnect { get; }
         void Collision(Collision collision);
         void SetEntity(IEntity entity);
     }
