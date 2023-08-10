@@ -5,10 +5,13 @@ namespace Gameplay.BreakdownSystem.Interface
 {
     public interface IDestroyedPiece
     {
+        Transform Transform { get; }
         bool IsVisited { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; }
-        void Construct(IEntity entity);
+        bool IsDisconnect { get; set; }
+        void SetDefaultValue(IEntity entity);
         void MakeStatic();
         void Collision(Collision collision);
+        void SetEntity(IEntity entity);
     }
 }

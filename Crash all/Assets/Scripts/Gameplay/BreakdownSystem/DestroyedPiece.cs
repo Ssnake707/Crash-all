@@ -7,7 +7,9 @@ namespace Gameplay.BreakdownSystem
 {
     public class DestroyedPiece : MonoBehaviour, IDestroyedPiece
     {
+        public Transform Transform => transform;
         public bool IsVisited { get; set; }
+        public bool IsDisconnect { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; private set; }
 
         private Vector3 _startPos;
@@ -17,23 +19,23 @@ namespace Gameplay.BreakdownSystem
         private bool _configured = false;
         private IEntity _entity;
 
-        public void Construct(IEntity entity)
+        public void SetDefaultValue(IEntity entity)
         {
-            _entity = entity;
+            SetEntity(entity);
             ConnectedTo = new List<IDestroyedPiece>();
-
             _startPos = transform.position;
             _startRotating = transform.rotation;
             _startScale = transform.localScale;
-
             transform.localScale *= 1.02f;
         }
+
+        public void SetEntity(IEntity entity) => 
+            _entity = entity;
 
         public void MakeStatic()
         {
             Destroy(GetComponent<Rigidbody>());
             _configured = true;
-
             transform.localScale = _startScale;
             transform.position = _startPos;
             transform.rotation = _startRotating;
@@ -42,11 +44,18 @@ namespace Gameplay.BreakdownSystem
         public void Collision(Collision collision)
         {
             if (ConnectedTo.Count == 0) return;
+            DisconnectPiece(collision);
+            _entity.RecalculateEntity();
+        }
+
+        private void DisconnectPiece(Collision collision)
+        {
             transform.parent = null;
             ConnectedTo.Clear();
+            IsDisconnect = true;
+            _entity = null;
             Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
             rigidBody.AddForce(collision.impulse);
-            _entity.RecalculateEntity();
         }
 
         private void OnCollisionEnter(Collision collision) => 

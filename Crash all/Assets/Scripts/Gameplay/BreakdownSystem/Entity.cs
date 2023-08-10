@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
 using Unity.VisualScripting;
@@ -25,6 +26,45 @@ namespace Gameplay.BreakdownSystem
             StartCoroutine(RunPhysicsSteps(10));
         }
 
+        public void SetDestroyedPieces(List<IDestroyedPiece> destroyedPieces)
+        {
+            _destroyedPieces = destroyedPieces;
+            transform.position = destroyedPieces[0].Transform.position;
+            foreach (IDestroyedPiece piece in destroyedPieces)
+            {
+                piece.Transform.parent = transform;
+                piece.SetEntity(this);
+            }
+        }
+
+        public void RecalculateEntity()
+        {
+            foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
+                destroyedPiece.IsVisited = false;
+            
+            List<IDestroyedPiece> entity = BreadthFistSearch(_destroyedPieces[0]);
+            bool isNextIteration;
+            do
+            {
+                isNextIteration = false;
+                List<IDestroyedPiece> newEntity = null;
+                foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
+                {
+                    if (destroyedPiece.IsVisited) continue;
+                    isNextIteration = true;
+                    newEntity = BreadthFistSearch(destroyedPiece);
+                    break;
+                }
+               
+                if (newEntity != null && newEntity.Count != 1)
+                {
+                    //TODO: Создать новый entity    
+                    _entityFactory.CreateEntity(newEntity);
+                }
+            } while (isNextIteration);
+            _destroyedPieces = entity;
+        }
+
         private void FillDestroyedPieces()
         {
             _destroyedPieces = new List<IDestroyedPiece>();
@@ -37,33 +77,9 @@ namespace Gameplay.BreakdownSystem
                 rigidBody.useGravity = false;
                 MeshCollider meshCollider = child.AddComponent<MeshCollider>();
                 meshCollider.convex = true;
-                destroyedPiece.Construct(this);
+                destroyedPiece.SetDefaultValue(this);
                 _destroyedPieces.Add(destroyedPiece);
             }
-        }
-
-        public void RecalculateEntity()
-        {
-            foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
-                destroyedPiece.IsVisited = false;
-
-            bool isNextIteration = false;
-            do
-            {
-                List<IDestroyedPiece> newEntity = BreadthFistSearch(_destroyedPieces[0]);
-                if (newEntity.Count != 1)
-                {
-                    //TODO: Создать новый entity    
-                }
-                
-                foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
-                {
-                    if (destroyedPiece.IsVisited) continue;
-                    isNextIteration = true;
-                }
-            } while (isNextIteration);
-            
-            
         }
 
         private List<IDestroyedPiece> BreadthFistSearch(IDestroyedPiece startDestroyedPiece)
@@ -72,7 +88,7 @@ namespace Gameplay.BreakdownSystem
             startDestroyedPiece.IsVisited = true;
             queue.Enqueue(startDestroyedPiece);
             List<IDestroyedPiece> result = new List<IDestroyedPiece>();
-            _destroyedPieces.Remove(startDestroyedPiece);
+            //_destroyedPieces.Remove(startDestroyedPiece);
             result.Add(startDestroyedPiece);
             while (queue.Count > 0)
             {
@@ -80,8 +96,9 @@ namespace Gameplay.BreakdownSystem
                 foreach (IDestroyedPiece piece in destroyedPiece.ConnectedTo)
                 {
                     if (piece.IsVisited) continue;
+                    if (piece.IsDisconnect) continue;
                     piece.IsVisited = true;
-                    _destroyedPieces.Remove(piece);
+                    //_destroyedPieces.Remove(piece);
                     result.Add(piece);
                     queue.Enqueue(piece);
                 }
@@ -98,7 +115,8 @@ namespace Gameplay.BreakdownSystem
             foreach (IDestroyedPiece piece in _destroyedPieces)
                 piece.MakeStatic();
 
-            transform.AddComponent<Rigidbody>();
+            Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
+            rigidBody.mass = 100f;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -106,6 +124,13 @@ namespace Gameplay.BreakdownSystem
             if (_entitySettings.MinImpulseForDestroy > collision.impulse.magnitude) return;
             IDestroyedPiece destroyedPiece = collision.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
             if (destroyedPiece == null) return;
+            if (collision.rigidbody)
+            {
+                if (collision.transform.TryGetComponent<PlayerMediator>(out PlayerMediator playerMediator))
+                {
+                    collision.rigidbody.velocity = Vector3.zero;
+                }
+            }
             destroyedPiece.Collision(collision);
         }
     }

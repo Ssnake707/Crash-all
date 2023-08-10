@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StaticData.Entity;
 
 namespace Gameplay.BreakdownSystem.Interface
@@ -8,5 +9,6 @@ namespace Gameplay.BreakdownSystem.Interface
 
         void InitDestroyedPieces();
         void RecalculateEntity();
+        void SetDestroyedPieces(List<IDestroyedPiece> destroyedPieces);
     }
 }
