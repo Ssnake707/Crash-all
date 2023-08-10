@@ -11,7 +11,6 @@ namespace Gameplay.BreakdownSystem
     public class Entity : MonoBehaviour, IEntity
     {
         [SerializeField] private StaticDataEntity _dataEntity;
-        [SerializeField] private int _id;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
         private StaticDataEntitySettings _entitySettings;

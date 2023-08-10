@@ -5,6 +5,7 @@ namespace Gameplay.BreakdownSystem.Interface
 {
     public interface IDestroyedPiece
     {
+        int Id { get; }
         Transform Transform { get; }
         bool IsVisited { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; }

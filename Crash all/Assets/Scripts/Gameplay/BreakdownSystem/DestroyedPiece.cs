@@ -7,11 +7,13 @@ namespace Gameplay.BreakdownSystem
 {
     public class DestroyedPiece : MonoBehaviour, IDestroyedPiece
     {
+        public int Id => _id;
         public Transform Transform => transform;
         public bool IsVisited { get; set; }
         public bool IsDisconnect { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; private set; }
 
+        [SerializeField] private int _id;
         private Vector3 _startPos;
         private Quaternion _startRotating;
         private Vector3 _startScale;

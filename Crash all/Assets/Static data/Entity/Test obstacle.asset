@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7f773370a101446914a62d0e307d3b, type: 3}
   m_Name: Test obstacle
   m_EditorClassIdentifier: 
-  Id: 0
-  DestroyedPiecesIds:
-  - Id: 5
-    IdPieces: 
+  DestroyedPiecesIds: []
