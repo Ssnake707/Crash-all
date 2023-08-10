@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.HelperForEditor;
 using StaticData.Entity;
@@ -11,12 +14,66 @@ namespace Editor.EntityEditor
     public class EntityCreatorEditor : UnityEditor.Editor
     {
         private const string PathStaticDataEntity = "Assets/Static Data/Entity/";
+        private bool _isShowGraph = false;
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             SetId();
             FillStaticDataEntity();
+            AddRigidBody();
+            CheckboxShowGraph();
+        }
+
+        public void OnSceneGUI()
+        {
+            if (!_isShowGraph) return;
+            Entity entity = (Entity)target;
+            SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
+            StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
+            if (dataEntity == null) return;
+            
+            Dictionary<int, Transform> pieces = entity.transform.GetComponentsInChildren<DestroyedPiece>()
+                .ToDictionary((x) => x.Id, (x) => x.transform);
+            
+            Color color = Color.white;
+            Color colorEnd = Color.black;
+            float step = 1;
+            foreach (DestroyedPiecesId item in dataEntity.DestroyedPiecesIds)
+            {
+                Handles.color = Color.Lerp(color, colorEnd, step / dataEntity.DestroyedPiecesIds.Length);
+                Transform transform = pieces[item.Id];
+                Handles.DrawWireDisc(transform.position, Vector3.forward, .2f);
+                Handles.Label(transform.position, item.Id.ToString());
+                Vector3[] points = new Vector3[item.IdPieces.Length];
+                for (int i = 0; i < points.Length; i++)
+                    points[i] = pieces[item.IdPieces[i]].position;
+
+                Handles.DrawPolyLine(points);
+                step++;
+            }
+        }
+
+        private void AddRigidBody()
+        {
+            GUILayout.Space(10);
+            GUILayout.BeginVertical("GroupBox");
+            GUILayout.Label("Rigid body");
+            if (GUILayout.Button("Create"))
+            {
+                Entity entity = (Entity)target;
+                entity.transform.AddComponent<Rigidbody>();
+            }
+            GUILayout.EndVertical();
+        }
+
+        private void CheckboxShowGraph()
+        {
+            GUILayout.Space(10);
+            GUILayout.BeginVertical("GroupBox");
+            GUILayout.Label("Debug");
+            _isShowGraph = EditorGUILayout.Toggle("Show graph", _isShowGraph);
+            GUILayout.EndVertical();
         }
 
         private void SetId()
@@ -58,8 +115,7 @@ namespace Editor.EntityEditor
             EntityCreator entityCreator = entity.transform.AddComponent<EntityCreator>();
             entityCreator.FillStaticDataEntity(dataEntity, () =>
             {
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
+                EditorUtility.SetDirty(dataEntity);
                 Debug.Log(
                     $"<color=green>Fill</color> " +
                     $"<color=yellow>{PathStaticDataEntity}{entity.name}.asset</color> <color=green>is SUCCESS</color>");
