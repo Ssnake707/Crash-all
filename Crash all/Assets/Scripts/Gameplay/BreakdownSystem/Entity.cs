@@ -23,8 +23,8 @@ namespace Gameplay.BreakdownSystem
 
         public void InitDestroyedPieces()
         {
-            FillDestroyedPieces();
-            StartCoroutine(RunPhysicsSteps(10));
+            //FillDestroyedPieces();
+            //StartCoroutine(RunPhysicsSteps(10));
         }
 
         public void SetDestroyedPieces(List<IDestroyedPiece> destroyedPieces)
@@ -66,7 +66,7 @@ namespace Gameplay.BreakdownSystem
             _destroyedPieces = entity;
         }
 
-        private void FillDestroyedPieces()
+        /*private void FillDestroyedPieces()
         {
             _destroyedPieces = new List<IDestroyedPiece>();
             for (int i = 0; i < transform.childCount; i++)
@@ -81,7 +81,7 @@ namespace Gameplay.BreakdownSystem
                 destroyedPiece.SetDefaultValue(this);
                 _destroyedPieces.Add(destroyedPiece);
             }
-        }
+        }*/
 
         private List<IDestroyedPiece> BreadthFistSearch(IDestroyedPiece startDestroyedPiece)
         {
@@ -108,17 +108,17 @@ namespace Gameplay.BreakdownSystem
             return result;
         }
 
-        private IEnumerator RunPhysicsSteps(int stepCount)
-        {
-            for (int i = 0; i < stepCount; i++)
-                yield return new WaitForFixedUpdate();
-
-            foreach (IDestroyedPiece piece in _destroyedPieces)
-                piece.MakeStatic();
-
-            Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
-            rigidBody.mass = 100f;
-        }
+        // private IEnumerator RunPhysicsSteps(int stepCount)
+        // {
+        //     for (int i = 0; i < stepCount; i++)
+        //         yield return new WaitForFixedUpdate();
+        //
+        //     foreach (IDestroyedPiece piece in _destroyedPieces)
+        //         piece.MakeStatic();
+        //
+        //     Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
+        //     rigidBody.mass = 100f;
+        // }
 
         private void OnCollisionEnter(Collision collision)
         {
