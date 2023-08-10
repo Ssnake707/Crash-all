@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.HelperForEditor;
+using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -29,11 +30,39 @@ namespace Editor.EntityEditor
         public void OnSceneGUI()
         {
             DrawGraphFromStaticDataEntity();
+            DrawGraphFromEntity();
+        }
+
+        private void DrawGraphFromEntity()
+        {
+            if (!Application.isPlaying) return;
+            if (!_isShowGraphPlayMode) return;
+
+            Entity entity = (Entity)target;
+            Color color = Color.green;
+            Color colorEnd = Color.black;
+            float step = 1;
+            foreach (IDestroyedPiece item in entity.GetDestroyedPieces())
+            {
+                Handles.color = Color.Lerp(color, colorEnd, step / entity.GetDestroyedPieces().Count);
+                Handles.DrawWireDisc(item.Transform.position, Vector3.forward, .2f);
+                Handles.Label(item.Transform.position, item.Id.ToString());
+                List<Vector3> points = new List<Vector3>();
+                foreach (IDestroyedPiece destroyedPiece in item.ConnectedTo)
+                {
+                    if (!destroyedPiece.IsDisconnect)
+                        points.Add(destroyedPiece.Transform.position);
+                }
+
+                Handles.DrawPolyLine(points.ToArray());
+                step++;
+            }
         }
 
         private void DrawGraphFromStaticDataEntity()
         {
             if (!_isShowGraph) return;
+            if (Application.isPlaying) return;
             Entity entity = (Entity)target;
             SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
             StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
@@ -70,6 +99,7 @@ namespace Editor.EntityEditor
                 Entity entity = (Entity)target;
                 entity.transform.AddComponent<Rigidbody>();
             }
+
             GUILayout.EndVertical();
         }
 
@@ -78,7 +108,24 @@ namespace Editor.EntityEditor
             GUILayout.Space(10);
             GUILayout.BeginVertical("GroupBox");
             GUILayout.Label("Debug");
+            if (Application.isPlaying)
+            {
+                _isShowGraph = false;
+                GUI.enabled = false;
+            }
+
             _isShowGraph = EditorGUILayout.Toggle("Show graph", _isShowGraph);
+            GUI.enabled = true;
+
+            if (!Application.isPlaying)
+            {
+                _isShowGraphPlayMode = false;
+                GUI.enabled = false;
+            }
+
+            _isShowGraphPlayMode = EditorGUILayout.Toggle("Show graph", _isShowGraphPlayMode);
+            GUI.enabled = true;
+
             GUILayout.EndVertical();
         }
 
@@ -115,9 +162,9 @@ namespace Editor.EntityEditor
 
         private void FillStaticDataEntity(Entity entity)
         {
-            if (entity.TryGetComponent<Rigidbody>(out Rigidbody rb)) 
+            if (entity.TryGetComponent<Rigidbody>(out Rigidbody rb))
                 Destroy(rb);
-            
+
             serializedObject.Update();
             SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
             StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;

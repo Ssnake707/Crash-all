@@ -42,6 +42,9 @@ namespace Gameplay.BreakdownSystem
             }
         }
 
+        public List<IDestroyedPiece> GetDestroyedPieces() => 
+            _destroyedPieces;
+
         public void RecalculateEntity()
         {
             foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
