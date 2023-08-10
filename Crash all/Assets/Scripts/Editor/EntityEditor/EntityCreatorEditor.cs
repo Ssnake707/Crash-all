@@ -14,7 +14,8 @@ namespace Editor.EntityEditor
     public class EntityCreatorEditor : UnityEditor.Editor
     {
         private const string PathStaticDataEntity = "Assets/Static Data/Entity/";
-        private bool _isShowGraph = false;
+        private bool _isShowGraph;
+        private bool _isShowGraphPlayMode;
 
         public override void OnInspectorGUI()
         {
@@ -27,16 +28,21 @@ namespace Editor.EntityEditor
 
         public void OnSceneGUI()
         {
+            DrawGraphFromStaticDataEntity();
+        }
+
+        private void DrawGraphFromStaticDataEntity()
+        {
             if (!_isShowGraph) return;
             Entity entity = (Entity)target;
             SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
             StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
             if (dataEntity == null) return;
-            
+
             Dictionary<int, Transform> pieces = entity.transform.GetComponentsInChildren<DestroyedPiece>()
                 .ToDictionary((x) => x.Id, (x) => x.transform);
-            
-            Color color = Color.white;
+
+            Color color = Color.green;
             Color colorEnd = Color.black;
             float step = 1;
             foreach (DestroyedPiecesId item in dataEntity.DestroyedPiecesIds)
@@ -109,6 +115,9 @@ namespace Editor.EntityEditor
 
         private void FillStaticDataEntity(Entity entity)
         {
+            if (entity.TryGetComponent<Rigidbody>(out Rigidbody rb)) 
+                Destroy(rb);
+            
             serializedObject.Update();
             SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
             StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
