@@ -1,12 +1,6 @@
-using Infrastructure.AssetManagement;
-using Infrastructure.Factory;
 using Infrastructure.Factory.Interface;
 using Infrastructure.SceneLoaders;
 using Infrastructure.States.Interface;
-using Services.PersistentProgress;
-using Services.SaveLoad;
-using Services.StaticData;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Infrastructure.States
@@ -14,27 +8,17 @@ namespace Infrastructure.States
     public class LoadLevelState : IPayloadedState<string>
     {
         private readonly ISceneLoader _sceneLoader;
-        private readonly ISaveLoadService _saveLoadService;
         private readonly LoadingCurtain _loadingCurtain;
-        private readonly IStaticDataService _staticDataService;
-        private readonly IPersistentProgressService _progress;
-        private readonly IAssetProvider _assetProvider;
+        private readonly IGameFactory _gameFactory;
         private GameStateMachine _stateMachine;
-        private ILevel _level;
 
         [Inject]
-        public LoadLevelState(ISceneLoader sceneLoader, ISaveLoadService saveLoadService,
-            LoadingCurtain loadingCurtain,
-            IStaticDataService staticDataService,
-            IPersistentProgressService progress,
-            IAssetProvider assetProvider)
+        public LoadLevelState(ISceneLoader sceneLoader,
+            LoadingCurtain loadingCurtain, IGameFactory gameFactory)
         {
+            _gameFactory = gameFactory;
             _sceneLoader = sceneLoader;
-            _saveLoadService = saveLoadService;
             _loadingCurtain = loadingCurtain;
-            _staticDataService = staticDataService;
-            _progress = progress;
-            _assetProvider = assetProvider;
         }
 
         public void Init(GameStateMachine stateMachine) =>
@@ -43,21 +27,15 @@ namespace Infrastructure.States
         public void Enter(string sceneName)
         {
             _loadingCurtain.Show();
-            _level?.Cleanup();
+            _gameFactory.CleanUp();
+            _gameFactory.WarmUp(sceneName);
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
-        public void Exit() =>
+        public void Exit() => 
             _loadingCurtain.Hide();
 
-        private void OnLoaded()
-        {
-            if (SceneManager.GetActiveScene().name.Equals(_staticDataService.Scenes.MainScene))
-                _level = new GameFactory(_progress, _saveLoadService, _staticDataService, _assetProvider,
-                    _stateMachine);
-
-            _level.Init();
-            _level.NextState(_stateMachine);
-        }
+        private void OnLoaded() => 
+            _gameFactory.Init();
     }
 }

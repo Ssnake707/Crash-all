@@ -31,6 +31,9 @@ namespace Services.SaveLoad
             SaveJson();
         }
 
+        public void SaveProgress() => 
+            SaveJson();
+
         public DataGame LoadProgress() => 
             LoadJson();
 

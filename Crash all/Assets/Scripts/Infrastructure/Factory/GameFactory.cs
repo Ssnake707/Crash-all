@@ -1,38 +1,51 @@
-using Infrastructure.AssetManagement;
-using Infrastructure.States;
-using Services.PersistentProgress;
-using Services.SaveLoad;
+using Infrastructure.Factory.Interface;
 using Services.StaticData;
+using Zenject;
 
 namespace Infrastructure.Factory
 {
-    public class GameFactory : LevelFactory
+    public class GameFactory : IGameFactory
     {
-        public GameFactory(IPersistentProgressService progressService, 
-            ISaveLoadService saveLoadService,
-            IStaticDataService staticDataService, 
-            IAssetProvider assetProvider, 
-            GameStateMachine gameStateMachine) :
-        base(progressService, saveLoadService, staticDataService, assetProvider, gameStateMachine)
+        private readonly DiContainer _diContainer;
+        private readonly IStaticDataService _staticDataService;
+        private readonly ICoroutineRunner _coroutineRunner;
+        private ILevelFactory _currentFactory;
+
+        [Inject]
+        public GameFactory(DiContainer diContainer, IStaticDataService staticDataService,
+            ICoroutineRunner coroutineRunner)
         {
+            _staticDataService = staticDataService;
+            _diContainer = diContainer;
+            _coroutineRunner = coroutineRunner;
+            _coroutineRunner.OnDestroyEvent += OnDestroyHandler;
         }
 
-        public override void Init()
+        public void WarmUp(string nameScene)
         {
-            base.Init();
+            if (_staticDataService.Scenes.MainScene.Equals(nameScene))
+                _currentFactory = _diContainer.Instantiate<MainGameplayFactory>();
+            if (_currentFactory == null) return;
+            _currentFactory.WarmUp();
         }
 
-        protected override void WarmUp()
+        public void Init()
         {
-            base.WarmUp();
+            if (_currentFactory == null) return;
+            _currentFactory.Init();
         }
 
-        public override void Cleanup()
+        public void CleanUp()
         {
-            base.Cleanup();
+            if (_currentFactory == null) return;
+            _currentFactory.Cleanup();
         }
 
-        public override void NextState(GameStateMachine stateMachine) =>
-            stateMachine.Enter<GameLoopState>();
+        private void OnDestroyHandler()
+        {
+            _coroutineRunner.OnDestroyEvent -= OnDestroyHandler;
+            if (_currentFactory == null) return;
+            _currentFactory.SaveProgress();
+        }
     }
 }
