@@ -42,7 +42,7 @@ namespace Gameplay.BreakdownSystem
             }
         }
 
-        public List<IDestroyedPiece> GetDestroyedPieces() => 
+        public List<IDestroyedPiece> GetDestroyedPieces() =>
             _destroyedPieces;
 
         public void RecalculateEntity()
@@ -96,16 +96,22 @@ namespace Gameplay.BreakdownSystem
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (_entitySettings.MinImpulseForDestroy > collision.impulse.magnitude) return;
             IDestroyedPiece destroyedPiece =
                 collision.GetContact(0).thisCollider.transform.GetComponent<IDestroyedPiece>();
             if (destroyedPiece == null) return;
-            
-            if (collision.rigidbody)
-                if (collision.transform.TryGetComponent<PlayerMediator>(out PlayerMediator playerMediator))
-                    collision.rigidbody.velocity = Vector3.zero;
-            
-            destroyedPiece.Collision(collision);
+
+            if (collision.rigidbody &&
+                collision.transform.TryGetComponent<PlayerMediator>(out PlayerMediator playerMediator))
+            {
+                collision.rigidbody.velocity = Vector3.zero;
+                if (_entitySettings.MinImpulsePlayerForDestroy > collision.impulse.magnitude) return;
+                destroyedPiece.Collision(collision);
+            }
+            else
+            {
+                if (_entitySettings.MinImpulseOtherForDestroy > collision.impulse.magnitude) return;
+                destroyedPiece.Collision(collision);
+            }
         }
     }
 }
