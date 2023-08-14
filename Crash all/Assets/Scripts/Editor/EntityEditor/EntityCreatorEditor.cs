@@ -22,6 +22,7 @@ namespace Editor.EntityEditor
         {
             base.OnInspectorGUI();
             SetId();
+            RenameChild();
             FillStaticDataEntity();
             AddRigidBody();
             CheckboxShowGraph();
@@ -45,16 +46,13 @@ namespace Editor.EntityEditor
             foreach (IDestroyedPiece item in entity.GetDestroyedPieces())
             {
                 Handles.color = Color.Lerp(color, colorEnd, step / entity.GetDestroyedPieces().Count);
-                Handles.DrawWireDisc(item.Transform.position, Vector3.forward, .2f);
+                Handles.DrawWireDisc(item.Transform.position, Vector3.forward, .2f, 2f);
                 Handles.Label(item.Transform.position, item.Id.ToString());
-                List<Vector3> points = new List<Vector3>();
+                
                 foreach (IDestroyedPiece destroyedPiece in item.ConnectedTo)
-                {
                     if (!destroyedPiece.IsDisconnect)
-                        points.Add(destroyedPiece.Transform.position);
-                }
+                        Handles.DrawLine(item.Transform.position, destroyedPiece.Transform.position, 2f);
 
-                Handles.DrawPolyLine(points.ToArray());
                 step++;
             }
         }
@@ -78,13 +76,11 @@ namespace Editor.EntityEditor
             {
                 Handles.color = Color.Lerp(color, colorEnd, step / dataEntity.DestroyedPiecesIds.Length);
                 Transform transform = pieces[item.Id];
-                Handles.DrawWireDisc(transform.position, Vector3.forward, .2f);
+                Handles.DrawWireDisc(transform.position, Vector3.forward, .2f, 2f);
                 Handles.Label(transform.position, item.Id.ToString());
-                Vector3[] points = new Vector3[item.IdPieces.Length];
-                for (int i = 0; i < points.Length; i++)
-                    points[i] = pieces[item.IdPieces[i]].position;
+                foreach (int idPiece in item.IdPieces)
+                    Handles.DrawLine(pieces[item.Id].position, pieces[idPiece].position, 2f);
 
-                Handles.DrawPolyLine(points);
                 step++;
             }
         }
@@ -138,6 +134,20 @@ namespace Editor.EntityEditor
             {
                 Entity entity = (Entity)target;
                 AddDestroyedPiecesToChild(entity);
+            }
+
+            GUILayout.EndVertical();
+        }
+
+        private void RenameChild()
+        {
+            EditorGUILayout.Space(15);
+            GUILayout.BeginVertical("GroupBox");
+            GUILayout.Label("Rename child from id piece");
+            if (GUILayout.Button("Rename child"))
+            {
+                Entity entity = (Entity)target;
+                RenameChildFromPiecesId(entity);
             }
 
             GUILayout.EndVertical();
@@ -207,6 +217,16 @@ namespace Editor.EntityEditor
             return dataEntity;
         }
 
+        private void RenameChildFromPiecesId(Entity entity)
+        {
+            for (int i = 0; i < entity.transform.childCount; i++)
+            {
+                Transform child = entity.transform.GetChild(i);
+                if (child.TryGetComponent<DestroyedPiece>(out DestroyedPiece piece))
+                    child.gameObject.name = piece.Id.ToString();
+            }
+        }
+
         private void AddDestroyedPiecesToChild(Entity entity)
         {
             for (int i = 0; i < entity.transform.childCount; i++)
@@ -221,6 +241,7 @@ namespace Editor.EntityEditor
                     DestroyedPiece destroyedPiece = child.gameObject.AddComponent<DestroyedPiece>();
                     SetIdPiece(destroyedPiece, i);
                 }
+
 
                 if (child.TryGetComponent<MeshCollider>(out MeshCollider collider))
                 {

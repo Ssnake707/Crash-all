@@ -36,12 +36,12 @@ MonoBehaviour:
   - Id: 10
     IdPieces: 06000000
   - Id: 11
-    IdPieces: 0e0000000c000000
+    IdPieces: 0c0000000e000000
   - Id: 12
-    IdPieces: 0b0000000e0000000d0000000f000000
+    IdPieces: 0d0000000e0000000b0000000f000000
   - Id: 13
     IdPieces: 0c0000000f0000000200000007000000
   - Id: 14
-    IdPieces: 0b0000000c000000
+    IdPieces: 0c0000000b000000
   - Id: 15
     IdPieces: 0c0000000d00000007000000
