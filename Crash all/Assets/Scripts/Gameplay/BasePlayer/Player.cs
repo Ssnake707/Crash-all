@@ -1,5 +1,5 @@
 using Gameplay.BasePlayer.Interface;
-using StaticData.BasePlayer;
+using StaticData.Player;
 using UnityEngine;
 
 namespace Gameplay.BasePlayer
@@ -26,19 +26,13 @@ namespace Gameplay.BasePlayer
             _isCanMove = true;
         }
 
-        public override void PlayerMove(float speed)
-        {
+        public override void PlayerMove(float speed) => 
             _playerAnimation.PlayerMove(speed);
-        }
 
-        public override void PlayerRotating()
-        {
+        public override void PlayerRotating() => 
             _playerAnimation.PlayerRotating();
-        }
 
-        private void Update()
-        {
-            _playerMovement.Tick();
-        }
+        private void FixedUpdate() => 
+            _playerMovement.FixedUpdate();
     }
 }

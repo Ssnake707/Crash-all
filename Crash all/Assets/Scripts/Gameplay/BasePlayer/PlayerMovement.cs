@@ -1,5 +1,5 @@
 using Gameplay.BasePlayer.Interface;
-using StaticData.BasePlayer;
+using StaticData.Player;
 using UnityEngine;
 
 namespace Gameplay.BasePlayer
@@ -22,7 +22,7 @@ namespace Gameplay.BasePlayer
             _rigidbody.maxAngularVelocity = _playerSettings.DefaultMaxAngularVelocity;
         }
 
-        public void Tick()
+        public void FixedUpdate()
         {
             if (!_playerMediator.CanMove) return;
             float horizontal = SimpleInput.GetAxis("Horizontal");

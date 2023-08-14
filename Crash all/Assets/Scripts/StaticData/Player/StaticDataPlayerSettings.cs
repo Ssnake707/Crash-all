@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace StaticData.BasePlayer
+namespace StaticData.Player
 {
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Static data/Player settings", order = 0)]
     public class StaticDataPlayerSettings : ScriptableObject
