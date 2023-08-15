@@ -1,5 +1,6 @@
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.Interface;
+using Gameplay.Game.Interfaces;
 using StaticData.Entity;
 using UnityEngine;
 
@@ -10,11 +11,19 @@ namespace Gameplay.BaseEntitiesController
         [SerializeField] private StaticDataEntitySettings _entitySettings;
         [SerializeField] private Entity[] _entities;
         private IEntityFactory _entityFactory;
-        private int _totalDestroyObjects;
+        private int _totalPieces;
+        private int _totalDestroyedPieces = 0;
+        private IGameController _gameController;
+        private GameObject _gameObject;
 
+        public GameObject GameObject => gameObject;
+
+        public void SetGameController(IGameController gameController) =>
+            _gameController = gameController;
+        
         private void Awake()
         {
-            _totalDestroyObjects = 0;
+            _totalPieces = 0;
             _entityFactory = new EntityFactory(_entitySettings);
             InitEntities();
         }
@@ -23,10 +32,18 @@ namespace Gameplay.BaseEntitiesController
         {
             foreach (Entity item in _entities)
             {
-                _totalDestroyObjects += item.transform.childCount;
+                _totalPieces += item.transform.childCount;
                 item.Construct(_entityFactory, _entitySettings);
                 item.InitDestroyedPieces();
             }
+        }
+
+        public void TriggerEnter(Collider other)
+        {
+            if (!other.TryGetComponent<IDestroyedPiece>(out IDestroyedPiece destroyedPiece)) return;
+            _totalDestroyedPieces++;
+            Destroy(other.gameObject);
+            _gameController.DestroyPiece(_totalPieces, _totalDestroyedPieces);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Cinemachine;
 using Gameplay.BaseEntitiesController;
 using Gameplay.BasePlayer;
@@ -33,23 +34,42 @@ namespace Infrastructure.Factory
             _staticDataService = staticDataService;
         }
 
-        public override void Init()
+        public override async void Init()
         {
-            CreateLevel();
-            CreatePlayer();
-            CreateVirtualCameraPlayer();
+            await CreateLevel();
+            await CreatePlayer();
+            await CreateVirtualCameraPlayer();
             CreateGameController();
 
             StateMachine.Enter<GameLoopState>();
         }
 
-        private void CreateGameController()
+        public async void CreateNewLevel()
         {
-            _gameController = new GameController(this, _entitiesController, _playerMediator);
-            Register(_gameController);
+            Object.Destroy(_entitiesController.GameObject);
+            await CreateLevel();
+            SetPositionPlayer();
+            CreateGameController();
         }
 
-        private async void CreateVirtualCameraPlayer()
+        private void SetPositionPlayer()
+        {
+            _playerMediator.SetPosition(
+                _staticDataService.DataLevels.SpawnPositionsOnLevel[
+                    ProgressService.Progress.DataLevels.CurrentLevel - 1]);
+        }
+
+        private void CreateGameController()
+        {
+            _gameController = new GameController(this,
+                ProgressService,
+                _staticDataService.DataLevels,
+                _entitiesController,
+                _playerMediator);
+            _entitiesController.SetGameController(_gameController);
+        }
+
+        private async Task CreateVirtualCameraPlayer()
         {
             GameObject cameraPlayerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.CameraPlayer);
             _cameraPlayer = Object.Instantiate(cameraPlayerPrefab).GetComponent<CinemachineVirtualCamera>();
@@ -57,7 +77,7 @@ namespace Infrastructure.Factory
             _cameraPlayer.LookAt = _playerMediator.transform;
         }
 
-        private async void CreatePlayer()
+        private async Task CreatePlayer()
         {
             GameObject playerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.Player);
             _playerMediator = Object.Instantiate(playerPrefab,
@@ -65,12 +85,8 @@ namespace Infrastructure.Factory
                 Quaternion.identity).GetComponent<PlayerMediator>();
         }
 
-        private async void CreateLevel()
+        private async Task CreateLevel()
         {
-            ProgressService.Progress.DataLevels.CurrentLevel = ProgressService.Progress.DataLevels.CountFinishLevel >=
-                                                               _staticDataService.DataLevels.TotalLevels
-                ? Random.Range(1, _staticDataService.DataLevels.TotalLevels + 1)
-                : ProgressService.Progress.DataLevels.CurrentLevel + 1;
             GameObject levelPrefab =
                 await AssetProvider.Load<GameObject>(
                     $"{AssetAddress.Level1}{ProgressService.Progress.DataLevels.CurrentLevel}");
