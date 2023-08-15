@@ -2216,7 +2216,7 @@ Shader "@%SHADER_NAME%@"
 							#if defined(_LIGHT_LAYERS)
 								half3 lightDir = half3(0, 1, 0);
 								half3 lightColor = half3(0, 0, 0);
-								if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
+								if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 								{
 									lightColor = light.color.rgb;
 									lightDir = light.direction;
@@ -2331,7 +2331,7 @@ Shader "@%SHADER_NAME%@"
 					#if defined(_LIGHT_LAYERS)
 						half3 lightDir = half3(0, 1, 0);
 						half3 lightColor = half3(0, 0, 0);
-						if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
+						if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 						{
 							lightColor = light.color.rgb;
 							lightDir = light.direction;
@@ -2568,6 +2568,7 @@ Shader "@%SHADER_NAME%@"
 	#start_not_empty_block
 			[[MODULE:SHADER_FEATURES_BLOCK:Wind]]
 			[[MODULE:SHADER_FEATURES_BLOCK:Dissolve]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Vertex Displacement]]
 	#end_not_empty_block
 	#end_not_empty
 
@@ -2947,6 +2948,7 @@ Shader "@%SHADER_NAME%@"
 	#start_not_empty_block
 			[[MODULE:SHADER_FEATURES_BLOCK:Wind]]
 			[[MODULE:SHADER_FEATURES_BLOCK:Dissolve]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Vertex Displacement]]
 	#end_not_empty_block
 	#end_not_empty
 
@@ -3005,6 +3007,7 @@ Shader "@%SHADER_NAME%@"
 	#start_not_empty_block
 			[[MODULE:SHADER_FEATURES_BLOCK:Wind]]
 			[[MODULE:SHADER_FEATURES_BLOCK:Dissolve]]
+			[[MODULE:SHADER_FEATURES_BLOCK:Vertex Displacement]]
 	#end_not_empty_block
 	#end_not_empty
 
