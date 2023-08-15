@@ -7,5 +7,6 @@ namespace Services.StaticData
     {
         Task LoadAsync();
         StaticDataScenes Scenes { get; }
+        StaticDataLevels DataLevels { get; }
     }
 }

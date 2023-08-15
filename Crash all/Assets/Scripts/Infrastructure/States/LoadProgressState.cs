@@ -41,7 +41,11 @@ namespace Infrastructure.States
         private DataGame NewProgress() =>
             new DataGame
             {
-                
+                DataLevels = new DataLevels()
+                {
+                    CurrentLevel = 1,
+                    CountFinishLevel = 0
+                }
             };
     }
 }

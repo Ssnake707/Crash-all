@@ -1,10 +1,11 @@
+using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
 using UnityEngine;
 
-namespace Gameplay.BreakdownSystem
+namespace Gameplay.BaseEntitiesController
 {
-    public class EntitiesController : MonoBehaviour
+    public class EntitiesController : MonoBehaviour, IEntitiesController
     {
         [SerializeField] private StaticDataEntitySettings _entitySettings;
         [SerializeField] private Entity[] _entities;

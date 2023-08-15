@@ -10,14 +10,16 @@ namespace Services.StaticData
     public class StaticDataService : IStaticDataService
     {
         private const string StaticDataScenes = "Scenes";
-        
+        private const string StaticDataLevels = "DataLevels";
+
         public StaticDataScenes Scenes { get; private set; }
-        
+        public StaticDataLevels DataLevels { get; private set; }
+
         public async Task LoadAsync()
         {
             //Example load 1 static data
             /*
-            await LoadAssetAsync<StaticDataTest>(Test, 
+            await LoadAssetAsync<StaticDataTest>(Test,
                 completed => _staticDataTest = completed.Result);
             */
             // example load identical type static data with use label
@@ -27,9 +29,11 @@ namespace Services.StaticData
                 _dictionaryTests = objects.Result.ToDictionary(x => x.Id, x => x);
             });
             */
-            
-            await LoadAssetAsync<StaticDataScenes>(StaticDataScenes, 
+
+            await LoadAssetAsync<StaticDataScenes>(StaticDataScenes,
                 completed => Scenes = completed.Result);
+            await LoadAssetAsync<StaticDataLevels>(StaticDataLevels,
+                completed => DataLevels = completed.Result);
         }
 
         private Task<T> LoadAssetAsync<T>(string address, Action<AsyncOperationHandle<T>> onCompleted) where T : class
@@ -38,8 +42,9 @@ namespace Services.StaticData
             handle.Completed += complete => onCompleted?.Invoke(complete);
             return handle.Task;
         }
-        
-        private Task<IList<T>> LoadAssetsAsync<T>(string label, Action<AsyncOperationHandle<IList<T>>> onCompleted) where T : class
+
+        private Task<IList<T>> LoadAssetsAsync<T>(string label, Action<AsyncOperationHandle<IList<T>>> onCompleted)
+            where T : class
         {
             AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
             handle.Completed += complete => onCompleted?.Invoke(complete);

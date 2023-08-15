@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Infrastructure.Factory.Interface
 {
     public interface ILevelFactory
