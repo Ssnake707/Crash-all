@@ -36,6 +36,7 @@ namespace Infrastructure.Factory
 
         public override async void Init()
         {
+            await CreateCanvas();
             await CreateLevel();
             await CreatePlayer();
             await CreateVirtualCameraPlayer();
@@ -50,6 +51,12 @@ namespace Infrastructure.Factory
             await CreateLevel();
             SetPositionPlayer();
             CreateGameController();
+        }
+
+        private async Task CreateCanvas()
+        {
+            GameObject mainCanvas = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
+            Object.Instantiate(mainCanvas);
         }
 
         private void SetPositionPlayer()
