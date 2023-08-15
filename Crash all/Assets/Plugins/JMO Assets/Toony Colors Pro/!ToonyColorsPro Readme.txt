@@ -1,5 +1,5 @@
 Toony Colors Pro, version 2.9
-2023/02/06
+2023/04/03
 © 2023 - Jean Moreno
 =============================
 
@@ -37,6 +37,15 @@ UPDATE NOTES
 ------------
 
 See full and formatted changelog here: https://jeanmoreno.com/unity/toonycolorspro/doc/changelog
+
+2.9.6
+#### Fixed
+- [Shader Generator 2] Fixed "Vertex Displacement" in the shadow, outline and depth passes when "Make Optional" is enabled
+- [Shader Generator 2] Fixed compilation when using "Texture Blending" with normal map blending enabled
+- [Shader Generator 2] Fixed Light Layers support for additional lights
+- [Hybrid Shader 2] Fixed SSAO issues with URP 12+
+- [Hybrid Shader 2] Fixed "Fade" transparency mode not affected by color or texture alpha
+- [Hybrid Shader 2] (URP) Fixed compilation error when using Forward+ with SSAO
 
 2.9.5
 #### Fixed
