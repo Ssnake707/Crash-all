@@ -152,7 +152,6 @@ GameObject:
   - component: {fileID: 942850148357452567}
   - component: {fileID: 5375446069878399261}
   - component: {fileID: 3924632967337035719}
-  - component: {fileID: 6116159461562299257}
   - component: {fileID: 4612614270383690401}
   m_Layer: 5
   m_Name: Tap to start
@@ -210,26 +209,22 @@ MonoBehaviour:
     UpdateType: 0
     IgnoreTimeScale: 1
   _tweens:
-  - {fileID: 6116159461562299257}
---- !u!114 &6116159461562299257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5867717787426912201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3660381f1144c484981dfe7edd98449a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tweenSettings:
-    TweenAddType: 0
-    Ease: 0
-    Delay: 0
-  _target: {fileID: 942850148357452567}
-  _to: {x: 1.2, y: 1.2, z: 1.2}
-  _duration: 1
+  - rid: 9047375785252356098
+  references:
+    version: 2
+    RefIds:
+    - rid: 9047375785252356098
+      type: {class: TweenTransformScale, ns: DOTweenHelper.Runtime.Tweens.TransformTweens,
+        asm: com.fmore.dotweenhelper}
+      data:
+        TypeTweenName: Transform scale
+        _tweenSettings:
+          TweenAddType: 0
+          Ease: 0
+          Delay: 0
+        _target: {fileID: 942850148357452567}
+        _to: {x: 1.2, y: 1.2, z: 1.2}
+        _duration: 1
 --- !u!114 &4612614270383690401
 MonoBehaviour:
   m_ObjectHideFlags: 0

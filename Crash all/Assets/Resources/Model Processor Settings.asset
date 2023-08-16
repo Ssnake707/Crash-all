@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e17db60bf730d48ab5056e3630d9af, type: 3}
+  m_Name: Model Processor Settings
+  m_EditorClassIdentifier: 
+  prefabNameTemplate: pfb_X
+  modelNameTemplate: mdl_X
+  prefabFolder: {fileID: 0}
+  toonShader: {fileID: -6465566751694194690, guid: edd7abf643fa4bc4e8561d4c280c97cf,
+    type: 3}
