@@ -151,6 +151,8 @@ GameObject:
   m_Component:
   - component: {fileID: 942850148357452567}
   - component: {fileID: 5375446069878399261}
+  - component: {fileID: 7359050968243627930}
+  - component: {fileID: 2318003594283686943}
   - component: {fileID: 4612614270383690401}
   m_Layer: 5
   m_Name: Tap to start
@@ -169,15 +171,15 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5771907297222103716}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 210.938}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 436}
+  m_SizeDelta: {x: 0, y: 210.93799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5375446069878399261
 CanvasRenderer:
@@ -187,6 +189,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5867717787426912201}
   m_CullTransparentMesh: 1
+--- !u!114 &7359050968243627930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5867717787426912201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850bb4486c389694480c5b7906f980f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linkGameObject: {fileID: 5867717787426912201}
+  _isPlayOnAwake: 1
+  _sequenceLoopsSettings:
+    LoopType: 1
+    CountLoops: -1
+  _sequenceUpdateSettings:
+    UpdateType: 0
+    IgnoreTimeScale: 1
+  _tweens:
+  - {fileID: 2318003594283686943}
+--- !u!114 &2318003594283686943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5867717787426912201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3660381f1144c484981dfe7edd98449a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tweenSettings:
+    TweenAddType: 0
+    Ease: 0
+    Delay: 0
+  _target: {fileID: 942850148357452567}
+  _to: {x: 1.2, y: 1.2, z: 1.2}
+  _duration: 1
 --- !u!114 &4612614270383690401
 MonoBehaviour:
   m_ObjectHideFlags: 0
