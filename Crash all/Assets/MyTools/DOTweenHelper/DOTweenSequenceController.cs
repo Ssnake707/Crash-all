@@ -1,11 +1,11 @@
 using System;
 using DG.Tweening;
-using MyTools.DOTweenAnimation.Tweens;
+using MyTools.DOTweenHelper.Tweens;
 using UnityEngine;
 
-namespace MyTools.DOTweenAnimation
+namespace MyTools.DOTweenHelper
 {
-    public class DOTweenAnimationController : MonoBehaviour, IDOTweenAnimationController
+    public class DOTweenSequenceController : MonoBehaviour, IDOTweenAnimationController
     {
         public event Action OnComplete;
         public event Action OnKill;

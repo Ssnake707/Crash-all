@@ -1,7 +1,7 @@
 using System;
 using DG.Tweening;
 
-namespace MyTools.DOTweenAnimation.Tweens
+namespace MyTools.DOTweenHelper.Tweens
 {
     [Serializable]
     public class TweenSettings

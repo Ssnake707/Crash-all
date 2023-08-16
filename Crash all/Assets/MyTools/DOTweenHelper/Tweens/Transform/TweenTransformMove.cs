@@ -1,15 +1,14 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace MyTools.DOTweenAnimation.Tweens.Transform
+namespace MyTools.DOTweenHelper.Tweens.Transform
 {
-    public class TweenTransformScale : BaseTween
+    public class TweenTransformMove : BaseTween
     {
         [SerializeField] private UnityEngine.Transform _target;
         [SerializeField] private Vector3 _to;
         [SerializeField] private float _duration;
-
-        protected override Tween CreateTween() =>
-            _target.DOScale(_to, _duration);
+        protected override Tween CreateTween() => 
+            _target.DOMove(_to, _duration);
     }
 }

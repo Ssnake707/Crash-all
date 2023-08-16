@@ -1,6 +1,6 @@
 using System;
 
-namespace MyTools.DOTweenAnimation
+namespace MyTools.DOTweenHelper
 {
     public interface IDOTweenAnimationController
     {
