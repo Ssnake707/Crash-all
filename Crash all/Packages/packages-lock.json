@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.fmore.dotweenhelper": {
-      "version": "file:DOTweenHelper",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.addressables": {
       "version": "1.21.12",
       "depth": 0,
