@@ -94,9 +94,13 @@ namespace Infrastructure.Factory
 
         private async Task CreateLevel()
         {
+#if UNITY_EDITOR
+            if (_staticDataService.DataLevels.AlwaysLoadLevel != -1)
+                ProgressService.Progress.DataLevels.CurrentLevel = _staticDataService.DataLevels.AlwaysLoadLevel;
+#endif
             GameObject levelPrefab =
                 await AssetProvider.Load<GameObject>(
-                    $"{AssetAddress.Level1}{ProgressService.Progress.DataLevels.CurrentLevel}");
+                    $"{AssetAddress.Level}{ProgressService.Progress.DataLevels.CurrentLevel}");
             _entitiesController = Object.Instantiate(levelPrefab).GetComponent<IEntitiesController>();
         }
     }

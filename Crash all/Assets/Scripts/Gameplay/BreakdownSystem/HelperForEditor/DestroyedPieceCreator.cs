@@ -35,7 +35,7 @@ namespace Gameplay.BreakdownSystem.HelperForEditor
             if (_configured) return;
             DestroyedPieceCreator neighbour = collision.gameObject.GetComponent<DestroyedPieceCreator>();
             if (neighbour == null) return;
-            
+            if (neighbour.transform.parent != transform.parent.transform) return;
             if (!ConnectedTo.Contains(neighbour))
                 ConnectedTo.Add(neighbour);
         }

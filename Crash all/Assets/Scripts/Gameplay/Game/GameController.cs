@@ -1,4 +1,3 @@
-using Data;
 using Gameplay.BaseEntitiesController;
 using Gameplay.BasePlayer;
 using Gameplay.Game.Interfaces;
@@ -39,11 +38,24 @@ namespace Gameplay.Game
         private void LevelComplete()
         {
             _progressService.Progress.DataLevels.CountFinishLevel++;
-            _progressService.Progress.DataLevels.CurrentLevel = 
-                _progressService.Progress.DataLevels.CountFinishLevel >= _dataLevels.TotalLevels
-                ? Random.Range(1, _dataLevels.TotalLevels + 1)
-                : _progressService.Progress.DataLevels.CurrentLevel + 1;
+            
+            if (_progressService.Progress.DataLevels.CountFinishLevel >= _dataLevels.TotalLevels)
+                _progressService.Progress.DataLevels.CurrentLevel = RandomNextLevel();
+            else
+                _progressService.Progress.DataLevels.CurrentLevel += 1;
+
             _mainGameplayFactory.CreateNewLevel();
+        }
+
+        private int RandomNextLevel()
+        {
+            int currentLevel = _progressService.Progress.DataLevels.CurrentLevel;
+            int nextLevel;
+            do 
+                nextLevel = Random.Range(1, _dataLevels.TotalLevels + 1);
+            while (currentLevel == nextLevel);
+
+            return nextLevel;
         }
     }
 }

@@ -25,6 +25,13 @@ namespace Gameplay.BreakdownSystem
             ConnectedTo = new List<IDestroyedPiece>();
             foreach (int idPiece in destroyedPiecesId.IdPieces) 
                 ConnectedTo.Add(destroyedPieces[idPiece]);
+
+            if (ConnectedTo.Count == 0)
+            {
+                transform.parent = null;
+                IsDisconnect = true;
+                transform.AddComponent<Rigidbody>();
+            }
         }
 
         public void SetEntity(IEntity entity) =>

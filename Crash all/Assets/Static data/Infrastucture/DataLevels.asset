@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834725cbf1a15dc49898638743ec784b, type: 3}
   m_Name: DataLevels
   m_EditorClassIdentifier: 
-  TotalLevels: 1
+  AlwaysLoadLevel: 2
+  TotalLevels: 2
   SpawnPositionsOnLevel:
   - {x: 0, y: 0.561, z: 0}
+  - {x: 0, y: 0.03, z: 0.22}
