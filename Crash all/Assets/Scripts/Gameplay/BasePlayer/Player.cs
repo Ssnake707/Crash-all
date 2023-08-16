@@ -32,6 +32,9 @@ namespace Gameplay.BasePlayer
         public override void PlayerRotating() => 
             _playerAnimation.PlayerRotating();
 
+        public override void SetPosition(Vector3 position) => 
+            transform.position = position;
+
         private void FixedUpdate() => 
             _playerMovement.FixedUpdate();
     }

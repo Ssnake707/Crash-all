@@ -44,11 +44,11 @@ namespace Infrastructure.AssetManagement
             _handles.Clear();
         }
 
-        public Task<GameObject> Instantiate(string address) => 
-            Addressables.InstantiateAsync(address).Task;
-
-        public Task<GameObject> Instantiate(string address, Vector3 at) => 
-            Addressables.InstantiateAsync(address, at, Quaternion.identity).Task;
+        // public Task<GameObject> Instantiate(string address) => 
+        //     Addressables.InstantiateAsync(address).Task;
+        //
+        // public Task<GameObject> Instantiate(string address, Vector3 at) => 
+        //     Addressables.InstantiateAsync(address, at, Quaternion.identity).Task;
 
         private async Task<T> RunWithCacheOnComplete<T>(AsyncOperationHandle<T> handle, string cacheKey) where T : class
         {

@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.fmore.dotweenhelper": {
+      "version": "https://github.com/Ssnake707/DOTween-helper.git?path=/DOTween%20Helper/Assets/DOTweenHelper",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f9b04b85d838a636ff099ce2f24a464746acb3d4"
+    },
     "com.unity.addressables": {
       "version": "1.21.12",
       "depth": 0,

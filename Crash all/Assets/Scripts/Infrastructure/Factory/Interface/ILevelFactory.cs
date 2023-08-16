@@ -1,11 +1,12 @@
-using Infrastructure.States;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Factory.Interface
 {
-    public interface ILevel
+    public interface ILevelFactory
     {
         void Init();
-        void NextState(GameStateMachine stateMachine);
         void Cleanup();
+        void SaveProgress();
+        void WarmUp();
     }
 }

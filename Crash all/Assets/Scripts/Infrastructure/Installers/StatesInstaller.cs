@@ -1,3 +1,5 @@
+using Infrastructure.Factory;
+using Infrastructure.Factory.Interface;
 using Infrastructure.States;
 using Zenject;
 
@@ -13,6 +15,7 @@ namespace Infrastructure.Installers
             BindLoadLevelState();
             BindGameLoopState();
             BindGameStateMachine();
+            BindGameFactory();
         }
 
         private void BindGameStateMachine() =>
@@ -41,11 +44,12 @@ namespace Infrastructure.Installers
                 .Bind<LoadLevelState>()
                 .AsSingle();
 
-        private void BindGameLoopState()
-        {
+        private void BindGameLoopState() =>
             Container
                 .Bind<GameLoopState>()
                 .AsSingle();
-        }
+
+        private void BindGameFactory() => 
+            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
     }
 }
