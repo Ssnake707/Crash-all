@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace MyTools.DOTweenHelper.Tweens.Transform
+namespace Tweens.Transform
 {
     public class TweenTransformScale : BaseTween
     {

@@ -1,7 +1,7 @@
 using System;
 using DG.Tweening;
 
-namespace MyTools.DOTweenHelper
+namespace DOTweenHelper
 {
     [Serializable]
     public class SequenceUpdateSettings

@@ -1,4 +1,4 @@
-namespace MyTools.DOTweenHelper.Tweens
+namespace Tweens
 {
     public enum AddTypeTween
     {

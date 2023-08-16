@@ -151,8 +151,8 @@ GameObject:
   m_Component:
   - component: {fileID: 942850148357452567}
   - component: {fileID: 5375446069878399261}
-  - component: {fileID: 7359050968243627930}
-  - component: {fileID: 2318003594283686943}
+  - component: {fileID: 3924632967337035719}
+  - component: {fileID: 6116159461562299257}
   - component: {fileID: 4612614270383690401}
   m_Layer: 5
   m_Name: Tap to start
@@ -189,7 +189,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5867717787426912201}
   m_CullTransparentMesh: 1
---- !u!114 &7359050968243627930
+--- !u!114 &3924632967337035719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,8 +210,8 @@ MonoBehaviour:
     UpdateType: 0
     IgnoreTimeScale: 1
   _tweens:
-  - {fileID: 2318003594283686943}
---- !u!114 &2318003594283686943
+  - {fileID: 6116159461562299257}
+--- !u!114 &6116159461562299257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,0 +1,12 @@
+{
+  "name": "com.fmore.dotweenhelper",
+  "version": "1.0.0",
+  "displayName": "DOTween helper",
+  "description": "DOTween helper for creating sequence from monobehavior",
+  "dependencies": {
+  },
+  "author": {
+    "name": "Kazantsev Igor",
+    "email": "Ssnake707@gmail.com"
+  }
+}
