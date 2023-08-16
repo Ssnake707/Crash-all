@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7f773370a101446914a62d0e307d3b, type: 3}
+  m_Name: Jenga1
+  m_EditorClassIdentifier: 
+  MinImpulsePlayerForDestroy: 0.1
+  MinImpulseOtherForDestroy: 0.1
+  DestroyedPiecesIds:
+  - Id: 0
+    IdPieces: 010000000400000003000000
+  - Id: 1
+    IdPieces: 04000000020000000300000000000000
+  - Id: 2
+    IdPieces: 010000000300000004000000
+  - Id: 3
+    IdPieces: 02000000010000000000000005000000
+  - Id: 4
+    IdPieces: 01000000020000000000000005000000
+  - Id: 5
+    IdPieces: 06000000070000000400000003000000
+  - Id: 6
+    IdPieces: 080000000900000005000000
+  - Id: 7
+    IdPieces: 080000000500000009000000
+  - Id: 8
+    IdPieces: 07000000060000000a000000
+  - Id: 9
+    IdPieces: 0a0000000600000007000000
+  - Id: 10
+    IdPieces: 0c0000000b0000000900000008000000
+  - Id: 11
+    IdPieces: 0c0000000a000000
+  - Id: 12
+    IdPieces: 0a0000000b000000
+  - Id: 13
+    IdPieces: 
+  - Id: 14
+    IdPieces: 
+  - Id: 15
+    IdPieces: 10000000
+  - Id: 16
+    IdPieces: 0f000000

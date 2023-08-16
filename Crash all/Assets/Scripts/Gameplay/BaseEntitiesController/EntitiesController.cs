@@ -1,14 +1,12 @@
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.Interface;
 using Gameplay.Game.Interfaces;
-using StaticData.Entity;
 using UnityEngine;
 
 namespace Gameplay.BaseEntitiesController
 {
     public class EntitiesController : MonoBehaviour, IEntitiesController
     {
-        [SerializeField] private StaticDataEntitySettings _entitySettings;
         [SerializeField] private Entity[] _entities;
         private IEntityFactory _entityFactory;
         private int _totalPieces;
@@ -24,7 +22,7 @@ namespace Gameplay.BaseEntitiesController
         private void Awake()
         {
             _totalPieces = 0;
-            _entityFactory = new EntityFactory(_entitySettings);
+            _entityFactory = new EntityFactory();
             InitEntities();
         }
 
@@ -33,7 +31,7 @@ namespace Gameplay.BaseEntitiesController
             foreach (Entity item in _entities)
             {
                 _totalPieces += item.transform.childCount;
-                item.Construct(_entityFactory, _entitySettings);
+                item.Construct(_entityFactory);
                 item.InitDestroyedPieces();
             }
         }

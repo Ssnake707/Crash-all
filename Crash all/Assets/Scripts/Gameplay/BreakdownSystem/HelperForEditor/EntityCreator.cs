@@ -10,6 +10,7 @@ namespace Gameplay.BreakdownSystem.HelperForEditor
 {
     public class EntityCreator : MonoBehaviour
     {
+        public StaticDataEntitySettings EntitySettings;
         public List<DestroyedPieceCreator> DestroyedPieces;
 
         public void FillStaticDataEntity(StaticDataEntity dataEntity, Action onFinish)
@@ -27,6 +28,8 @@ namespace Gameplay.BreakdownSystem.HelperForEditor
 
         private void FinishCoroutine(StaticDataEntity dataEntity, Action onFinish)
         {
+            dataEntity.MinImpulseOtherForDestroy = EntitySettings.MinImpulseOtherForDestroy;
+            dataEntity.MinImpulsePlayerForDestroy = EntitySettings.MinImpulsePlayerForDestroy;
             DestroyedPiecesId[] destroyedPiecesIds = new DestroyedPiecesId[DestroyedPieces.Count];
             for (int i = 0; i < destroyedPiecesIds.Length; i++)
             {

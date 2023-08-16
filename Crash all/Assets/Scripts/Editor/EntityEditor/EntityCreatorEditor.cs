@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay.BreakdownSystem;
@@ -15,6 +14,7 @@ namespace Editor.EntityEditor
     public class EntityCreatorEditor : UnityEditor.Editor
     {
         private const string PathStaticDataEntity = "Assets/Static Data/Entity/";
+        private const string _pathToEntitySettingsAsset = "Assets/Static data/Entity/EntitySettings.asset";
         private bool _isShowGraph;
         private bool _isShowGraphPlayMode;
 
@@ -179,6 +179,7 @@ namespace Editor.EntityEditor
             SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
             StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
             EntityCreator entityCreator = entity.transform.AddComponent<EntityCreator>();
+            entityCreator.EntitySettings = AssetDatabase.LoadAssetAtPath<StaticDataEntitySettings>(_pathToEntitySettingsAsset);
             entityCreator.FillStaticDataEntity(dataEntity, () =>
             {
                 EditorUtility.SetDirty(dataEntity);

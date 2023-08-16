@@ -5,7 +5,8 @@ namespace Gameplay.BreakdownSystem.Interface
 {
     public interface IEntity
     {
-        void Construct(IEntityFactory entityFactory, StaticDataEntitySettings entitySettings);
+        void Construct(IEntityFactory entityFactory);
+        void Construct(IEntityFactory entityFactory, StaticDataEntity staticDataEntity);
 
         void InitDestroyedPieces();
         void RecalculateEntity();

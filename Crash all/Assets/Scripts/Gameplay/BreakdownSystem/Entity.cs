@@ -12,12 +12,14 @@ namespace Gameplay.BreakdownSystem
         [SerializeField] private StaticDataEntity _dataEntity;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
-        private StaticDataEntitySettings _entitySettings;
 
-        public void Construct(IEntityFactory entityFactory, StaticDataEntitySettings entitySettings)
+        public void Construct(IEntityFactory entityFactory) => 
+            _entityFactory = entityFactory;
+
+        public void Construct(IEntityFactory entityFactory, StaticDataEntity staticDataEntity)
         {
             _entityFactory = entityFactory;
-            _entitySettings = entitySettings;
+            _dataEntity = staticDataEntity;
         }
 
         public void InitDestroyedPieces()
@@ -65,7 +67,7 @@ namespace Gameplay.BreakdownSystem
                 }
 
                 if (newEntity != null && newEntity.Count != 1)
-                    _entityFactory.CreateEntity(newEntity);
+                    _entityFactory.CreateEntity(newEntity, _dataEntity);
             } while (isNextIteration);
 
             _destroyedPieces = entity;
@@ -104,12 +106,12 @@ namespace Gameplay.BreakdownSystem
                 collision.transform.TryGetComponent<PlayerMediator>(out PlayerMediator playerMediator))
             {
                 collision.rigidbody.velocity = Vector3.zero;
-                if (_entitySettings.MinImpulsePlayerForDestroy > collision.impulse.magnitude) return;
+                if (_dataEntity.MinImpulsePlayerForDestroy > collision.impulse.magnitude) return;
                 destroyedPiece.Collision(collision);
             }
             else
             {
-                if (_entitySettings.MinImpulseOtherForDestroy > collision.impulse.magnitude) return;
+                if (_dataEntity.MinImpulseOtherForDestroy > collision.impulse.magnitude) return;
                 destroyedPiece.Collision(collision);
             }
         }
