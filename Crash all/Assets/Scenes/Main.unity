@@ -450,11 +450,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3924632967337035719, guid: e7356398c67bb184ea0530c048312d44,
-        type: 3}
-      propertyPath: _tweens.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5831662816291302780, guid: e7356398c67bb184ea0530c048312d44,
         type: 3}
       propertyPath: m_Pivot.x
@@ -560,10 +555,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7359050968243627930, guid: e7356398c67bb184ea0530c048312d44, type: 3}
-    - {fileID: 2318003594283686943, guid: e7356398c67bb184ea0530c048312d44, type: 3}
-    - {fileID: 6116159461562299257, guid: e7356398c67bb184ea0530c048312d44, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
