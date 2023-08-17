@@ -10,6 +10,9 @@ using Infrastructure.States;
 using Services.PersistentProgress;
 using Services.SaveLoad;
 using Services.StaticData;
+using UI.Gameplay;
+using UI.Gameplay.Interface;
+using UI.MainMenu;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +26,7 @@ namespace Infrastructure.Factory
         private PlayerMediator _playerMediator;
         private CinemachineVirtualCamera _cameraPlayer;
         private IGameController _gameController;
+        private MainMenuController _mainMenuController;
 
         [Inject]
         public MainGameplayFactory(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
@@ -36,9 +40,9 @@ namespace Infrastructure.Factory
 
         public override async void Init()
         {
-            await CreateCanvas();
             await CreateLevel();
             await CreatePlayer();
+            await CreateCanvas();
             await CreateVirtualCameraPlayer();
             CreateGameController();
 
@@ -56,9 +60,9 @@ namespace Infrastructure.Factory
         private async Task CreateCanvas()
         {
             GameObject mainCanvas = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
-            Object.Instantiate(mainCanvas);
+            _mainMenuController = Object.Instantiate(mainCanvas).GetComponent<MainMenuController>();
+            _mainMenuController.Show();
         }
-
         private void SetPositionPlayer()
         {
             _playerMediator.SetPosition(
@@ -74,7 +78,11 @@ namespace Infrastructure.Factory
                 _entitiesController,
                 _playerMediator);
             _entitiesController.SetGameController(_gameController);
+            CreateGameplayUI();
         }
+        
+        private void CreateGameplayUI() => 
+            new GameplayUIAdapter(_mainMenuController.GameplayView, (IGameplayUIModel)_gameController);
 
         private async Task CreateVirtualCameraPlayer()
         {

@@ -4,17 +4,19 @@ using Gameplay.Game.Interfaces;
 using Infrastructure.Factory.Interface;
 using Services.PersistentProgress;
 using StaticData.Infrastructure;
+using UI.Gameplay.Interface;
 using UnityEngine;
 
 namespace Gameplay.Game
 {
-    public class GameController : IGameController
+    public class GameController : IGameController, IGameplayUIModel
     {
         private readonly IEntitiesController _entitiesController;
         private readonly IMainGameplayFactory _mainGameplayFactory;
         private readonly PlayerMediator _playerMediator;
         private readonly IPersistentProgressService _progressService;
         private readonly StaticDataLevels _dataLevels;
+        private IGameplayUIAdapter _gameplayUIAdapter;
 
         public GameController(IMainGameplayFactory mainGameplayFactory,
             IPersistentProgressService progressService,
@@ -34,6 +36,9 @@ namespace Gameplay.Game
             if (totalDestroyedPieces >= totalPieces)
                 LevelComplete();
         }
+
+        public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) => 
+            _gameplayUIAdapter = adapter;
 
         private void LevelComplete()
         {
