@@ -1,26 +1,30 @@
 using UI.Gameplay;
 using UI.Gameplay.Interface;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.MainMenu
 {
     public class MainMenuController : BaseWindow
     {
         [SerializeField] private GameplayView _gameplayView;
-        [SerializeField] private Button _tapToStartButton;
         public IGameplayView GameplayView => _gameplayView;
 
-        private void Awake()
-        {
+        private void Awake() => 
             _gameplayView.SetMainMenuController(this);
-            _tapToStartButton.onClick.AddListener(TapToStartHandler);
-        }
 
-        private void TapToStartHandler()
+        private void StartGame()
         {
             Hide();
             _gameplayView.Show();
+        }
+
+        private void Update()
+        {
+            if (!IsShow) return;
+            float horizontal = SimpleInput.GetAxis("Horizontal");
+            float vertical = SimpleInput.GetAxis("Vertical");
+            if (Mathf.Abs(horizontal) + Mathf.Abs(vertical) > 0f) 
+                StartGame();
         }
     }
 }
