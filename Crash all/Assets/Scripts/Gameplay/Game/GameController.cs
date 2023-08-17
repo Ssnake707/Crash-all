@@ -33,6 +33,7 @@ namespace Gameplay.Game
 
         public void DestroyPiece(int totalPieces, int totalDestroyedPieces)
         {
+            _gameplayUIAdapter.DestroyPiece(totalPieces, totalDestroyedPieces);
             if (totalDestroyedPieces >= totalPieces)
                 LevelComplete();
         }
@@ -49,6 +50,7 @@ namespace Gameplay.Game
             else
                 _progressService.Progress.DataLevels.CurrentLevel += 1;
 
+            _gameplayUIAdapter.LevelComplete();
             _mainGameplayFactory.CreateNewLevel();
         }
 

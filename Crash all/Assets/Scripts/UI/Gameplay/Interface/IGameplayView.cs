@@ -4,5 +4,6 @@ namespace UI.Gameplay.Interface
     {
         void SetAdapter(IGameplayUIAdapter gameplayUIAdapter);
         void Hide();
+        void SetProgressBar(float amount);
     }
 }

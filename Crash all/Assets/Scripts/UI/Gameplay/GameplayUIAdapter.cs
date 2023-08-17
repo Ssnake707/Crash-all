@@ -1,5 +1,4 @@
 using UI.Gameplay.Interface;
-using UnityEngine;
 
 namespace UI.Gameplay
 {
@@ -15,6 +14,11 @@ namespace UI.Gameplay
             _gameplayView.SetAdapter(this);
             _gameplayUIModel.SetGameplayUIAdapter(this);
         }
-        
+
+        public void DestroyPiece(int totalPieces, int totalDestroyedPieces) => 
+            _gameplayView.SetProgressBar((float)totalDestroyedPieces / totalPieces);
+
+        public void LevelComplete() => 
+            _gameplayView.Hide();
     }
 }
