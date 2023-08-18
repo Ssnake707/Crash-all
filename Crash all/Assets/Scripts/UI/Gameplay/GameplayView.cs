@@ -18,12 +18,14 @@ namespace UI.Gameplay
 
         public override void Show()
         {
-            base.Show();
             _progressBar.value = 0f;
+            _gameplayUIAdapter.GameplayViewOnShow();
+            base.Show();
         }
 
         public override void Hide()
         {
+            _gameplayUIAdapter.GameplayViewOnHide();
             base.Hide();
             _mainMenuController.Show();
         }

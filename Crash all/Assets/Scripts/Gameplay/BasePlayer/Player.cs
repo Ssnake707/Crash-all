@@ -7,7 +7,6 @@ namespace Gameplay.BasePlayer
     public class Player : PlayerMediator
     {
         public StaticDataPlayerSettings PlayerSettings => _playerSettings;
-        public override bool CanMove => _isCanMove;
         
         [SerializeField] private StaticDataPlayerSettings _playerSettings;
         [SerializeField] private Rigidbody _rigidbody;
@@ -23,7 +22,6 @@ namespace Gameplay.BasePlayer
         {
             _playerMovement = new PlayerMovement(this, _playerSettings, _transformPlayer, _rigidbody, _centerOfMass);
             _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
-            _isCanMove = true;
         }
 
         public override void PlayerMove(float speed) => 

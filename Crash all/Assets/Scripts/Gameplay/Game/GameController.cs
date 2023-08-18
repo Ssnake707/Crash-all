@@ -38,13 +38,19 @@ namespace Gameplay.Game
                 LevelComplete();
         }
 
-        public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) => 
+        public void GameplayViewOnShow() =>
+            _playerMediator.SetCanMove(true);
+
+        public void GameplayViewOnHide() =>
+            _playerMediator.SetCanMove(false);
+
+        public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) =>
             _gameplayUIAdapter = adapter;
 
         private void LevelComplete()
         {
             _progressService.Progress.DataLevels.CountFinishLevel++;
-            
+
             if (_progressService.Progress.DataLevels.CountFinishLevel >= _dataLevels.TotalLevels)
                 _progressService.Progress.DataLevels.CurrentLevel = RandomNextLevel();
             else
@@ -58,7 +64,7 @@ namespace Gameplay.Game
         {
             int currentLevel = _progressService.Progress.DataLevels.CurrentLevel;
             int nextLevel;
-            do 
+            do
                 nextLevel = Random.Range(1, _dataLevels.TotalLevels + 1);
             while (currentLevel == nextLevel);
 

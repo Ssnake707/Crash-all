@@ -20,5 +20,11 @@ namespace UI.Gameplay
 
         public void LevelComplete() => 
             _gameplayView.Hide();
+
+        public void GameplayViewOnShow() => 
+            _gameplayUIModel.GameplayViewOnShow();
+
+        public void GameplayViewOnHide() => 
+            _gameplayUIModel.GameplayViewOnHide();
     }
 }
