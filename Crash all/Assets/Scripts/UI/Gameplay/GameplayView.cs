@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UI.Gameplay.Interface;
+using UI.WindowController;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +14,6 @@ namespace UI.Gameplay
         private IGameplayUIAdapter _gameplayUIAdapter;
         private Tween _tweenSliderValue = null;
 
-        public void SetMainMenuController(BaseWindow mainMenuController) =>
-            _mainMenuController = mainMenuController;
-
         public override void Show()
         {
             _progressBar.value = 0f;
@@ -27,8 +25,10 @@ namespace UI.Gameplay
         {
             _gameplayUIAdapter.GameplayViewOnHide();
             base.Hide();
-            _mainMenuController.Show();
         }
+
+        public void LevelComplete() => 
+            WindowsController.ShowWindow(WindowType.MainMenu);
 
         public void SetAdapter(IGameplayUIAdapter gameplayUIAdapter) =>
             _gameplayUIAdapter = gameplayUIAdapter;

@@ -12,7 +12,8 @@ using Services.SaveLoad;
 using Services.StaticData;
 using UI.Gameplay;
 using UI.Gameplay.Interface;
-using UI.MainMenu;
+using UI.WindowController;
+using UI.WindowController.Interface;
 using UnityEngine;
 using Zenject;
 
@@ -26,7 +27,7 @@ namespace Infrastructure.Factory
         private PlayerMediator _playerMediator;
         private CinemachineVirtualCamera _cameraPlayer;
         private IGameController _gameController;
-        private MainMenuController _mainMenuController;
+        private GameObject _mainCanvas;
 
         [Inject]
         public MainGameplayFactory(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
@@ -59,9 +60,10 @@ namespace Infrastructure.Factory
 
         private async Task CreateCanvas()
         {
-            GameObject mainCanvas = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
-            _mainMenuController = Object.Instantiate(mainCanvas).GetComponent<MainMenuController>();
-            _mainMenuController.Show();
+            GameObject mainCanvasPrefab = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
+            _mainCanvas = Object.Instantiate(mainCanvasPrefab);
+            IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
+            windowsController.ShowWindow(WindowType.MainMenu);
         }
         private void SetPositionPlayer()
         {
@@ -82,7 +84,7 @@ namespace Infrastructure.Factory
         }
         
         private void CreateGameplayUI() => 
-            new GameplayUIAdapter(_mainMenuController.GameplayView, (IGameplayUIModel)_gameController);
+            new GameplayUIAdapter(_mainCanvas.GetComponent<IGameplayView>(), (IGameplayUIModel)_gameController);
 
         private async Task CreateVirtualCameraPlayer()
         {

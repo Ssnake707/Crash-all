@@ -1,11 +1,16 @@
+using UI.WindowController.Interface;
 using UnityEngine;
 
-namespace UI.Gameplay
+namespace UI
 {
     public class BaseWindow : MonoBehaviour
     {
         [SerializeField] private Transform _root;
+        protected IWindowsController WindowsController;
         public bool IsShow { get; private set; }
+
+        public void SetWindowController(IWindowsController windowsController) => WindowsController = windowsController;
+
         public virtual void Show()
         {
             IsShow = true;

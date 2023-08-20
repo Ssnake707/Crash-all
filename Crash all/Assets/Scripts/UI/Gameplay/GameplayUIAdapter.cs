@@ -19,7 +19,7 @@ namespace UI.Gameplay
             _gameplayView.SetProgressBar((float)totalDestroyedPieces / totalPieces);
 
         public void LevelComplete() => 
-            _gameplayView.Hide();
+            _gameplayView.LevelComplete();
 
         public void GameplayViewOnShow() => 
             _gameplayUIModel.GameplayViewOnShow();
