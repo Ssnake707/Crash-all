@@ -12,6 +12,7 @@ using Services.SaveLoad;
 using Services.StaticData;
 using UI.Gameplay;
 using UI.Gameplay.Interface;
+using UI.GeneralMenu.Interface;
 using UI.WindowController;
 using UI.WindowController.Interface;
 using UnityEngine;
@@ -62,6 +63,7 @@ namespace Infrastructure.Factory
         {
             GameObject mainCanvasPrefab = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
             _mainCanvas = Object.Instantiate(mainCanvasPrefab);
+            _mainCanvas.GetComponent<IGeneralMenuView>().Construct(ProgressService);
             IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
             windowsController.ShowWindow(WindowType.MainMenu);
         }

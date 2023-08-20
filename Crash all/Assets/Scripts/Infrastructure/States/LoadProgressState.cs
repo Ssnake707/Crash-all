@@ -45,6 +45,10 @@ namespace Infrastructure.States
                 {
                     CurrentLevel = 1,
                     CountFinishLevel = 0
+                },
+                DataPlayers = new DataPlayers()
+                {
+                    Coins = 0
                 }
             };
     }
