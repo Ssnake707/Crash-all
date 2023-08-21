@@ -6,5 +6,6 @@ namespace Data
     public class DataGame
     {
         public DataLevels DataLevels;
+        public DataPlayers DataPlayers;
     }
 }

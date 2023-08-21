@@ -1,18 +1,17 @@
 using System.Collections.Generic;
+using Gameplay.BaseEntitiesController;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Gameplay.BreakdownSystem
 {
     public class EntityFactory : IEntityFactory
     {
-        public void AddEntity(Transform transform)
-        {
-            IEntity entity = transform.AddComponent<Entity>();
-            entity.Construct(this);
-        }
+        private EntitiesController _entitiesController;
+
+        public EntityFactory(EntitiesController entitiesController) => 
+            _entitiesController = entitiesController;
 
         public void CreateEntity(List<IDestroyedPiece> destroyedPieces, StaticDataEntity staticDataEntity)
         {
@@ -21,6 +20,7 @@ namespace Gameplay.BreakdownSystem
             entity.Construct(this, staticDataEntity);
             entity.SetDestroyedPieces(destroyedPieces);
             gameObjectEntity.AddComponent<Rigidbody>();
+            _entitiesController.AddEntity(entity);
         }
     }
 }

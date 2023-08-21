@@ -18,3 +18,4 @@ MonoBehaviour:
   ForceRotating: -500000
   AnimParameterMove: IsMove
   AnimParameterSpeed: Speed
+  AnimParameterIsDancing: IsDancing

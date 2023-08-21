@@ -11,6 +11,7 @@ namespace Gameplay.BasePlayer
         private readonly Animator _animator;
         private readonly int _hashAnimParameterMove;
         private readonly int _hashAnimParameterSpeed;
+        private readonly int _hashAnimParameterIsDancing;
         
         private bool _isMoving;
 
@@ -22,6 +23,7 @@ namespace Gameplay.BasePlayer
             _animator = animator;
             _hashAnimParameterMove = Animator.StringToHash(_playerSettings.AnimParameterMove);
             _hashAnimParameterSpeed = Animator.StringToHash(_playerSettings.AnimParameterSpeed);
+            _hashAnimParameterIsDancing = Animator.StringToHash(_playerSettings.AnimParameterIsDancing);
         }
 
         public void PlayerMove(float speed)
@@ -41,5 +43,8 @@ namespace Gameplay.BasePlayer
             _animator.SetBool(_hashAnimParameterMove, false);
             _isMoving = false;
         }
+
+        public void PlayerDance(bool isDancing) => 
+            _animator.SetBool(_hashAnimParameterIsDancing, isDancing);
     }
 }

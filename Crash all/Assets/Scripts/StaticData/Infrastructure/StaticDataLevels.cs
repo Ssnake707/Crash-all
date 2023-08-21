@@ -9,6 +9,6 @@ namespace StaticData.Infrastructure
         public int AlwaysLoadLevel = -1;
 #endif
         public int TotalLevels;
-        public Vector3[] SpawnPositionsOnLevel;
+        public DataLevels[] DataLevels;
     }
 }

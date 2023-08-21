@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfd8f1a3d03f1e24fbca6b1d36bc0027
+    m_Address: Virtual Camera player win
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a57ecc96a37e88e4d9eeeddae3dd5457, type: 2}
   m_SchemaSet:

@@ -4,5 +4,6 @@ namespace Gameplay.BasePlayer.Interface
     {
         public void PlayerMove(float speed);
         public void PlayerRotating();
+        void PlayerDance(bool isDancing);
     }
 }
