@@ -1,3 +1,4 @@
+using System.Collections;
 using Gameplay.BasePlayer.Interface;
 using StaticData.Player;
 using UnityEngine;
@@ -29,9 +30,17 @@ namespace Gameplay.BasePlayer
 
         public override void PlayerRotating() => 
             _playerAnimation.PlayerRotating();
+        
+        public override void SetPosition(Vector3 position)
+        {
+            StartCoroutine(WaitLateUpdateAndSetPosition(position));
+        }
 
-        public override void SetPosition(Vector3 position) => 
+        private IEnumerator WaitLateUpdateAndSetPosition(Vector3 position)
+        {
+            yield return new WaitForFixedUpdate();
             _transformPlayer.position = position;
+        }
 
 
         public override void PlayerStartGame() => 
