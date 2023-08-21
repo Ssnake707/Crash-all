@@ -33,6 +33,18 @@ namespace Gameplay.BasePlayer
         public override void SetPosition(Vector3 position) => 
             transform.position = position;
 
+        public override void PlayerWin()
+        {
+            SetCanMove(false);
+            // TODO: play anim for win
+        }
+
+        public override void PlayerStartGame()
+        {
+            SetCanMove(true);
+            // TODO: exit anim for win
+        }
+
         private void FixedUpdate() => 
             _playerMovement.FixedUpdate();
     }

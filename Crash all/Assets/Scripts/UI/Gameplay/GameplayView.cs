@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UI.Gameplay.Interface;
 using UI.WindowController;
@@ -47,9 +46,7 @@ namespace UI.Gameplay
             _gameplayUIAdapter.WinMenuOnHide();
         }
 
-        private void Awake()
-        {
+        private void Awake() => 
             _winMenuView.ButtonContinue.onClick.AddListener(ClickContinueWinMenuHandler);
-        }
     }
 }

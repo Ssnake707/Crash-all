@@ -27,6 +27,7 @@ namespace Infrastructure.Factory
         private IEntitiesController _entitiesController;
         private PlayerMediator _playerMediator;
         private CinemachineVirtualCamera _cameraPlayer;
+        private CinemachineVirtualCamera _cameraPlayerWin;
         private IGameController _gameController;
         private GameObject _mainCanvas;
 
@@ -80,7 +81,9 @@ namespace Infrastructure.Factory
                 ProgressService,
                 _staticDataService.DataLevels,
                 _playerMediator, 
-                _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].TotalCoins);
+                _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].TotalCoins,
+                _cameraPlayer,
+                _cameraPlayerWin);
             _entitiesController.SetGameController(_gameController);
             CreateGameplayUI();
         }
@@ -90,6 +93,12 @@ namespace Infrastructure.Factory
 
         private async Task CreateVirtualCameraPlayer()
         {
+            GameObject cameraPlayerWinPrefab = await AssetProvider.Load<GameObject>(AssetAddress.CameraPlayerWin);
+            _cameraPlayerWin = Object.Instantiate(cameraPlayerWinPrefab).GetComponent<CinemachineVirtualCamera>();
+            _cameraPlayerWin.Follow = _playerMediator.transform;
+            _cameraPlayerWin.LookAt = _playerMediator.transform;
+            _cameraPlayerWin.gameObject.SetActive(false);
+            
             GameObject cameraPlayerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.CameraPlayer);
             _cameraPlayer = Object.Instantiate(cameraPlayerPrefab).GetComponent<CinemachineVirtualCamera>();
             _cameraPlayer.Follow = _playerMediator.transform;

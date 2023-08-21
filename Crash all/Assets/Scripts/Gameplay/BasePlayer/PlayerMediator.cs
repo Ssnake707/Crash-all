@@ -8,8 +8,10 @@ namespace Gameplay.BasePlayer
         public abstract void PlayerMove(float speed);
         public abstract void PlayerRotating();
         public abstract void SetPosition(Vector3 position);
+        public abstract void PlayerWin();
+        public abstract void PlayerStartGame();
 
-        public virtual void SetCanMove(bool canMove) => 
+        protected virtual void SetCanMove(bool canMove) => 
             CanMove = canMove;
     }
 }

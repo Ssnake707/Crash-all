@@ -1,3 +1,4 @@
+using Cinemachine;
 using Gameplay.BasePlayer;
 using Gameplay.Game.Interfaces;
 using Infrastructure.Factory.Interface;
@@ -16,13 +17,19 @@ namespace Gameplay.Game
         private readonly StaticDataLevels _dataLevels;
         private IGameplayUIAdapter _gameplayUIAdapter;
         private readonly float _totalCoinsOnLevel;
+        private CinemachineVirtualCamera _playerCamera;
+        private CinemachineVirtualCamera _playerCameraWin;
 
         public GameController(IMainGameplayFactory mainGameplayFactory,
             IPersistentProgressService progressService,
             StaticDataLevels dataLevels,
             PlayerMediator playerMediator,
-            float totalCoinsOnLevel)
+            float totalCoinsOnLevel,
+            CinemachineVirtualCamera playerCamera,
+            CinemachineVirtualCamera playerCameraWin)
         {
+            _playerCameraWin = playerCameraWin;
+            _playerCamera = playerCamera;
             _totalCoinsOnLevel = totalCoinsOnLevel;
             _dataLevels = dataLevels;
             _progressService = progressService;
@@ -39,10 +46,22 @@ namespace Gameplay.Game
         }
 
         public void StartGame() => 
-            _playerMediator.SetCanMove(true);
+            _playerMediator.PlayerStartGame();
 
-        public void StopGame() =>
-            _playerMediator.SetCanMove(false);
+        public void StopGame() => 
+            _playerMediator.PlayerWin();
+
+        public void ActivateCameraPlayer()
+        {
+            _playerCameraWin.gameObject.SetActive(false);
+            _playerCamera.gameObject.SetActive(true);
+        }
+
+        public void ActivateCameraWin()
+        {
+            _playerCamera.gameObject.SetActive(false);
+            _playerCameraWin.gameObject.SetActive(true);
+        }
 
         public void NextLevel() => 
             _mainGameplayFactory.CreateNewLevel();

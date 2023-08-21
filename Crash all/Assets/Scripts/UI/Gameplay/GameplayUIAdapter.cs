@@ -18,16 +18,25 @@ namespace UI.Gameplay
         public void DestroyPiece(int totalPieces, int totalDestroyedPieces) =>
             _gameplayView.SetProgressBar((float)totalDestroyedPieces / totalPieces);
 
-        public void LevelComplete() =>
+        public void LevelComplete()
+        {
             _gameplayView.LevelComplete();
+            _gameplayUIModel.StopGame();
+            _gameplayUIModel.ActivateCameraWin();
+        }
 
         public void GameplayViewOnShow() =>
             _gameplayUIModel.StartGame();
 
-        public void GameplayViewOnHide() =>
-            _gameplayUIModel.StopGame();
+        public void GameplayViewOnHide()
+        {
+        }
 
-        public void WinMenuOnHide() =>
+
+        public void WinMenuOnHide()
+        {
             _gameplayUIModel.NextLevel();
+            _gameplayUIModel.ActivateCameraPlayer();
+        }
     }
 }
