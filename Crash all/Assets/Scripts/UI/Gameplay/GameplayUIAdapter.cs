@@ -15,16 +15,19 @@ namespace UI.Gameplay
             _gameplayUIModel.SetGameplayUIAdapter(this);
         }
 
-        public void DestroyPiece(int totalPieces, int totalDestroyedPieces) => 
+        public void DestroyPiece(int totalPieces, int totalDestroyedPieces) =>
             _gameplayView.SetProgressBar((float)totalDestroyedPieces / totalPieces);
 
-        public void LevelComplete() => 
+        public void LevelComplete() =>
             _gameplayView.LevelComplete();
 
-        public void GameplayViewOnShow() => 
-            _gameplayUIModel.GameplayViewOnShow();
+        public void GameplayViewOnShow() =>
+            _gameplayUIModel.StartGame();
 
-        public void GameplayViewOnHide() => 
-            _gameplayUIModel.GameplayViewOnHide();
+        public void GameplayViewOnHide() =>
+            _gameplayUIModel.StopGame();
+
+        public void WinMenuOnHide() =>
+            _gameplayUIModel.NextLevel();
     }
 }

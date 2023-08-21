@@ -4,11 +4,7 @@ namespace UI.WindowController
     {
         MainMenu = 0,
         GameplayMenu = 1,
-        GeneralMenu = 2
-    }
-
-    public enum PopUpWindowType
-    {
-        WinMenu = 0
+        GeneralMenu = 2,
+        WinMenu = 3
     }
 }

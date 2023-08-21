@@ -6,5 +6,6 @@ namespace UI.Gameplay.Interface
         void LevelComplete();
         void GameplayViewOnShow();
         void GameplayViewOnHide();
+        void WinMenuOnHide();
     }
 }

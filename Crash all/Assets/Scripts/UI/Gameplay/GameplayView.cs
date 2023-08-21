@@ -1,6 +1,8 @@
+using System;
 using DG.Tweening;
 using UI.Gameplay.Interface;
 using UI.WindowController;
+using UI.WinMenu;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +10,7 @@ namespace UI.Gameplay
 {
     public class GameplayView : BaseWindow, IGameplayView
     {
+        [SerializeField] private WinMenuView _winMenuView;
         [SerializeField] private Slider _progressBar;
         [SerializeField] private float _durationSliderAnim;
         private BaseWindow _mainMenuController;
@@ -21,14 +24,11 @@ namespace UI.Gameplay
             base.Show();
         }
 
-        public override void Hide()
+        public void LevelComplete()
         {
             _gameplayUIAdapter.GameplayViewOnHide();
-            base.Hide();
+            WindowsController.ShowWindow(WindowType.WinMenu);
         }
-
-        public void LevelComplete() => 
-            WindowsController.ShowWindow(WindowType.MainMenu);
 
         public void SetAdapter(IGameplayUIAdapter gameplayUIAdapter) =>
             _gameplayUIAdapter = gameplayUIAdapter;
@@ -39,6 +39,17 @@ namespace UI.Gameplay
                 _tweenSliderValue.Kill();
             
             _tweenSliderValue = _progressBar.DOValue(amount, _durationSliderAnim);
+        }
+
+        private void ClickContinueWinMenuHandler()
+        {
+            WindowsController.ShowWindow(WindowType.MainMenu);
+            _gameplayUIAdapter.WinMenuOnHide();
+        }
+
+        private void Awake()
+        {
+            _winMenuView.ButtonContinue.onClick.AddListener(ClickContinueWinMenuHandler);
         }
     }
 }

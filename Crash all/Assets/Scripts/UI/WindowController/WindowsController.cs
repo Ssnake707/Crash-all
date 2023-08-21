@@ -1,5 +1,3 @@
-using System;
-using UI.Gameplay;
 using UI.WindowController.Interface;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ namespace UI.WindowController
         [SerializeField] private BaseWindow _windowMainMenu;
         [SerializeField] private BaseWindow _windowGameplayMenu;
         [SerializeField] private BaseWindow _windowGeneralMenu;
-        [SerializeField] private BasePopUpWindow _windowWin;
+        [SerializeField] private BaseWindow _windowWin;
 
         private BaseWindow _currentWindow;
         private BasePopUpWindow _currentPopUpWindow;
@@ -38,6 +36,9 @@ namespace UI.WindowController
                 case WindowType.GeneralMenu:
                     _currentWindow = _windowGeneralMenu;
                     break;
+                case WindowType.WinMenu:
+                    _currentWindow = _windowWin;
+                    break;
             }
             
             _currentWindow.Show();
@@ -48,9 +49,6 @@ namespace UI.WindowController
             if (_currentPopUpWindow != null) _currentPopUpWindow.Hide();
             switch (windowType)
             {
-                case PopUpWindowType.WinMenu:
-                    _currentPopUpWindow = _windowWin;
-                    break;
             }
             
             _currentPopUpWindow.Show();

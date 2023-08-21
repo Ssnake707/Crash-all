@@ -38,19 +38,20 @@ namespace Gameplay.Game
                 LevelComplete();
         }
 
-        public void GameplayViewOnShow() =>
+        public void StartGame() => 
             _playerMediator.SetCanMove(true);
 
-        public void GameplayViewOnHide() =>
+        public void StopGame() =>
             _playerMediator.SetCanMove(false);
+
+        public void NextLevel() => 
+            _mainGameplayFactory.CreateNewLevel();
 
         public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) =>
             _gameplayUIAdapter = adapter;
 
-        private void AddCoins(int totalPieces)
-        {
+        private void AddCoins(int totalPieces) => 
             _progressService.Progress.DataPlayers.AddCoins(_totalCoinsOnLevel / totalPieces);
-        }
 
         private void LevelComplete()
         {
@@ -62,7 +63,6 @@ namespace Gameplay.Game
                 _progressService.Progress.DataLevels.CurrentLevel += 1;
 
             _gameplayUIAdapter.LevelComplete();
-            _mainGameplayFactory.CreateNewLevel();
         }
 
         private int RandomNextLevel()
