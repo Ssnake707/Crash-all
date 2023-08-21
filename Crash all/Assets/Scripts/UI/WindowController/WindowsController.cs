@@ -10,8 +10,10 @@ namespace UI.WindowController
         [SerializeField] private BaseWindow _windowMainMenu;
         [SerializeField] private BaseWindow _windowGameplayMenu;
         [SerializeField] private BaseWindow _windowGeneralMenu;
+        [SerializeField] private BasePopUpWindow _windowWin;
 
         private BaseWindow _currentWindow;
+        private BasePopUpWindow _currentPopUpWindow;
 
         private void Awake()
         {
@@ -23,6 +25,7 @@ namespace UI.WindowController
         public void ShowWindow(WindowType windowType)
         {
             if (_currentWindow != null) _currentWindow.Hide();
+            if (_currentPopUpWindow != null) _currentPopUpWindow.Hide();
 
             switch (windowType)
             {
@@ -38,6 +41,19 @@ namespace UI.WindowController
             }
             
             _currentWindow.Show();
+        }
+
+        public void ShowPopUpWindow(PopUpWindowType windowType)
+        {
+            if (_currentPopUpWindow != null) _currentPopUpWindow.Hide();
+            switch (windowType)
+            {
+                case PopUpWindowType.WinMenu:
+                    _currentPopUpWindow = _windowWin;
+                    break;
+            }
+            
+            _currentPopUpWindow.Show();
         }
     }
 }
