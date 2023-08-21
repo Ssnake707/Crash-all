@@ -54,6 +54,7 @@ namespace Infrastructure.Factory
 
         public async void CreateNewLevel()
         {
+            _entitiesController.CleanUp();
             Object.Destroy(_entitiesController.GameObject);
             await CreateLevel();
             SetPositionPlayer();

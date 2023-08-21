@@ -13,6 +13,8 @@ namespace Gameplay.BreakdownSystem
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
 
+        public GameObject GameObject => this.gameObject;
+
         public void Construct(IEntityFactory entityFactory) => 
             _entityFactory = entityFactory;
 
