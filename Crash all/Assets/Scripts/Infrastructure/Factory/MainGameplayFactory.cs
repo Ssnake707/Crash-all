@@ -68,12 +68,10 @@ namespace Infrastructure.Factory
             IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
             windowsController.ShowWindow(WindowType.MainMenu);
         }
-        private void SetPositionPlayer()
-        {
+        private void SetPositionPlayer() =>
             _playerMediator.SetPosition(
                 _staticDataService.DataLevels.DataLevels[
                     ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition);
-        }
 
         private void CreateGameController()
         {
