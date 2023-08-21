@@ -63,8 +63,11 @@ namespace Gameplay.Game
             _playerCameraWin.gameObject.SetActive(true);
         }
 
-        public void NextLevel() => 
+        public void NextLevel()
+        {
+            _playerMediator.PlayerResetAnimation();
             _mainGameplayFactory.CreateNewLevel();
+        }
 
         public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) =>
             _gameplayUIAdapter = adapter;

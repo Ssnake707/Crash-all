@@ -10,6 +10,7 @@ namespace Gameplay.BasePlayer
         public abstract void SetPosition(Vector3 position);
         public abstract void PlayerWin();
         public abstract void PlayerStartGame();
+        public abstract void PlayerResetAnimation();
 
         protected virtual void SetCanMove(bool canMove) => 
             CanMove = canMove;

@@ -31,18 +31,22 @@ namespace Gameplay.BasePlayer
             _playerAnimation.PlayerRotating();
 
         public override void SetPosition(Vector3 position) => 
-            transform.position = position;
+            _transformPlayer.position = position;
+
+
+        public override void PlayerStartGame() => 
+            SetCanMove(true);
+
+        public override void PlayerResetAnimation()
+        {
+            _playerAnimation.PlayerDance(false);
+            _playerAnimation.PlayerMove(0f);
+        }
 
         public override void PlayerWin()
         {
             SetCanMove(false);
-            // TODO: play anim for win
-        }
-
-        public override void PlayerStartGame()
-        {
-            SetCanMove(true);
-            // TODO: exit anim for win
+            _playerAnimation.PlayerDance(true);
         }
 
         private void FixedUpdate() => 
