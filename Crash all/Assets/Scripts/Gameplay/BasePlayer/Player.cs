@@ -31,16 +31,8 @@ namespace Gameplay.BasePlayer
         public override void PlayerRotating() => 
             _playerAnimation.PlayerRotating();
         
-        public override void SetPosition(Vector3 position)
-        {
+        public override void SetPosition(Vector3 position) => 
             StartCoroutine(WaitLateUpdateAndSetPosition(position));
-        }
-
-        private IEnumerator WaitLateUpdateAndSetPosition(Vector3 position)
-        {
-            yield return new WaitForFixedUpdate();
-            _transformPlayer.position = position;
-        }
 
 
         public override void PlayerStartGame() => 
@@ -56,6 +48,12 @@ namespace Gameplay.BasePlayer
         {
             SetCanMove(false);
             _playerAnimation.PlayerDance(true);
+        }
+
+        private IEnumerator WaitLateUpdateAndSetPosition(Vector3 position)
+        {
+            yield return new WaitForFixedUpdate();
+            _transformPlayer.position = position;
         }
 
         private void FixedUpdate() => 
