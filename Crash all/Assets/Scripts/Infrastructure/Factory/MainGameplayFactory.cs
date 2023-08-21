@@ -70,8 +70,8 @@ namespace Infrastructure.Factory
         private void SetPositionPlayer()
         {
             _playerMediator.SetPosition(
-                _staticDataService.DataLevels.SpawnPositionsOnLevel[
-                    ProgressService.Progress.DataLevels.CurrentLevel - 1]);
+                _staticDataService.DataLevels.DataLevels[
+                    ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition);
         }
 
         private void CreateGameController()
@@ -79,8 +79,8 @@ namespace Infrastructure.Factory
             _gameController = new GameController(this,
                 ProgressService,
                 _staticDataService.DataLevels,
-                _entitiesController,
-                _playerMediator);
+                _playerMediator, 
+                _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].TotalCoins);
             _entitiesController.SetGameController(_gameController);
             CreateGameplayUI();
         }
@@ -100,7 +100,7 @@ namespace Infrastructure.Factory
         {
             GameObject playerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.Player);
             _playerMediator = Object.Instantiate(playerPrefab,
-                _staticDataService.DataLevels.SpawnPositionsOnLevel[ProgressService.Progress.DataLevels.CurrentLevel - 1],
+                _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
                 Quaternion.identity).GetComponent<PlayerMediator>();
         }
 

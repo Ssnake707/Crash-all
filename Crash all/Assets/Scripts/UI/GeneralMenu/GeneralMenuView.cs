@@ -17,9 +17,7 @@ namespace UI.GeneralMenu
             ChangeCoinsHandler();
         }
 
-        private void ChangeCoinsHandler()
-        {
+        private void ChangeCoinsHandler() => 
             _textAmountCoins.text = _progressService.Progress.DataPlayers.Coins.ToString("N0");
-        }
     }
 }

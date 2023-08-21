@@ -1,4 +1,3 @@
-using Gameplay.BaseEntitiesController;
 using Gameplay.BasePlayer;
 using Gameplay.Game.Interfaces;
 using Infrastructure.Factory.Interface;
@@ -11,28 +10,29 @@ namespace Gameplay.Game
 {
     public class GameController : IGameController, IGameplayUIModel
     {
-        private readonly IEntitiesController _entitiesController;
         private readonly IMainGameplayFactory _mainGameplayFactory;
         private readonly PlayerMediator _playerMediator;
         private readonly IPersistentProgressService _progressService;
         private readonly StaticDataLevels _dataLevels;
         private IGameplayUIAdapter _gameplayUIAdapter;
+        private readonly float _totalCoinsOnLevel;
 
         public GameController(IMainGameplayFactory mainGameplayFactory,
             IPersistentProgressService progressService,
             StaticDataLevels dataLevels,
-            IEntitiesController entitiesController,
-            PlayerMediator playerMediator)
+            PlayerMediator playerMediator,
+            float totalCoinsOnLevel)
         {
+            _totalCoinsOnLevel = totalCoinsOnLevel;
             _dataLevels = dataLevels;
             _progressService = progressService;
             _playerMediator = playerMediator;
-            _entitiesController = entitiesController;
             _mainGameplayFactory = mainGameplayFactory;
         }
 
         public void DestroyPiece(int totalPieces, int totalDestroyedPieces)
         {
+            AddCoins(totalPieces);
             _gameplayUIAdapter.DestroyPiece(totalPieces, totalDestroyedPieces);
             if (totalDestroyedPieces >= totalPieces)
                 LevelComplete();
@@ -46,6 +46,11 @@ namespace Gameplay.Game
 
         public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) =>
             _gameplayUIAdapter = adapter;
+
+        private void AddCoins(int totalPieces)
+        {
+            _progressService.Progress.DataPlayers.AddCoins(_totalCoinsOnLevel / totalPieces);
+        }
 
         private void LevelComplete()
         {

@@ -5,11 +5,11 @@ namespace Data
     [Serializable]
     public class DataPlayers
     {
-        public int Coins;
+        public float Coins;
 
         public event Action OnChangeCoins;
 
-        public void AddCoins(int amount)
+        public void AddCoins(float amount)
         {
             Coins += amount;
             OnChangeCoins?.Invoke();

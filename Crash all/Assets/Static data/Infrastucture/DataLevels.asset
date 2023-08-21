@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AlwaysLoadLevel: 2
   TotalLevels: 2
-  SpawnPositionsOnLevel:
-  - {x: 0, y: 0.561, z: 0}
-  - {x: 0, y: 0.03, z: 0.22}
+  DataLevels:
+  - TotalCoins: 100
+    SpawnPosition: {x: 0, y: 0.561, z: 0}
+  - TotalCoins: 200
+    SpawnPosition: {x: 0, y: 0.03, z: 0.22}
