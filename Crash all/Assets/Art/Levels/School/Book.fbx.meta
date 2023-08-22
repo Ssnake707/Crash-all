@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a7927b65ed0740d4aafe55e2a1a9be0f
+guid: b02db02b7e61a5849b702d9a286315b3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,33 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blue
-    second: {fileID: 2100000, guid: de1b8cce64c6b374ebb744f60e580069, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: green
-    second: {fileID: 2100000, guid: 6755763769caff342a00464e9f9676fe, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: greenPlastic.001
-    second: {fileID: 2100000, guid: 718ee6d428b96ed4587cb91486af9a0f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: material
-    second: {fileID: 2100000, guid: ae9d4832d81ea0b40b32b67ff4bdd2a9, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: metal
-    second: {fileID: 2100000, guid: 85a518d3605aff8448170068d5183188, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: yellow
-    second: {fileID: 2100000, guid: f2a05067387ccd3498b3eab0a9318072, type: 2}
+      name: School
+    second: {fileID: 2100000, guid: 6552a48c8d29ea54db32f86b32825071, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

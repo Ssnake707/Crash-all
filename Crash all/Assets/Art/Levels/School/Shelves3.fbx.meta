@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7d8a7772faf6f954f8fc27edf119728e
+guid: b4c536d22ee6fd948ac46bc74d94a542
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: opacPlastic
-    second: {fileID: 2100000, guid: b764925d5e8b8d148b43b0c09b43f632, type: 2}
+      name: School
+    second: {fileID: 2100000, guid: 9fb2d00e5cebbec449260cc23b713ed5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
