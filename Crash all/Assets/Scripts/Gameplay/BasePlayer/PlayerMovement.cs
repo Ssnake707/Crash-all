@@ -18,7 +18,7 @@ namespace Gameplay.BasePlayer
             _playerSettings = playerSettings;
             _transformPlayer = transformPlayer;
             _rigidbody = rigidbody;
-            _rigidbody.centerOfMass = centerOfMass.position;
+            _rigidbody.centerOfMass = centerOfMass.localPosition;
             _rigidbody.maxAngularVelocity = _playerSettings.DefaultMaxAngularVelocity;
         }
 
