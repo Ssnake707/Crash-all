@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 34e7770ad5d52004d9b983669a7e1313
+guid: 345d1a7d41aed284d8f90a95d41013e7
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -9,6 +9,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: School
     second: {fileID: 2100000, guid: 9fb2d00e5cebbec449260cc23b713ed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: School.001
+    second: {fileID: 2100000, guid: 9fb2d00e5cebbec449260cc23b713ed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: floor
+    second: {fileID: 2100000, guid: 0d1a263cab536274fa86dae205ad8ff4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

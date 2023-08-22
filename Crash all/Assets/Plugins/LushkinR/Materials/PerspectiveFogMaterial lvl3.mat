@@ -54,7 +54,7 @@ Material:
     m_Floats:
     - BOOLEAN_0107A33C3886411D8E1319901D3A8A0D: 1
     - BOOLEAN_6C4164AC: 0
-    - Vector1_BF525535: 0.6
+    - Vector1_BF525535: 0.8
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
