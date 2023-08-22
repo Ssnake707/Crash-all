@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StudentSeats
   m_EditorClassIdentifier: 
   MinImpulsePlayerForDestroy: 0.1
-  MinImpulseOtherForDestroy: 1
+  MinImpulseOtherForDestroy: 25
   DestroyedPiecesIds:
   - Id: 0
     IdPieces: 020000000300000001000000

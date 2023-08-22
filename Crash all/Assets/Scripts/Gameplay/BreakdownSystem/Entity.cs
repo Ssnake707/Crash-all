@@ -10,6 +10,7 @@ namespace Gameplay.BreakdownSystem
     public class Entity : MonoBehaviour, IEntity
     {
         [SerializeField] private StaticDataEntity _dataEntity;
+        [SerializeField] private Transform _centerOfMass;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
 
@@ -26,6 +27,9 @@ namespace Gameplay.BreakdownSystem
 
         public void InitDestroyedPieces()
         {
+            if (_centerOfMass != null) 
+                transform.GetComponent<Rigidbody>().centerOfMass = _centerOfMass.localPosition;
+            
             _destroyedPieces = new List<IDestroyedPiece>();
             foreach (IDestroyedPiece destroyedPiece in transform.GetComponentsInChildren<IDestroyedPiece>())
                 _destroyedPieces.Add(destroyedPiece);
