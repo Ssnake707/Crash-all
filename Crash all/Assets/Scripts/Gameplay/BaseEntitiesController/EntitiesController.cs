@@ -9,6 +9,7 @@ namespace Gameplay.BaseEntitiesController
     public class EntitiesController : MonoBehaviour, IEntitiesController
     {
         [SerializeField] private Entity[] _entities;
+        [SerializeField] private DestroyedPiece[] _destroyedPiece;
         private readonly List<IEntity> _allEntities = new List<IEntity>();
         private IEntityFactory _entityFactory;
         private int _totalPieces;
@@ -31,7 +32,7 @@ namespace Gameplay.BaseEntitiesController
         
         private void Awake()
         {
-            _totalPieces = 0;
+            _totalPieces = _destroyedPiece.Length;
             _entityFactory = new EntityFactory(this);
             InitEntities();
         }

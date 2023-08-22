@@ -10,38 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad7f773370a101446914a62d0e307d3b, type: 3}
-  m_Name: pin
+  m_Name: Teacher'sDerk
   m_EditorClassIdentifier: 
+  MinImpulsePlayerForDestroy: 0.1
+  MinImpulseOtherForDestroy: 1
   DestroyedPiecesIds:
   - Id: 0
-    IdPieces: 
+    IdPieces: 0500000002000000010000000300000004000000
   - Id: 1
-    IdPieces: 
+    IdPieces: 03000000020000000000000006000000
   - Id: 2
-    IdPieces: 04000000
+    IdPieces: 000000000100000004000000060000000500000003000000
   - Id: 3
-    IdPieces: 
+    IdPieces: 01000000060000000200000000000000
   - Id: 4
-    IdPieces: 02000000
+    IdPieces: 02000000060000000500000000000000
   - Id: 5
-    IdPieces: 
+    IdPieces: 00000000060000000200000004000000
   - Id: 6
-    IdPieces: 
-  - Id: 7
-    IdPieces: 
-  - Id: 8
-    IdPieces: 
-  - Id: 9
-    IdPieces: 
-  - Id: 10
-    IdPieces: 
-  - Id: 11
-    IdPieces: 0c000000
-  - Id: 12
-    IdPieces: 0b000000
-  - Id: 13
-    IdPieces: 
-  - Id: 14
-    IdPieces: 
-  - Id: 15
-    IdPieces: 
+    IdPieces: 0300000004000000020000000500000001000000

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7f773370a101446914a62d0e307d3b, type: 3}
+  m_Name: Teacher'sSeat
+  m_EditorClassIdentifier: 
+  MinImpulsePlayerForDestroy: 0.1
+  MinImpulseOtherForDestroy: 1
+  DestroyedPiecesIds:
+  - Id: 0
+    IdPieces: 030000000400000002000000060000000f000000
+  - Id: 1
+    IdPieces: 0400000005000000
+  - Id: 2
+    IdPieces: 040000000000000003000000
+  - Id: 3
+    IdPieces: 000000000f0000000200000004000000
+  - Id: 4
+    IdPieces: 02000000000000000e00000008000000070000000b000000010000000a0000000d0000000c00000005000000090000000300000006000000
+  - Id: 5
+    IdPieces: 0400000001000000
+  - Id: 6
+    IdPieces: 0f0000000000000004000000
+  - Id: 7
+    IdPieces: 0400000008000000
+  - Id: 8
+    IdPieces: 0400000007000000
+  - Id: 9
+    IdPieces: 04000000
+  - Id: 10
+    IdPieces: 04000000
+  - Id: 11
+    IdPieces: 040000000c000000
+  - Id: 12
+    IdPieces: 040000000b000000
+  - Id: 13
+    IdPieces: 04000000
+  - Id: 14
+    IdPieces: 04000000
+  - Id: 15
+    IdPieces: 060000000300000000000000
