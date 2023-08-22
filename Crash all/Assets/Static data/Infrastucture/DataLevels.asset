@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834725cbf1a15dc49898638743ec784b, type: 3}
   m_Name: DataLevels
   m_EditorClassIdentifier: 
-  AlwaysLoadLevel: 3
+  AlwaysLoadLevel: 2
   TotalLevels: 3
   DataLevels:
   - TotalCoins: 100
