@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Clock
   m_EditorClassIdentifier: 
   MinImpulsePlayerForDestroy: 0.1
-  MinImpulseOtherForDestroy: 1
+  MinImpulseOtherForDestroy: 5
   DestroyedPiecesIds:
   - Id: 0
     IdPieces: 030000000d00000005000000020000000b00000001000000040000000a000000090000000c0000000e000000060000000f0000000800000007000000

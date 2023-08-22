@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chlakboard
   m_EditorClassIdentifier: 
   MinImpulsePlayerForDestroy: 0.1
-  MinImpulseOtherForDestroy: 1
+  MinImpulseOtherForDestroy: 5
   DestroyedPiecesIds:
   - Id: 0
     IdPieces: 01000000

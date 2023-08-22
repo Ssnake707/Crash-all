@@ -11,12 +11,14 @@ using UnityEngine;
 namespace Editor.EntityEditor
 {
     [CustomEditor(typeof(Entity))]
+    [CanEditMultipleObjects]
     public class EntityCreatorEditor : UnityEditor.Editor
     {
         private const string PathStaticDataEntity = "Assets/Static Data/Entity/";
         private const string _pathToEntitySettingsAsset = "Assets/Static data/Entity/EntitySettings.asset";
         private bool _isShowGraph;
         private bool _isShowGraphPlayMode;
+        private Entity[] _entitiesTarget;
 
         public override void OnInspectorGUI()
         {
@@ -34,26 +36,31 @@ namespace Editor.EntityEditor
             DrawGraphFromEntity();
         }
 
+        private void OnEnable() =>
+            _entitiesTarget = targets.Cast<Entity>().ToArray();
+
         private void DrawGraphFromEntity()
         {
             if (!Application.isPlaying) return;
             if (!_isShowGraphPlayMode) return;
 
-            Entity entity = (Entity)target;
-            Color color = Color.green;
-            Color colorEnd = Color.black;
-            float step = 1;
-            foreach (IDestroyedPiece item in entity.GetDestroyedPieces())
+            foreach (Entity entity in _entitiesTarget)
             {
-                Handles.color = Color.Lerp(color, colorEnd, step / entity.GetDestroyedPieces().Count);
-                Handles.DrawWireDisc(item.Transform.position, Vector3.forward, .2f, 2f);
-                Handles.Label(item.Transform.position, item.Id.ToString());
-                
-                foreach (IDestroyedPiece destroyedPiece in item.ConnectedTo)
-                    if (!destroyedPiece.IsDisconnect)
-                        Handles.DrawLine(item.Transform.position, destroyedPiece.Transform.position, 2f);
+                Color color = Color.green;
+                Color colorEnd = Color.black;
+                float step = 1;
+                foreach (IDestroyedPiece item in entity.GetDestroyedPieces())
+                {
+                    Handles.color = Color.Lerp(color, colorEnd, step / entity.GetDestroyedPieces().Count);
+                    Handles.DrawWireDisc(item.Transform.position, Vector3.forward, .2f, 2f);
+                    Handles.Label(item.Transform.position, item.Id.ToString());
 
-                step++;
+                    foreach (IDestroyedPiece destroyedPiece in item.ConnectedTo)
+                        if (!destroyedPiece.IsDisconnect)
+                            Handles.DrawLine(item.Transform.position, destroyedPiece.Transform.position, 2f);
+
+                    step++;
+                }
             }
         }
 
@@ -61,27 +68,30 @@ namespace Editor.EntityEditor
         {
             if (!_isShowGraph) return;
             if (Application.isPlaying) return;
-            Entity entity = (Entity)target;
-            SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
-            StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
-            if (dataEntity == null) return;
-
-            Dictionary<int, Transform> pieces = entity.transform.GetComponentsInChildren<DestroyedPiece>()
-                .ToDictionary((x) => x.Id, (x) => x.transform);
-
-            Color color = Color.green;
-            Color colorEnd = Color.black;
-            float step = 1;
-            foreach (DestroyedPiecesId item in dataEntity.DestroyedPiecesIds)
+            foreach (Entity entity in _entitiesTarget)
             {
-                Handles.color = Color.Lerp(color, colorEnd, step / dataEntity.DestroyedPiecesIds.Length);
-                Transform transform = pieces[item.Id];
-                Handles.DrawWireDisc(transform.position, Vector3.forward, .2f, 2f);
-                Handles.Label(transform.position, item.Id.ToString());
-                foreach (int idPiece in item.IdPieces)
-                    Handles.DrawLine(pieces[item.Id].position, pieces[idPiece].position, 2f);
+                var serializedObj = new SerializedObject(entity);
+                SerializedProperty serializedDataEntity = serializedObj.FindProperty("_dataEntity");
+                StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
+                if (dataEntity == null) return;
 
-                step++;
+                Dictionary<int, Transform> pieces = entity.transform.GetComponentsInChildren<DestroyedPiece>()
+                    .ToDictionary((x) => x.Id, (x) => x.transform);
+
+                Color color = Color.green;
+                Color colorEnd = Color.black;
+                float step = 1;
+                foreach (DestroyedPiecesId item in dataEntity.DestroyedPiecesIds)
+                {
+                    Handles.color = Color.Lerp(color, colorEnd, step / dataEntity.DestroyedPiecesIds.Length);
+                    Transform transform = pieces[item.Id];
+                    Handles.DrawWireDisc(transform.position, Vector3.forward, .2f, 2f);
+                    Handles.Label(transform.position, item.Id.ToString());
+                    foreach (int idPiece in item.IdPieces)
+                        Handles.DrawLine(pieces[item.Id].position, pieces[idPiece].position, 2f);
+
+                    step++;
+                }
             }
         }
 
@@ -92,8 +102,11 @@ namespace Editor.EntityEditor
             GUILayout.Label("Rigid body");
             if (GUILayout.Button("Create"))
             {
-                Entity entity = (Entity)target;
-                entity.transform.AddComponent<Rigidbody>();
+                foreach (Entity entity in _entitiesTarget)
+                {
+                    entity.transform.AddComponent<Rigidbody>();
+                    EditorUtility.SetDirty(entity.transform);
+                }
             }
 
             GUILayout.EndVertical();
@@ -132,8 +145,11 @@ namespace Editor.EntityEditor
             GUILayout.Label("Pieces and id creator");
             if (GUILayout.Button("Create"))
             {
-                Entity entity = (Entity)target;
-                AddDestroyedPiecesToChild(entity);
+                foreach (Entity entity in _entitiesTarget)
+                {
+                    AddDestroyedPiecesToChild(entity);
+                    EditorUtility.SetDirty(entity);
+                }
             }
 
             GUILayout.EndVertical();
@@ -146,8 +162,11 @@ namespace Editor.EntityEditor
             GUILayout.Label("Rename child from id piece");
             if (GUILayout.Button("Rename child"))
             {
-                Entity entity = (Entity)target;
-                RenameChildFromPiecesId(entity);
+                foreach (Entity entity in _entitiesTarget)
+                {
+                    RenameChildFromPiecesId(entity);
+                    EditorUtility.SetDirty(entity);
+                }
             }
 
             GUILayout.EndVertical();
@@ -161,9 +180,11 @@ namespace Editor.EntityEditor
             GUI.enabled = Application.isPlaying;
             if (GUILayout.Button("Create"))
             {
-                Entity entity = (Entity)target;
-                SetDataEntity(entity);
-                FillStaticDataEntity(entity);
+                foreach (Entity entity in _entitiesTarget)
+                {
+                    SetDataEntity(entity);
+                    FillStaticDataEntity(entity);
+                }
             }
 
             GUILayout.EndVertical();
@@ -175,11 +196,13 @@ namespace Editor.EntityEditor
             if (entity.TryGetComponent<Rigidbody>(out Rigidbody rb))
                 Destroy(rb);
 
-            serializedObject.Update();
-            SerializedProperty serializedDataEntity = serializedObject.FindProperty("_dataEntity");
+            SerializedObject serializedObj = new SerializedObject(entity);
+            serializedObj.Update();
+            SerializedProperty serializedDataEntity = serializedObj.FindProperty("_dataEntity");
             StaticDataEntity dataEntity = (StaticDataEntity)serializedDataEntity.objectReferenceValue;
             EntityCreator entityCreator = entity.transform.AddComponent<EntityCreator>();
-            entityCreator.EntitySettings = AssetDatabase.LoadAssetAtPath<StaticDataEntitySettings>(_pathToEntitySettingsAsset);
+            entityCreator.EntitySettings =
+                AssetDatabase.LoadAssetAtPath<StaticDataEntitySettings>(_pathToEntitySettingsAsset);
             entityCreator.FillStaticDataEntity(dataEntity, () =>
             {
                 EditorUtility.SetDirty(dataEntity);
@@ -192,10 +215,11 @@ namespace Editor.EntityEditor
 
         private void SetDataEntity(Entity entity)
         {
-            serializedObject.Update();
-            SerializedProperty dataEntity = serializedObject.FindProperty("_dataEntity");
+            SerializedObject serializedObj = new SerializedObject(entity);
+            serializedObj.Update();
+            SerializedProperty dataEntity = serializedObj.FindProperty("_dataEntity");
             dataEntity.objectReferenceValue = FindOrCreateStaticDataEntity(entity);
-            serializedObject.ApplyModifiedProperties();
+            serializedObj.ApplyModifiedProperties();
         }
 
         private StaticDataEntity FindOrCreateStaticDataEntity(Entity entity)
