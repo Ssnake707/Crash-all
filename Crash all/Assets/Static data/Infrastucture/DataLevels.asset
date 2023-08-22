@@ -20,4 +20,4 @@ MonoBehaviour:
   - TotalCoins: 200
     SpawnPosition: {x: 0, y: 0.03, z: 0.22}
   - TotalCoins: 300
-    SpawnPosition: {x: 12.736, y: 3.67, z: 6.929}
+    SpawnPosition: {x: 0, y: 0, z: 0}
