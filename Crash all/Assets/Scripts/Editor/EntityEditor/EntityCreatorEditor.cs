@@ -129,7 +129,7 @@ namespace Editor.EntityEditor
         {
             EditorGUILayout.Space(15);
             GUILayout.BeginVertical("GroupBox");
-            GUILayout.Label("Components and id creator");
+            GUILayout.Label("Pieces and id creator");
             if (GUILayout.Button("Create"))
             {
                 Entity entity = (Entity)target;
