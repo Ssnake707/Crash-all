@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834725cbf1a15dc49898638743ec784b, type: 3}
   m_Name: DataLevels
   m_EditorClassIdentifier: 
-  AlwaysLoadLevel: 3
-  TotalLevels: 3
+  AlwaysLoadLevel: 4
+  TotalLevels: 4
   DataLevels:
   - TotalCoins: 100
     SpawnPosition: {x: 0, y: 0.561, z: 0}
@@ -21,3 +21,5 @@ MonoBehaviour:
     SpawnPosition: {x: 0, y: 0.03, z: 0.22}
   - TotalCoins: 300
     SpawnPosition: {x: 0, y: 0, z: 0}
+  - TotalCoins: 400
+    SpawnPosition: {x: 2.93, y: 4.864, z: 5.43}
