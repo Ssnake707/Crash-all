@@ -32,7 +32,7 @@ namespace Gameplay.BaseEntitiesController
         
         private void Awake()
         {
-            _totalPieces = 0;
+            _totalPieces = _destroyedPiece.Length;
             _entityFactory = new EntityFactory(this);
             InitEntities();
         }
