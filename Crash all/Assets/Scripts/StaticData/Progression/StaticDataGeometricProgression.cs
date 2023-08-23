@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace StaticData.Progression
 {
-    [CreateAssetMenu(fileName = "GeometricProgression", menuName = "Static data/Progression", order = 0)]
+    // Геометрическая прогрессия предполагает, что каждый следующий уровень или этап требует
+    // умножения предыдущего значения на постоянное значение
+    [CreateAssetMenu(fileName = "GeometricProgression", menuName = "Static data/Progression/Geometric Progression", order = 0)]
     public class StaticDataGeometricProgression : BaseProgression
     {
         //  начальное значение
