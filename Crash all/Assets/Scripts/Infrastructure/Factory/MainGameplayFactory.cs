@@ -35,8 +35,9 @@ namespace Infrastructure.Factory
         public MainGameplayFactory(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
             IAssetProvider assetProvider,
             GameStateMachine stateMachine,
-            IStaticDataService staticDataService) : base(progressService, saveLoadService,
-            assetProvider, stateMachine)
+            IStaticDataService staticDataService,
+            DiContainer diContainer) : base(progressService, saveLoadService,
+            assetProvider, stateMachine, diContainer)
         {
             _staticDataService = staticDataService;
         }
@@ -64,8 +65,7 @@ namespace Infrastructure.Factory
         private async Task CreateCanvas()
         {
             GameObject mainCanvasPrefab = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
-            _mainCanvas = Object.Instantiate(mainCanvasPrefab);
-            _mainCanvas.GetComponent<IGeneralMenuView>().Construct(ProgressService);
+            _mainCanvas = DiContainer.InstantiatePrefab(mainCanvasPrefab);
             IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
             windowsController.ShowWindow(WindowType.MainMenu);
         }
@@ -107,9 +107,9 @@ namespace Infrastructure.Factory
         private async Task CreatePlayer()
         {
             GameObject playerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.Player);
-            _playerMediator = Object.Instantiate(playerPrefab,
+            _playerMediator = DiContainer.InstantiatePrefab(playerPrefab,
                 _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
-                Quaternion.identity).GetComponent<PlayerMediator>();
+                Quaternion.identity, null).GetComponent<PlayerMediator>();
         }
 
         private async Task CreateLevel()
@@ -121,7 +121,7 @@ namespace Infrastructure.Factory
             GameObject levelPrefab =
                 await AssetProvider.Load<GameObject>(
                     $"{AssetAddress.Level}{ProgressService.Progress.DataLevels.CurrentLevel}");
-            _entitiesController = Object.Instantiate(levelPrefab).GetComponent<IEntitiesController>();
+            _entitiesController = DiContainer.InstantiatePrefab(levelPrefab).GetComponent<IEntitiesController>();
         }
     }
 }

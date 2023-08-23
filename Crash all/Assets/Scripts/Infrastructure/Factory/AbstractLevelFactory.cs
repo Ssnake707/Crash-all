@@ -14,6 +14,7 @@ namespace Infrastructure.Factory
         protected IPersistentProgressService ProgressService { get; }
         protected IAssetProvider AssetProvider { get; }
         protected GameStateMachine StateMachine { get; }
+        protected readonly DiContainer DiContainer;
         private List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         private List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
@@ -23,8 +24,9 @@ namespace Infrastructure.Factory
         protected AbstractLevelFactory(IPersistentProgressService progressService,
             ISaveLoadService saveLoadService,
             IAssetProvider assetProvider,
-            GameStateMachine stateMachine)
+            GameStateMachine stateMachine, DiContainer diContainer)
         {
+            DiContainer = diContainer;
             ProgressService = progressService;
             _saveLoadService = saveLoadService;
             AssetProvider = assetProvider;
