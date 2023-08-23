@@ -9,6 +9,9 @@ namespace StaticData.Player
         public float Speed;
         public float SpeedTurn;
         public float DefaultMaxAngularVelocity;
+        public float MaxAngularVelocity;
+        public float DefaultSizeWeapon;
+        public float MaxSizeWeapon;
         public float ForceRotating;
 
         [Header("Animation"), Space(15)] 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using StaticData.Infrastructure;
+using StaticData.Progression;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -11,9 +12,13 @@ namespace Services.StaticData
     {
         private const string StaticDataScenes = "Scenes";
         private const string StaticDataLevels = "DataLevels";
+        private const string StaticDataPriceRotatingSpeed = "Price Size weapon";
+        private const string StaticDataPriceSizeWeapon = "Price Size weapon";
 
         public StaticDataScenes Scenes { get; private set; }
         public StaticDataLevels DataLevels { get; private set; }
+        public BaseProgression DataPriceRotatingSpeed { get; private set; }
+        public BaseProgression DataPriceSizeWeapon { get; private set; }
 
         public async Task LoadAsync()
         {
@@ -32,8 +37,15 @@ namespace Services.StaticData
 
             await LoadAssetAsync<StaticDataScenes>(StaticDataScenes,
                 completed => Scenes = completed.Result);
+            
             await LoadAssetAsync<StaticDataLevels>(StaticDataLevels,
                 completed => DataLevels = completed.Result);
+            
+            await LoadAssetAsync<BaseProgression>(StaticDataPriceRotatingSpeed,
+                completed => DataPriceRotatingSpeed = completed.Result);
+            
+            await LoadAssetAsync<BaseProgression>(StaticDataPriceSizeWeapon,
+                completed => DataPriceSizeWeapon = completed.Result);
         }
 
         private Task<T> LoadAssetAsync<T>(string address, Action<AsyncOperationHandle<T>> onCompleted) where T : class

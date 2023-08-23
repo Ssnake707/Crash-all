@@ -48,7 +48,9 @@ namespace Infrastructure.States
                 },
                 DataPlayers = new DataPlayers()
                 {
-                    Coins = 0
+                    Coins = 0,
+                    LevelRotatingSpeed = 1,
+                    LevelSizeWeapon = 1
                 }
             };
     }

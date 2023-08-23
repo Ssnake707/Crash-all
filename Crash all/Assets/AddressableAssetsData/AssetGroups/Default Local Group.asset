@@ -67,6 +67,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d34f765fef265fe4a941ffe8d883f2f4
+    m_Address: Price Size weapon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30c9c376a78e77545b751a437dfde088
+    m_Address: Price Rotating speed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a57ecc96a37e88e4d9eeeddae3dd5457, type: 2}
   m_SchemaSet:
