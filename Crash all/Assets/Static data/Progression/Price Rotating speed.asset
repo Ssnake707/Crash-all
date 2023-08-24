@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5a704ad368fee44a1a2e8754619994, type: 3}
   m_Name: Price Rotating speed
   m_EditorClassIdentifier: 
-  MaxLevel: 0
-  InitialValue: 0
-  ProgressionCoefficient: 0
+  MaxLevel: 10
+  InitialValue: 1
+  ProgressionCoefficient: 1.5

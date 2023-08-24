@@ -15,11 +15,20 @@ namespace UI.MainMenu
         [SerializeField] private DOTweenSequenceController _idleTweenController;
         [SerializeField] private DOTweenSequenceController _failTweenController;
 
-        public void SetTextLevel(int level) => 
-            _textLevel.text = $"level {level}";
-
-        public void SetTextPrice(float price) => 
-            _textPrice.text = price.ToString("N0");
+        public void SetText(int level, int maxLevel, float price)
+        {
+            if (level == maxLevel)
+            {
+                _textLevel.text = "Max";
+                _textPrice.text = "";
+            }
+            else
+            {
+                _textLevel.text = $"level {level}";
+                _textPrice.text = price.ToString("N0");
+            }
+        }
+            
 
         public void PlayIdleAnimation()
         {

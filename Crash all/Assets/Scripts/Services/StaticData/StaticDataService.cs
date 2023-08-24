@@ -12,7 +12,7 @@ namespace Services.StaticData
     {
         private const string StaticDataScenes = "Scenes";
         private const string StaticDataLevels = "DataLevels";
-        private const string StaticDataPriceRotatingSpeed = "Price Size weapon";
+        private const string StaticDataPriceRotatingSpeed = "Price Rotating speed";
         private const string StaticDataPriceSizeWeapon = "Price Size weapon";
 
         public StaticDataScenes Scenes { get; private set; }

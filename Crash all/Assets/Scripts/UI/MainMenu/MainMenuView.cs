@@ -22,6 +22,8 @@ namespace UI.MainMenu
             _progressService = progressService;
             _buttonUpgradeRotatingSpeed.Button.onClick.AddListener(ClickBuyRotatingSpeedHandler);
             _buttonUpgradeSizeWeapon.Button.onClick.AddListener(ClickBuySizeWeaponHandler);
+            UpdateButtonSizeWeapon();
+            UpdateButtonRotatingSpeed();
         }
 
         public void SetAdapter(MainMenuAdapter adapter) => 
@@ -29,8 +31,12 @@ namespace UI.MainMenu
 
         private void ClickBuySizeWeaponHandler()
         {
-            float price = _staticDataService.DataPriceSizeWeapon
-                .GetValue(_progressService.Progress.DataPlayers.LevelSizeWeapon + 1);
+            if (_progressService.Progress.DataPlayers.LevelSizeWeapon 
+                == _staticDataService.DataPriceSizeWeapon.MaxLevel) return;
+            
+            float price = Mathf.RoundToInt(_staticDataService.DataPriceSizeWeapon
+                .GetValue(_progressService.Progress.DataPlayers.LevelSizeWeapon + 1));
+            
             if (price > _progressService.Progress.DataPlayers.Coins)
             {
                 // fail
@@ -48,8 +54,11 @@ namespace UI.MainMenu
 
         private void ClickBuyRotatingSpeedHandler()
         {
-            float price = _staticDataService.DataPriceRotatingSpeed
-                .GetValue(_progressService.Progress.DataPlayers.LevelRotatingSpeed + 1);
+            if (_progressService.Progress.DataPlayers.LevelRotatingSpeed 
+                == _staticDataService.DataPriceRotatingSpeed.MaxLevel) return;
+            
+            float price = Mathf.RoundToInt(_staticDataService.DataPriceRotatingSpeed
+                .GetValue(_progressService.Progress.DataPlayers.LevelRotatingSpeed + 1));
             if (price > _progressService.Progress.DataPlayers.Coins)
             {
                 // fail
@@ -65,19 +74,17 @@ namespace UI.MainMenu
             }
         }
 
-        private void UpdateButtonSizeWeapon()
-        {
-            _buttonUpgradeSizeWeapon.SetTextLevel(_progressService.Progress.DataPlayers.LevelSizeWeapon);
-            _buttonUpgradeSizeWeapon.SetTextPrice(_staticDataService.DataPriceSizeWeapon
-                .GetValue(_progressService.Progress.DataPlayers.LevelSizeWeapon + 1));
-        }
+        private void UpdateButtonSizeWeapon() =>
+            _buttonUpgradeSizeWeapon.SetText(_progressService.Progress.DataPlayers.LevelSizeWeapon,
+                _staticDataService.DataPriceSizeWeapon.MaxLevel,
+                _staticDataService.DataPriceSizeWeapon
+                    .GetValue(_progressService.Progress.DataPlayers.LevelSizeWeapon + 1));
 
-        private void UpdateButtonRotatingSpeed()
-        {
-            _buttonUpgradeRotatingSpeed.SetTextLevel(_progressService.Progress.DataPlayers.LevelRotatingSpeed);
-            _buttonUpgradeRotatingSpeed.SetTextPrice(_staticDataService.DataPriceRotatingSpeed
-                .GetValue(_progressService.Progress.DataPlayers.LevelRotatingSpeed + 1));
-        }
+        private void UpdateButtonRotatingSpeed() =>
+            _buttonUpgradeRotatingSpeed.SetText(_progressService.Progress.DataPlayers.LevelRotatingSpeed,
+                _staticDataService.DataPriceRotatingSpeed.MaxLevel,
+                _staticDataService.DataPriceRotatingSpeed
+                    .GetValue(_progressService.Progress.DataPlayers.LevelRotatingSpeed + 1));
 
         private void StartGame() => 
             WindowsController.ShowWindow(WindowType.GameplayMenu);
