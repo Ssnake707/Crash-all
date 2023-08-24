@@ -19,7 +19,7 @@ using Zenject;
 
 namespace Infrastructure.Factory
 {
-    public class MainGameplayFactory : AbstractLevelFactory, IMainGameplayFactory
+    public sealed class MainGameplayFactory : AbstractLevelFactory, IMainGameplayFactory
     {
         private readonly IStaticDataService _staticDataService;
         
@@ -35,10 +35,13 @@ namespace Infrastructure.Factory
             IAssetProvider assetProvider,
             GameStateMachine stateMachine,
             IStaticDataService staticDataService,
-            DiContainer diContainer) : base(progressService, saveLoadService,
-            assetProvider, stateMachine, diContainer)
+            DiContainer diContainer,
+            ICoroutineRunner coroutineRunner) : base(progressService, saveLoadService,
+            assetProvider, stateMachine, diContainer, coroutineRunner)
         {
             _staticDataService = staticDataService;
+            WarmUp();
+            Init();
         }
 
         public override async void Init()
@@ -49,7 +52,7 @@ namespace Infrastructure.Factory
             await CreateVirtualCameraPlayer();
             CreateGameController();
 
-            StateMachine.Enter<GameLoopState>();
+            StateMachine.Enter<MainGameLoopState, ILevelFactory>(this);
         }
 
         public async void CreateNewLevel()

@@ -14,20 +14,20 @@ namespace Infrastructure.States
         public GameStateMachine(BootstrapState bootstrapState,
             LoadProgressState loadProgressState,
             LoadLevelState loadLevelState,
-            GameLoopState gameLoopState,
+            MainGameLoopState mainGameLoopState,
             InitSDKState initSDKState)
         {
             bootstrapState.Init(this);
             loadProgressState.Init(this);
             loadLevelState.Init(this);
-            gameLoopState.Init(this);
+            mainGameLoopState.Init(this);
             initSDKState.Init(this);
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = bootstrapState,
                 [typeof(LoadProgressState)] = loadProgressState,
                 [typeof(LoadLevelState)] = loadLevelState,
-                [typeof(GameLoopState)] = gameLoopState,
+                [typeof(MainGameLoopState)] = mainGameLoopState,
                 [typeof(InitSDKState)] = initSDKState
             };
 

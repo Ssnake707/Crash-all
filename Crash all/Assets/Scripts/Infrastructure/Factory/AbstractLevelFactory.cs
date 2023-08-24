@@ -19,18 +19,23 @@ namespace Infrastructure.Factory
         
         protected readonly DiContainer DiContainer;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly ICoroutineRunner _coroutineRunner;
 
         [Inject]
         protected AbstractLevelFactory(IPersistentProgressService progressService,
             ISaveLoadService saveLoadService,
             IAssetProvider assetProvider,
-            GameStateMachine stateMachine, DiContainer diContainer)
+            GameStateMachine stateMachine, 
+            DiContainer diContainer,
+            ICoroutineRunner coroutineRunner)
         {
+            _coroutineRunner = coroutineRunner;
             DiContainer = diContainer;
             ProgressService = progressService;
             _saveLoadService = saveLoadService;
             AssetProvider = assetProvider;
             StateMachine = stateMachine;
+            _coroutineRunner.OnDestroyEvent += OnDestroyHandler;
         }
 
         public abstract void Init();
@@ -50,6 +55,12 @@ namespace Infrastructure.Factory
         public virtual void SaveProgress() =>
             _saveLoadService.SaveProgress(ProgressWriters);
 
+        private void OnDestroyHandler()
+        {
+            _coroutineRunner.OnDestroyEvent -= OnDestroyHandler;
+            SaveProgress();
+        }
+        
         protected void Register<T>(T registerObject)
         {
             if (registerObject is ISavedProgress progressWriter)
