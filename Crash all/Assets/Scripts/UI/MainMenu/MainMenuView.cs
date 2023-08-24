@@ -40,14 +40,13 @@ namespace UI.MainMenu
             if (price > _progressService.Progress.DataPlayers.Coins)
             {
                 // fail
-                _buttonUpgradeSizeWeapon.PlayFailAnimation();
             }
             else
             {
                 // succes
                 _progressService.Progress.DataPlayers.AddCoins(-price);
                 _progressService.Progress.DataPlayers.AddLevelSizeWeapon(1);
-                // _adapter.UpgradeSizeWeapon(_progressService.Progress.DataPlayers.LevelSizeWeapon);
+                // _adapter.UpgradeSizeWeapon(_progressService.Progress.DataPlayers.LevelSizeWeapon, _staticDataService.DataPriceSizeWeapon.MaxLevel);
                 UpdateButtonSizeWeapon();
             }
         }
@@ -62,14 +61,13 @@ namespace UI.MainMenu
             if (price > _progressService.Progress.DataPlayers.Coins)
             {
                 // fail
-                _buttonUpgradeRotatingSpeed.PlayFailAnimation();
             }
             else
             {
                 // succes
                 _progressService.Progress.DataPlayers.AddCoins(-price);
                 _progressService.Progress.DataPlayers.AddLevelRotatingSpeed(1);
-                // _adapter.UpgradeRotatingSpeed(_progressService.Progress.DataPlayers.LevelSizeWeapon);
+                // _adapter.UpgradeRotatingSpeed(_progressService.Progress.DataPlayers.LevelSizeWeapon, _staticDataService.DataPriceRotatingSpeed.MaxLevel);
                 UpdateButtonRotatingSpeed();
             }
         }

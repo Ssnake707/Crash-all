@@ -12,7 +12,6 @@ using Services.SaveLoad;
 using Services.StaticData;
 using UI.Gameplay;
 using UI.Gameplay.Interface;
-using UI.GeneralMenu.Interface;
 using UI.WindowController;
 using UI.WindowController.Interface;
 using UnityEngine;

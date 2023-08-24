@@ -14,10 +14,10 @@ namespace Infrastructure.Factory
         protected IPersistentProgressService ProgressService { get; }
         protected IAssetProvider AssetProvider { get; }
         protected GameStateMachine StateMachine { get; }
-        protected readonly DiContainer DiContainer;
         private List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         private List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
-
+        
+        protected readonly DiContainer DiContainer;
         private readonly ISaveLoadService _saveLoadService;
 
         [Inject]

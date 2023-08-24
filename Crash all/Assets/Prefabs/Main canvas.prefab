@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 8250398055152575790}
   - component: {fileID: 8156943749201212345}
   - component: {fileID: 6334005915794091797}
+  - component: {fileID: 218653907872515357}
   m_Layer: 5
   m_Name: Button rotating
   m_TagString: Untagged
@@ -240,6 +241,43 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &218653907872515357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110823164008705774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850bb4486c389694480c5b7906f980f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linkGameObject: {fileID: 110823164008705774}
+  _isPlayOnAwake: 1
+  _sequenceLoopsSettings:
+    LoopType: 1
+    CountLoops: -1
+  _sequenceUpdateSettings:
+    UpdateType: 0
+    IgnoreTimeScale: 1
+  _tweens:
+  - rid: 9047375963411447808
+  references:
+    version: 2
+    RefIds:
+    - rid: 9047375963411447808
+      type: {class: TweenTransformScale, ns: DOTweenHelper.Runtime.Tweens.TransformTweens,
+        asm: com.fmore.dotweenhelper}
+      data:
+        TypeTweenName: Transform scale
+        _tweenSettings:
+          TweenAddType: 0
+          Ease: 1
+          Delay: 0
+        _target: {fileID: 8097012545626841421}
+        _to: {x: 1.05, y: 1.05, z: 1.05}
+        _duration: 0.5
 --- !u!1 &591259454216898475
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,13 +708,11 @@ MonoBehaviour:
     _textLevel: {fileID: 4897301324302605528}
     _textPrice: {fileID: 2457497827878460638}
     _idleTweenController: {fileID: 0}
-    _failTweenController: {fileID: 0}
   _buttonUpgradeSizeWeapon:
     Button: {fileID: 8756349553930395058}
     _textLevel: {fileID: 1219550155362696909}
     _textPrice: {fileID: 2475225437676379043}
     _idleTweenController: {fileID: 0}
-    _failTweenController: {fileID: 0}
 --- !u!114 &9022671571554907178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,7 +1535,7 @@ RectTransform:
   m_GameObject: {fileID: 2592293480159148346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3168652374834892418}
@@ -3107,6 +3143,7 @@ GameObject:
   - component: {fileID: 860351774789634686}
   - component: {fileID: 8348609645875561888}
   - component: {fileID: 8756349553930395058}
+  - component: {fileID: 2842036433261405482}
   m_Layer: 5
   m_Name: Button size
   m_TagString: Untagged
@@ -3220,6 +3257,43 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2842036433261405482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8818408474986274140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 850bb4486c389694480c5b7906f980f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _linkGameObject: {fileID: 8818408474986274140}
+  _isPlayOnAwake: 1
+  _sequenceLoopsSettings:
+    LoopType: 1
+    CountLoops: -1
+  _sequenceUpdateSettings:
+    UpdateType: 0
+    IgnoreTimeScale: 1
+  _tweens:
+  - rid: 9047375963411447812
+  references:
+    version: 2
+    RefIds:
+    - rid: 9047375963411447812
+      type: {class: TweenTransformScale, ns: DOTweenHelper.Runtime.Tweens.TransformTweens,
+        asm: com.fmore.dotweenhelper}
+      data:
+        TypeTweenName: Transform scale
+        _tweenSettings:
+          TweenAddType: 0
+          Ease: 1
+          Delay: 0
+        _target: {fileID: 529015771472432634}
+        _to: {x: 1.05, y: 1.05, z: 1.05}
+        _duration: 0.5
 --- !u!1001 &1960357812939865860
 PrefabInstance:
   m_ObjectHideFlags: 0
