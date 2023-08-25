@@ -22,6 +22,7 @@ namespace UI.MainMenu
             _progressService = progressService;
             _buttonUpgradeRotatingSpeed.Button.onClick.AddListener(ClickBuyRotatingSpeedHandler);
             _buttonUpgradeSizeWeapon.Button.onClick.AddListener(ClickBuySizeWeaponHandler);
+            _progressService.Progress.DataPlayers.OnChangeCoins += ChangeCoinsHandler;
             UpdateButtonSizeWeapon();
             UpdateButtonRotatingSpeed();
         }
@@ -72,21 +73,34 @@ namespace UI.MainMenu
             }
         }
 
-        private void UpdateButtonSizeWeapon() =>
+        private void UpdateButtonSizeWeapon()
+        {
+            float price = _staticDataService.DataPriceSizeWeapon
+                .GetValue(_progressService.Progress.DataPlayers.LevelSizeWeapon + 1);
+            
             _buttonUpgradeSizeWeapon.SetText(_progressService.Progress.DataPlayers.LevelSizeWeapon,
-                _staticDataService.DataPriceSizeWeapon.MaxLevel,
-                _staticDataService.DataPriceSizeWeapon
-                    .GetValue(_progressService.Progress.DataPlayers.LevelSizeWeapon + 1));
+                _staticDataService.DataPriceSizeWeapon.MaxLevel, price);
+            _buttonUpgradeSizeWeapon.SetInteractable(price <= _progressService.Progress.DataPlayers.Coins);
+        }
 
-        private void UpdateButtonRotatingSpeed() =>
+        private void UpdateButtonRotatingSpeed()
+        {
+            float price = _staticDataService.DataPriceRotatingSpeed
+                .GetValue(_progressService.Progress.DataPlayers.LevelRotatingSpeed + 1);
             _buttonUpgradeRotatingSpeed.SetText(_progressService.Progress.DataPlayers.LevelRotatingSpeed,
-                _staticDataService.DataPriceRotatingSpeed.MaxLevel,
-                _staticDataService.DataPriceRotatingSpeed
-                    .GetValue(_progressService.Progress.DataPlayers.LevelRotatingSpeed + 1));
+                _staticDataService.DataPriceRotatingSpeed.MaxLevel, price);
+            _buttonUpgradeRotatingSpeed.SetInteractable(price <= _progressService.Progress.DataPlayers.Coins);
+        }
 
         private void StartGame() => 
             WindowsController.ShowWindow(WindowType.GameplayMenu);
 
+        private void ChangeCoinsHandler()
+        {
+            UpdateButtonSizeWeapon();
+            UpdateButtonRotatingSpeed();
+        }
+        
         private void Update()
         {
             if (!IsShow) return;

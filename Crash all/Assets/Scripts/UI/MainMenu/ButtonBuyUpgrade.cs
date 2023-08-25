@@ -14,12 +14,16 @@ namespace UI.MainMenu
         [SerializeField] private TMP_Text _textPrice;
         [SerializeField] private DOTweenSequenceController _idleTweenController;
 
+        private bool _isMaxLevel = false;
+
         public void SetText(int level, int maxLevel, float price)
         {
             if (level == maxLevel)
             {
                 _textLevel.text = "Max";
                 _textPrice.text = "";
+                _isMaxLevel = true;
+                PauseIdleAnimation();
             }
             else
             {
@@ -27,12 +31,25 @@ namespace UI.MainMenu
                 _textPrice.text = price.ToString("N0");
             }
         }
-            
 
-        public void PlayIdleAnimation()
+        public void SetInteractable(bool isInteractable)
         {
-            if (_idleTweenController != null)
-                _idleTweenController.Play();
+            Button.interactable = isInteractable;
+            if (_idleTweenController == null) return;
+            
+            if (isInteractable) 
+                PlayIdleAnimation();
+            else
+                PauseIdleAnimation();
         }
+
+        private void PlayIdleAnimation()
+        {
+            if (_isMaxLevel) return;
+            _idleTweenController.Play();
+        }
+
+        private void PauseIdleAnimation() => 
+            _idleTweenController.GoTo(0f, false);
     }
 }

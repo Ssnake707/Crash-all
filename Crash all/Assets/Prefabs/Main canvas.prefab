@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _linkGameObject: {fileID: 94698662610752384}
   _isPlayOnAwake: 1
+  _isAutoKill: 0
   _sequenceLoopsSettings:
     LoopType: 0
     CountLoops: -1
@@ -222,7 +223,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -254,7 +255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linkGameObject: {fileID: 110823164008705774}
-  _isPlayOnAwake: 1
+  _isPlayOnAwake: 0
+  _isAutoKill: 0
   _sequenceLoopsSettings:
     LoopType: 1
     CountLoops: -1
@@ -707,12 +709,12 @@ MonoBehaviour:
     Button: {fileID: 6334005915794091797}
     _textLevel: {fileID: 4897301324302605528}
     _textPrice: {fileID: 2457497827878460638}
-    _idleTweenController: {fileID: 0}
+    _idleTweenController: {fileID: 218653907872515357}
   _buttonUpgradeSizeWeapon:
     Button: {fileID: 8756349553930395058}
     _textLevel: {fileID: 1219550155362696909}
     _textPrice: {fileID: 2475225437676379043}
-    _idleTweenController: {fileID: 0}
+    _idleTweenController: {fileID: 2842036433261405482}
 --- !u!114 &9022671571554907178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2428,6 +2430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _linkGameObject: {fileID: 5867717787426912201}
   _isPlayOnAwake: 1
+  _isAutoKill: 0
   _sequenceLoopsSettings:
     LoopType: 1
     CountLoops: -1
@@ -2768,6 +2771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _linkGameObject: {fileID: 6347480193397318706}
   _isPlayOnAwake: 1
+  _isAutoKill: 0
   _sequenceLoopsSettings:
     LoopType: 1
     CountLoops: -1
@@ -3238,7 +3242,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3270,7 +3274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linkGameObject: {fileID: 8818408474986274140}
-  _isPlayOnAwake: 1
+  _isPlayOnAwake: 0
+  _isAutoKill: 0
   _sequenceLoopsSettings:
     LoopType: 1
     CountLoops: -1
