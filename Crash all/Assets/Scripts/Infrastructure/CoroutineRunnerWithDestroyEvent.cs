@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Infrastructure
 {
-    public class CoroutineRunner : MonoBehaviour, ICoroutineRunner
+    public class CoroutineRunnerWithDestroyEvent : MonoBehaviour, ICoroutineRunnerWithDestroyEvent
     {
         public event Action OnDestroyEvent;
         private void Awake() => 

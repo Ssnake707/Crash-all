@@ -80,7 +80,8 @@ MonoBehaviour:
   - m_GUID: fb756da9d3b519a4996d388e0b136748
     m_Address: Static data Sword
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Weapon
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bb1e2d5da3d87e245b16aed0ddd9831d
     m_Address: Sword

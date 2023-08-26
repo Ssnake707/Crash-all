@@ -10,7 +10,7 @@ namespace Infrastructure.States
     {
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
-        private readonly ICoroutineRunner _coroutineRunner;
+        private readonly ICoroutineRunnerWithDestroyEvent _coroutineRunnerWithDestroyEvent;
         private GameStateMachine _stateMachine;
 
         [Inject]
@@ -49,6 +49,7 @@ namespace Infrastructure.States
                 DataPlayers = new DataPlayers()
                 {
                     Coins = 0,
+                    IdWeapon = 0,
                     LevelRotatingSpeed = 1,
                     LevelSizeWeapon = 1
                 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5338310020945716865}
   - component: {fileID: 2984959846452461764}
   - component: {fileID: 3371506084209159541}
-  - component: {fileID: 5027525605204514382}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -100,26 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSettings: {fileID: 11400000, guid: f083755bf795c884bb2a7146654a686c, type: 2}
-  _playerWeapon: {fileID: 5027525605204514382}
+  _handForWeapon: {fileID: 5876492298462055266}
   _rigidbody: {fileID: 2984959846452461764}
   _centerOfMass: {fileID: 8009328567739838465}
   _transformPlayer: {fileID: 1158622415340399290}
   _animator: {fileID: 1639320298933299842}
---- !u!114 &5027525605204514382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607527099693456587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a85e25e1881ff64da41ddde19a14c3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dataWeapon: {fileID: 11400000, guid: fb756da9d3b519a4996d388e0b136748, type: 2}
-  _handForWeapon: {fileID: 5876492298462055266}
-  _durationAnimSize: 1
 --- !u!1 &6367832636140574682
 GameObject:
   m_ObjectHideFlags: 0

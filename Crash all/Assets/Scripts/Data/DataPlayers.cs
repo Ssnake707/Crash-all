@@ -7,6 +7,7 @@ namespace Data
     public class DataPlayers
     {
         public float Coins;
+        public int IdWeapon;
         public int LevelRotatingSpeed;
         public int LevelSizeWeapon;
 

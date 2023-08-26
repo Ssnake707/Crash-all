@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using StaticData.Infrastructure;
 using StaticData.Progression;
+using StaticData.Weapon;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -14,11 +16,13 @@ namespace Services.StaticData
         private const string StaticDataLevels = "DataLevels";
         private const string StaticDataPriceRotatingSpeed = "Price Rotating speed";
         private const string StaticDataPriceSizeWeapon = "Price Size weapon";
+        private const string StaticDataWeapons = "Weapon";
 
         public StaticDataScenes Scenes { get; private set; }
         public StaticDataLevels DataLevels { get; private set; }
         public BaseProgression DataPriceRotatingSpeed { get; private set; }
         public BaseProgression DataPriceSizeWeapon { get; private set; }
+        public Dictionary<int, StaticDataWeapon> DataWeapons { get; private set; }
 
         public async Task LoadAsync()
         {
@@ -29,11 +33,14 @@ namespace Services.StaticData
             */
             // example load identical type static data with use label
             /*
-             await LoadAssetsAsync<StaticDataTest>(Label, objects =>
-            {
-                _dictionaryTests = objects.Result.ToDictionary(x => x.Id, x => x);
-            });
+            await LoadAssetsAsync<StaticDataWeapon>(label,
+                completed => _dataWeapons = completed.Result.ToDictionary(
+                    x => x.Id, x => x)); 
             */
+            
+            await LoadAssetsAsync<StaticDataWeapon>(StaticDataWeapons,
+                completed => DataWeapons = completed.Result.ToDictionary(
+                    x => x.Id, x => x));
 
             await LoadAssetAsync<StaticDataScenes>(StaticDataScenes,
                 completed => Scenes = completed.Result);

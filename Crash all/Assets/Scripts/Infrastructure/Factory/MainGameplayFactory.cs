@@ -38,8 +38,8 @@ namespace Infrastructure.Factory
             GameStateMachine stateMachine,
             IStaticDataService staticDataService,
             DiContainer diContainer,
-            ICoroutineRunner coroutineRunner) : base(progressService, saveLoadService,
-            assetProvider, stateMachine, diContainer, coroutineRunner)
+            ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent) : base(progressService, saveLoadService,
+            assetProvider, stateMachine, diContainer, coroutineRunnerWithDestroyEvent)
         {
             _staticDataService = staticDataService;
             WarmUp();
@@ -115,7 +115,7 @@ namespace Infrastructure.Factory
             _playerMediator = DiContainer.InstantiatePrefab(playerPrefab,
                 _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
                 Quaternion.identity, null).GetComponent<PlayerMediator>();
-            await _playerMediator.InitPlayer();
+            await _playerMediator.InitPlayer(AssetProvider, _staticDataService.DataWeapons[ProgressService.Progress.DataPlayers.IdWeapon]);
         }
 
         private async Task CreateLevel()

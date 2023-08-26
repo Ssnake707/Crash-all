@@ -2,7 +2,9 @@ using System.Collections;
 using System.Threading.Tasks;
 using Gameplay.BasePlayer.BaseWeapon;
 using Gameplay.BasePlayer.Interface;
+using Infrastructure.AssetManagement;
 using StaticData.Player;
+using StaticData.Weapon;
 using UnityEngine;
 
 namespace Gameplay.BasePlayer
@@ -12,20 +14,27 @@ namespace Gameplay.BasePlayer
         public StaticDataPlayerSettings PlayerSettings => _playerSettings;
         
         [SerializeField] private StaticDataPlayerSettings _playerSettings;
-        [SerializeField] private PlayerWeapon _playerWeapon;
+        [SerializeField] private Transform _handForWeapon;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Transform _centerOfMass;
         [SerializeField] private Transform _transformPlayer;
         [SerializeField] private Animator _animator;
-        
+
         private IPlayerMovement _playerMovement;
         private IPlayerAnimation _playerAnimation;
         private bool _isCanMove;
+        private PlayerWeapon _playerWeapon;
 
         private void Awake()
         {
             _playerMovement = new PlayerMovement(this, _playerSettings, _transformPlayer, _rigidbody, _centerOfMass);
             _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
+        }
+
+        public override async Task InitPlayer(IAssetProvider assetProvider, StaticDataWeapon dataWeapon)
+        {
+            _playerWeapon = new PlayerWeapon(assetProvider, this, dataWeapon, _handForWeapon);
+            await CreateWeapon();
         }
 
         public override void SetRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isEffects)
@@ -40,7 +49,7 @@ namespace Gameplay.BasePlayer
             if (isEffects)
             {
                 _playerWeapon.AddSize(levelSizeWeapon, maxLevelSizeWeapon, 
-                    _playerSettings.DefaultSizeWeapon, _playerSettings.MaxSizeWeapon);
+                    _playerSettings.DefaultSizeWeapon, _playerSettings.MaxSizeWeapon, _playerSettings.DurationAnimSize);
             }
             else
             {

@@ -19,6 +19,7 @@ namespace StaticData.Player
 
         [Space(10)]
         [Header("Animation")] 
+        public float DurationAnimSize;
         public string AnimParameterMove;
         public string AnimParameterSpeed;
         public string AnimParameterIsDancing;

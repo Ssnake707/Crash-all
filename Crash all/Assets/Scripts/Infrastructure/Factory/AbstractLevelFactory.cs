@@ -19,7 +19,7 @@ namespace Infrastructure.Factory
         
         protected readonly DiContainer DiContainer;
         private readonly ISaveLoadService _saveLoadService;
-        private readonly ICoroutineRunner _coroutineRunner;
+        private readonly ICoroutineRunnerWithDestroyEvent _coroutineRunnerWithDestroyEvent;
 
         [Inject]
         protected AbstractLevelFactory(IPersistentProgressService progressService,
@@ -27,15 +27,15 @@ namespace Infrastructure.Factory
             IAssetProvider assetProvider,
             GameStateMachine stateMachine, 
             DiContainer diContainer,
-            ICoroutineRunner coroutineRunner)
+            ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent)
         {
-            _coroutineRunner = coroutineRunner;
+            _coroutineRunnerWithDestroyEvent = coroutineRunnerWithDestroyEvent;
             DiContainer = diContainer;
             ProgressService = progressService;
             _saveLoadService = saveLoadService;
             AssetProvider = assetProvider;
             StateMachine = stateMachine;
-            _coroutineRunner.OnDestroyEvent += OnDestroyHandler;
+            _coroutineRunnerWithDestroyEvent.OnDestroyEvent += OnDestroyHandler;
         }
 
         public abstract void Init();
@@ -57,7 +57,7 @@ namespace Infrastructure.Factory
 
         private void OnDestroyHandler()
         {
-            _coroutineRunner.OnDestroyEvent -= OnDestroyHandler;
+            _coroutineRunnerWithDestroyEvent.OnDestroyEvent -= OnDestroyHandler;
             SaveProgress();
         }
         

@@ -19,6 +19,7 @@ MonoBehaviour:
   MaxAngularVelocity: 25
   DefaultSizeWeapon: 100
   MaxSizeWeapon: 300
+  DurationAnimSize: 1
   AnimParameterMove: IsMove
   AnimParameterSpeed: Speed
   AnimParameterIsDancing: IsDancing

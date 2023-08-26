@@ -1,29 +1,34 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Infrastructure;
 using Infrastructure.AssetManagement;
 using StaticData.Weapon;
 using UnityEngine;
-using Zenject;
 
 namespace Gameplay.BasePlayer.BaseWeapon
 {
-    public class PlayerWeapon : MonoBehaviour
+    public class PlayerWeapon
     {
-        [SerializeField] private StaticDataWeapon _dataWeapon;
-        [SerializeField] private Transform _handForWeapon;
-        [SerializeField] private float _durationAnimSize;
         private IAssetProvider _assetProvider;
+        private StaticDataWeapon _dataWeapon;
+        private Transform _handForWeapon;
         private Weapon _weapon;
         private Coroutine _coroutineAnimationSizeWeapon = null;
-
-        [Inject]
-        public void Construct(IAssetProvider assetProvider) => 
+        private ICoroutineRunner _coroutineRunner;
+        
+        public PlayerWeapon(IAssetProvider assetProvider, ICoroutineRunner coroutineRunner, 
+            StaticDataWeapon dataWeapon, Transform handForWeapon)
+        {
             _assetProvider = assetProvider;
+            _coroutineRunner = coroutineRunner;
+            _dataWeapon = dataWeapon;
+            _handForWeapon = handForWeapon;
+        }
 
         public async Task CreateWeapon()
         {
             GameObject weaponPrefab = await _assetProvider.Load<GameObject>(_dataWeapon.AssetWeapon);
-            GameObject weapon = Instantiate(weaponPrefab, _handForWeapon);
+            GameObject weapon = Object.Instantiate(weaponPrefab, _handForWeapon);
             _weapon = weapon.GetComponent<Weapon>();
         }
 
@@ -38,17 +43,18 @@ namespace Gameplay.BasePlayer.BaseWeapon
                 _dataWeapon.MaxColliderData.BoxColliderSize, interpolate);
         }
 
-        public void AddSize(int levelSizeWeapon, int maxLevelSizeWeapon, float defaultSizeWeapon, float maxSizeWeapon)
+        public void AddSize(int levelSizeWeapon, int maxLevelSizeWeapon,
+            float defaultSizeWeapon, float maxSizeWeapon, float durationAnim)
         {
             if (_coroutineAnimationSizeWeapon != null) 
-                StopCoroutine(_coroutineAnimationSizeWeapon);
+                _coroutineRunner.StopCoroutine(_coroutineAnimationSizeWeapon);
 
-            _coroutineAnimationSizeWeapon = StartCoroutine(AnimationSizeWeapon(
-                levelSizeWeapon, maxLevelSizeWeapon, defaultSizeWeapon, maxSizeWeapon));
+            _coroutineAnimationSizeWeapon = _coroutineRunner.StartCoroutine(AnimationSizeWeapon(
+                levelSizeWeapon, maxLevelSizeWeapon, defaultSizeWeapon, maxSizeWeapon, durationAnim));
         }
 
         private IEnumerator AnimationSizeWeapon(int levelSizeWeapon, int maxLevelSizeWeapon, float defaultSizeWeapon,
-            float maxSizeWeapon)
+            float maxSizeWeapon, float durationAnim)
         {
             float pastTime = 0f;
             float interpolate = (float)levelSizeWeapon / maxLevelSizeWeapon;
@@ -63,10 +69,10 @@ namespace Gameplay.BasePlayer.BaseWeapon
             Vector3 colliderSize = Vector3.Lerp(_dataWeapon.MinColliderData.BoxColliderSize,
                 _dataWeapon.MaxColliderData.BoxColliderSize, interpolate);
             
-            while (pastTime < _durationAnimSize)
+            while (pastTime < durationAnim)
             {
                 pastTime += Time.deltaTime;
-                float t = pastTime / _durationAnimSize;
+                float t = pastTime / durationAnim;
                 _weapon.SkinnedMeshRenderer.SetBlendShapeWeight(0, 
                     Mathf.Lerp(currentSize, sizeWeapon, t));
                 _weapon.Collider.center = Vector3.Lerp(currentColliderCenter, colliderCenter, t);
