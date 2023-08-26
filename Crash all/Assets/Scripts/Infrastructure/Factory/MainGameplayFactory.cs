@@ -115,6 +115,7 @@ namespace Infrastructure.Factory
             _playerMediator = DiContainer.InstantiatePrefab(playerPrefab,
                 _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
                 Quaternion.identity, null).GetComponent<PlayerMediator>();
+            await _playerMediator.InitPlayer();
         }
 
         private async Task CreateLevel()

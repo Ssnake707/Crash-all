@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Threading.Tasks;
+using Gameplay.BasePlayer.BaseWeapon;
 using Gameplay.BasePlayer.Interface;
 using StaticData.Player;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace Gameplay.BasePlayer
         public StaticDataPlayerSettings PlayerSettings => _playerSettings;
         
         [SerializeField] private StaticDataPlayerSettings _playerSettings;
+        [SerializeField] private PlayerWeapon _playerWeapon;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Transform _centerOfMass;
         [SerializeField] private Transform _transformPlayer;
@@ -25,11 +28,25 @@ namespace Gameplay.BasePlayer
             _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
         }
 
-        public override void SetRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isVFX)
+        public override void SetRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isEffects)
         {
             _playerMovement.SetMaxAngularVelocity(levelRotatingSpeed, maxLevelRotatingSpeed);
-            if (!isVFX) return;
+            if (!isEffects) return;
             // Use vfx upgrade
+        }
+
+        public override void SetSizeWeapon(int levelSizeWeapon, int maxLevelSizeWeapon, bool isEffects)
+        {
+            if (isEffects)
+            {
+                _playerWeapon.AddSize(levelSizeWeapon, maxLevelSizeWeapon, 
+                    _playerSettings.DefaultSizeWeapon, _playerSettings.MaxSizeWeapon);
+            }
+            else
+            {
+                _playerWeapon.SetSize(levelSizeWeapon, maxLevelSizeWeapon, 
+                    _playerSettings.DefaultSizeWeapon, _playerSettings.MaxSizeWeapon);
+            }
         }
 
         public override void PlayerMove(float speed) => 
@@ -37,7 +54,7 @@ namespace Gameplay.BasePlayer
 
         public override void PlayerRotating() => 
             _playerAnimation.PlayerRotating();
-        
+
         public override void SetPosition(Vector3 position) => 
             StartCoroutine(WaitLateUpdateAndSetPosition(position));
 
@@ -56,6 +73,9 @@ namespace Gameplay.BasePlayer
             SetCanMove(false);
             _playerAnimation.PlayerDance(true);
         }
+
+        protected override async Task CreateWeapon() => 
+            await _playerWeapon.CreateWeapon();
 
         private IEnumerator WaitLateUpdateAndSetPosition(Vector3 position)
         {

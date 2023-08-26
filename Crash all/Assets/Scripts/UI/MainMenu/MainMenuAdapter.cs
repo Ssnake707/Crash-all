@@ -15,7 +15,10 @@ namespace UI.MainMenu
             _model.SetMainMenuAdapter(this);
         }
 
-        public void UpdateRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isVFX) => 
-            _model.SetRotatingSpeed(levelRotatingSpeed, maxLevelRotatingSpeed, isVFX);
+        public void UpdateRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isEffects) => 
+            _model.SetRotatingSpeed(levelRotatingSpeed, maxLevelRotatingSpeed, isEffects);
+
+        public void UpgradeSizeWeapon(int levelSizeWeapon, int maxLevelSizeWeapon, bool isEffects) => 
+            _model.SetSizeWeapon(levelSizeWeapon, maxLevelSizeWeapon, isEffects);
     }
 }

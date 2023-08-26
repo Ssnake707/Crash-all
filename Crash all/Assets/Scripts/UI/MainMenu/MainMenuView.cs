@@ -32,6 +32,8 @@ namespace UI.MainMenu
             _adapter = adapter;
             _adapter.UpdateRotatingSpeed(_progressService.Progress.DataPlayers.LevelRotatingSpeed,
                 _staticDataService.DataPriceRotatingSpeed.MaxLevel, false);
+            _adapter.UpgradeSizeWeapon(_progressService.Progress.DataPlayers.LevelSizeWeapon,
+                _staticDataService.DataPriceSizeWeapon.MaxLevel, false);
         }
 
         private void ClickBuySizeWeaponHandler()
@@ -51,7 +53,8 @@ namespace UI.MainMenu
                 // succes
                 _progressService.Progress.DataPlayers.AddCoins(-price);
                 _progressService.Progress.DataPlayers.AddLevelSizeWeapon(1);
-                // _adapter.UpgradeSizeWeapon(_progressService.Progress.DataPlayers.LevelSizeWeapon, _staticDataService.DataPriceSizeWeapon.MaxLevel);
+                _adapter.UpgradeSizeWeapon(_progressService.Progress.DataPlayers.LevelSizeWeapon,
+                    _staticDataService.DataPriceSizeWeapon.MaxLevel, true);
                 UpdateButtonSizeWeapon();
             }
         }

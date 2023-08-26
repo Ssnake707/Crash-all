@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7a4c78a5dc3ef408d7267d9008a7e7, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: 
+  AssetWeapon:
+    m_AssetGUID: bb1e2d5da3d87e245b16aed0ddd9831d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  MinColliderData:
+    BoxColliderCenter: {x: 1.2296526, y: -0.00029413958, z: 0.728511}
+    BoxColliderSize: {x: 2.8472943, y: 0.14844158, z: 1.6054636}
+  MaxColliderData:
+    BoxColliderCenter: {x: 3.2149687, y: -0.00029410297, z: 0.7285109}
+    BoxColliderSize: {x: 6.8179264, y: 0.14844158, z: 1.6054637}

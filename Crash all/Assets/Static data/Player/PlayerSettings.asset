@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   SpeedTurn: 10
-  DefaultMaxAngularVelocity: 10
-  MaxAngularVelocity: 50
-  DefaultSizeWeapon: 0
-  MaxSizeWeapon: 1
   ForceRotating: -500000
+  DefaultMaxAngularVelocity: 10
+  MaxAngularVelocity: 25
+  DefaultSizeWeapon: 100
+  MaxSizeWeapon: 300
   AnimParameterMove: IsMove
   AnimParameterSpeed: Speed
   AnimParameterIsDancing: IsDancing
