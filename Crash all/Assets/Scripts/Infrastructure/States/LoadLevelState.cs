@@ -1,4 +1,3 @@
-using Infrastructure.Factory.Interface;
 using Infrastructure.SceneLoaders;
 using Infrastructure.States.Interface;
 using Zenject;
@@ -9,14 +8,12 @@ namespace Infrastructure.States
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly LoadingCurtain _loadingCurtain;
-        private readonly IGameFactory _gameFactory;
         private GameStateMachine _stateMachine;
 
         [Inject]
         public LoadLevelState(ISceneLoader sceneLoader,
-            LoadingCurtain loadingCurtain, IGameFactory gameFactory)
+            LoadingCurtain loadingCurtain)
         {
-            _gameFactory = gameFactory;
             _sceneLoader = sceneLoader;
             _loadingCurtain = loadingCurtain;
         }
@@ -27,15 +24,17 @@ namespace Infrastructure.States
         public void Enter(string sceneName)
         {
             _loadingCurtain.Show();
-            _gameFactory.CleanUp();
-            _gameFactory.WarmUp(sceneName);
+            //_gameFactory.CleanUp();
+            //_gameFactory.WarmUp(sceneName);
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
         public void Exit() => 
             _loadingCurtain.Hide();
 
-        private void OnLoaded() => 
-            _gameFactory.Init();
+        private void OnLoaded()
+        {
+            //_gameFactory.Init();
+        }
     }
 }

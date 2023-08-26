@@ -19,8 +19,11 @@ namespace Gameplay.BasePlayer
             _transformPlayer = transformPlayer;
             _rigidbody = rigidbody;
             _rigidbody.centerOfMass = centerOfMass.localPosition;
-            _rigidbody.maxAngularVelocity = _playerSettings.DefaultMaxAngularVelocity;
         }
+
+        public void SetMaxAngularVelocity(int currentLevel, int maxLevel) =>
+            _rigidbody.maxAngularVelocity = Mathf.Lerp(_playerSettings.DefaultMaxAngularVelocity,
+                _playerSettings.MaxAngularVelocity, (float)currentLevel / maxLevel);
 
         public void FixedUpdate()
         {

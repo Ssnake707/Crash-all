@@ -8,14 +8,14 @@ namespace Infrastructure.SceneLoaders
 {
     public class SceneLoader : ISceneLoader
     {
-        private readonly ICoroutineRunner _coroutineRunner;
+        private readonly ICoroutineRunnerWithDestroyEvent _coroutineRunnerWithDestroyEvent;
         
         [Inject]
-        public SceneLoader(ICoroutineRunner coroutineRunner) => 
-            _coroutineRunner = coroutineRunner;
+        public SceneLoader(ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent) => 
+            _coroutineRunnerWithDestroyEvent = coroutineRunnerWithDestroyEvent;
 
         public void Load(string name, Action onLoaded = null) =>
-            _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
+            _coroutineRunnerWithDestroyEvent.StartCoroutine(LoadScene(name, onLoaded));
 
         private IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {

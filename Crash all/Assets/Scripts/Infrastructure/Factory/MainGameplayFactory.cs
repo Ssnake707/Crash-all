@@ -12,7 +12,8 @@ using Services.SaveLoad;
 using Services.StaticData;
 using UI.Gameplay;
 using UI.Gameplay.Interface;
-using UI.GeneralMenu.Interface;
+using UI.MainMenu;
+using UI.MainMenu.Interface;
 using UI.WindowController;
 using UI.WindowController.Interface;
 using UnityEngine;
@@ -20,7 +21,7 @@ using Zenject;
 
 namespace Infrastructure.Factory
 {
-    public class MainGameplayFactory : AbstractLevelFactory, IMainGameplayFactory
+    public sealed class MainGameplayFactory : AbstractLevelFactory, IMainGameplayFactory
     {
         private readonly IStaticDataService _staticDataService;
         
@@ -35,10 +36,14 @@ namespace Infrastructure.Factory
         public MainGameplayFactory(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
             IAssetProvider assetProvider,
             GameStateMachine stateMachine,
-            IStaticDataService staticDataService) : base(progressService, saveLoadService,
-            assetProvider, stateMachine)
+            IStaticDataService staticDataService,
+            DiContainer diContainer,
+            ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent) : base(progressService, saveLoadService,
+            assetProvider, stateMachine, diContainer, coroutineRunnerWithDestroyEvent)
         {
             _staticDataService = staticDataService;
+            WarmUp();
+            Init();
         }
 
         public override async void Init()
@@ -49,7 +54,7 @@ namespace Infrastructure.Factory
             await CreateVirtualCameraPlayer();
             CreateGameController();
 
-            StateMachine.Enter<GameLoopState>();
+            StateMachine.Enter<MainGameLoopState, ILevelFactory>(this);
         }
 
         public async void CreateNewLevel()
@@ -64,8 +69,8 @@ namespace Infrastructure.Factory
         private async Task CreateCanvas()
         {
             GameObject mainCanvasPrefab = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
-            _mainCanvas = Object.Instantiate(mainCanvasPrefab);
-            _mainCanvas.GetComponent<IGeneralMenuView>().Construct(ProgressService);
+            _mainCanvas = DiContainer.InstantiatePrefab(mainCanvasPrefab);
+            new MainMenuAdapter(_mainCanvas.GetComponent<IMainMenuView>(), _playerMediator);
             IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
             windowsController.ShowWindow(WindowType.MainMenu);
         }
@@ -107,9 +112,11 @@ namespace Infrastructure.Factory
         private async Task CreatePlayer()
         {
             GameObject playerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.Player);
-            _playerMediator = Object.Instantiate(playerPrefab,
+            _playerMediator = DiContainer.InstantiatePrefab(playerPrefab,
                 _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
-                Quaternion.identity).GetComponent<PlayerMediator>();
+                Quaternion.identity, null).GetComponent<PlayerMediator>();
+            
+            await _playerMediator.InitPlayer(AssetProvider, _staticDataService.DataWeapons[ProgressService.Progress.DataPlayers.IdWeapon]);
         }
 
         private async Task CreateLevel()
@@ -121,7 +128,7 @@ namespace Infrastructure.Factory
             GameObject levelPrefab =
                 await AssetProvider.Load<GameObject>(
                     $"{AssetAddress.Level}{ProgressService.Progress.DataLevels.CurrentLevel}");
-            _entitiesController = Object.Instantiate(levelPrefab).GetComponent<IEntitiesController>();
+            _entitiesController = DiContainer.InstantiatePrefab(levelPrefab).GetComponent<IEntitiesController>();
         }
     }
 }

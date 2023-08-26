@@ -4,9 +4,14 @@ using UnityEngine;
 
 namespace Infrastructure
 {
+    public interface ICoroutineRunnerWithDestroyEvent : ICoroutineRunner
+    {
+        event Action OnDestroyEvent;
+    }
+
     public interface ICoroutineRunner
     {
         Coroutine StartCoroutine(IEnumerator coroutine);
-        event Action OnDestroyEvent;
+        void StopCoroutine(Coroutine coroutine);
     }
 }

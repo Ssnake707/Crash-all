@@ -15,7 +15,6 @@ namespace Infrastructure.Installers
             BindLoadLevelState();
             BindGameLoopState();
             BindGameStateMachine();
-            BindGameFactory();
         }
 
         private void BindGameStateMachine() =>
@@ -46,10 +45,8 @@ namespace Infrastructure.Installers
 
         private void BindGameLoopState() =>
             Container
-                .Bind<GameLoopState>()
+                .Bind<MainGameLoopState>()
                 .AsSingle();
 
-        private void BindGameFactory() => 
-            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
     }
 }

@@ -35,10 +35,10 @@ namespace Infrastructure.Installers
 
         private void BindCoroutineRunner()
         {
-            ICoroutineRunner coroutineRunner = Instantiate(_prefabCoroutineRunner).GetComponent<ICoroutineRunner>();
+            ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent = Instantiate(_prefabCoroutineRunner).GetComponent<ICoroutineRunnerWithDestroyEvent>();
             Container
-                .Bind<ICoroutineRunner>()
-                .FromInstance(coroutineRunner)
+                .Bind<ICoroutineRunnerWithDestroyEvent>()
+                .FromInstance(coroutineRunnerWithDestroyEvent)
                 .AsSingle();
         }
 
