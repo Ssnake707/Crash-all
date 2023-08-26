@@ -25,15 +25,11 @@ namespace Gameplay.BasePlayer
         private bool _isCanMove;
         private PlayerWeapon _playerWeapon;
 
-        private void Awake()
-        {
-            _playerMovement = new PlayerMovement(this, _playerSettings, _transformPlayer, _rigidbody, _centerOfMass);
-            _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
-        }
-
         public override async Task InitPlayer(IAssetProvider assetProvider, StaticDataWeapon dataWeapon)
         {
             _playerWeapon = new PlayerWeapon(assetProvider, this, dataWeapon, _handForWeapon);
+            _playerMovement = new PlayerMovement(this, _playerSettings, _transformPlayer, _rigidbody, _centerOfMass);
+            _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
             await CreateWeapon();
         }
 
