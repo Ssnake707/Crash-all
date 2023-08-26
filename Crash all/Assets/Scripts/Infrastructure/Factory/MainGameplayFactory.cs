@@ -12,6 +12,8 @@ using Services.SaveLoad;
 using Services.StaticData;
 using UI.Gameplay;
 using UI.Gameplay.Interface;
+using UI.MainMenu;
+using UI.MainMenu.Interface;
 using UI.WindowController;
 using UI.WindowController.Interface;
 using UnityEngine;
@@ -68,6 +70,7 @@ namespace Infrastructure.Factory
         {
             GameObject mainCanvasPrefab = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
             _mainCanvas = DiContainer.InstantiatePrefab(mainCanvasPrefab);
+            new MainMenuAdapter(_mainCanvas.GetComponent<IMainMenuView>(), _playerMediator);
             IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
             windowsController.ShowWindow(WindowType.MainMenu);
         }

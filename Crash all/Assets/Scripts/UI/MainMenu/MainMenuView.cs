@@ -27,8 +27,12 @@ namespace UI.MainMenu
             UpdateButtonRotatingSpeed();
         }
 
-        public void SetAdapter(MainMenuAdapter adapter) => 
+        public void SetAdapter(MainMenuAdapter adapter)
+        {
             _adapter = adapter;
+            _adapter.UpdateRotatingSpeed(_progressService.Progress.DataPlayers.LevelRotatingSpeed,
+                _staticDataService.DataPriceRotatingSpeed.MaxLevel, false);
+        }
 
         private void ClickBuySizeWeaponHandler()
         {
@@ -68,7 +72,8 @@ namespace UI.MainMenu
                 // succes
                 _progressService.Progress.DataPlayers.AddCoins(-price);
                 _progressService.Progress.DataPlayers.AddLevelRotatingSpeed(1);
-                // _adapter.UpgradeRotatingSpeed(_progressService.Progress.DataPlayers.LevelSizeWeapon, _staticDataService.DataPriceRotatingSpeed.MaxLevel);
+                _adapter.UpdateRotatingSpeed(_progressService.Progress.DataPlayers.LevelRotatingSpeed,
+                    _staticDataService.DataPriceRotatingSpeed.MaxLevel, true);
                 UpdateButtonRotatingSpeed();
             }
         }

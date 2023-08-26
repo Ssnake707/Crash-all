@@ -11,6 +11,8 @@ namespace Gameplay.BasePlayer
         public void SetMainMenuAdapter(MainMenuAdapter adapter) => 
             MainMenuAdapter = adapter;
 
+        public abstract void SetRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isVFX);
+
         public virtual bool CanMove { get; private set; }
 
         public abstract void PlayerMove(float speed);

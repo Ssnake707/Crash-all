@@ -8,13 +8,17 @@ namespace StaticData.Player
         [Header("Movement settings")] 
         public float Speed;
         public float SpeedTurn;
+        public float ForceRotating;
+        
+        [Space(10)]
+        [Header("Upgrade")]
         public float DefaultMaxAngularVelocity;
         public float MaxAngularVelocity;
         public float DefaultSizeWeapon;
         public float MaxSizeWeapon;
-        public float ForceRotating;
 
-        [Header("Animation"), Space(15)] 
+        [Space(10)]
+        [Header("Animation")] 
         public string AnimParameterMove;
         public string AnimParameterSpeed;
         public string AnimParameterIsDancing;

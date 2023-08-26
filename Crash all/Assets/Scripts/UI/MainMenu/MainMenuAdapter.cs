@@ -14,5 +14,8 @@ namespace UI.MainMenu
             _view.SetAdapter(this);
             _model.SetMainMenuAdapter(this);
         }
+
+        public void UpdateRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isVFX) => 
+            _model.SetRotatingSpeed(levelRotatingSpeed, maxLevelRotatingSpeed, isVFX);
     }
 }

@@ -25,6 +25,13 @@ namespace Gameplay.BasePlayer
             _playerAnimation = new PlayerAnimation(this, _playerSettings, _animator);
         }
 
+        public override void SetRotatingSpeed(int levelRotatingSpeed, int maxLevelRotatingSpeed, bool isVFX)
+        {
+            _playerMovement.SetMaxAngularVelocity(levelRotatingSpeed, maxLevelRotatingSpeed);
+            if (!isVFX) return;
+            // Use vfx upgrade
+        }
+
         public override void PlayerMove(float speed) => 
             _playerAnimation.PlayerMove(speed);
 
