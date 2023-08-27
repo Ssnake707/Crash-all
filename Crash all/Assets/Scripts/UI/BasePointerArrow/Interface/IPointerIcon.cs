@@ -6,5 +6,6 @@ namespace UI.BasePointerArrow.Interface
     {
         void Show(bool isShow);
         void SetPosition(Vector3 position, Quaternion rotation);
+        GameObject GameObject { get; }
     }
 }

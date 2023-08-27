@@ -3,11 +3,12 @@ using System.Linq;
 using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem.Interface;
 using StaticData.Entity;
+using UI.BasePointerArrow.Interface;
 using UnityEngine;
 
 namespace Gameplay.BreakdownSystem
 {
-    public class Entity : MonoBehaviour, IEntity
+    public class Entity : MonoBehaviour, IEntity, ITargetPointerArrow
     {
         [SerializeField] private StaticDataEntity _dataEntity;
         [SerializeField] private Transform _centerOfMass;
@@ -15,6 +16,8 @@ namespace Gameplay.BreakdownSystem
         private IEntityFactory _entityFactory;
 
         public GameObject GameObject => this.gameObject;
+        public bool IsActive => _destroyedPieces.Count > 0;
+        public Vector3 Position => transform.position;
 
         public void Construct(IEntityFactory entityFactory) => 
             _entityFactory = entityFactory;

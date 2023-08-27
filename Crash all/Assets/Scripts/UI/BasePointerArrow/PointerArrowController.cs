@@ -44,7 +44,7 @@ namespace UI.BasePointerArrow
             Plane[] planes = GeometryUtility.CalculateFrustumPlanes(_camera);
             foreach (PointerArrowData target in _targetsPointerArrow)
             {
-                if (!target.Target.IsActive)
+                if (target.Target == null || !target.Target.IsActive)
                 {
                     target.PointerIcon.Show(false);
                     continue;
@@ -73,8 +73,21 @@ namespace UI.BasePointerArrow
                 target.PointerIcon.Show(toTarget.magnitude > rayMinDistance);
                 target.PointerIcon.SetPosition(position, rotation);
             }
+            
+            RemoveNullTargets();
         }
-        
+
+        private void RemoveNullTargets()
+        {
+            for (int i = _targetsPointerArrow.Count - 1; i >= 0; i--)
+            {
+                if (_targetsPointerArrow[i].Target != null) continue;
+                
+                Destroy(_targetsPointerArrow[i].PointerIcon.GameObject);
+                _targetsPointerArrow.RemoveAt(i);
+            }
+        }
+
         private Quaternion GetIconRotation(int planeIndex)
         {
             return planeIndex switch

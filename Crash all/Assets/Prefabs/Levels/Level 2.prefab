@@ -664,6 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2849c3f1cb554458b6891583bc39ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entitySettings: {fileID: 11400000, guid: 5871f93a4ddc92f41912f6c4d19d9bff, type: 2}
   _entities:
   - {fileID: 3035049700301009042}
   - {fileID: 5647339850829497463}
@@ -1249,6 +1250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 12c24cb2b284eb7469bab9347a491ec1, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &3955861268027985916
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3632,6 +3634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &8912355801541748387
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4407,6 +4410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &1703091441592841939
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5182,6 +5186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &6021295302543863997
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5957,6 +5962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &8407403864152065220
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6861,6 +6867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &4388244975260187411
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9215,6 +9222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 2231154728ae1d7439a9c53a4ff38f6a, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &4280676863122927960
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10780,6 +10788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 16623741a47c2fb4aa225a0d23eb4c22, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &1245241804803749417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12206,6 +12215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 128f63c6400e495499fc17a21f984c0e, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &5941263492451626699
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13467,6 +13477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &4164411526213134670
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16166,6 +16177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &7076311517620119394
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17070,6 +17082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &8722044300414794979
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17513,6 +17526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 16623741a47c2fb4aa225a0d23eb4c22, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &6699426023193291779
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19446,6 +19460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 128f63c6400e495499fc17a21f984c0e, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &6122288312658323621
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20327,6 +20342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 5690c2c3011d9ef49985c0e05ad84912, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &222268397292339927
 Rigidbody:
   m_ObjectHideFlags: 0

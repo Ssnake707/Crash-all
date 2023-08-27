@@ -597,6 +597,7 @@ GameObject:
   - component: {fileID: 3388108976496029060}
   - component: {fileID: 8857184819326777741}
   - component: {fileID: 5113378934726223693}
+  - component: {fileID: 1675063603482736656}
   m_Layer: 5
   m_Name: Main canvas
   m_TagString: Untagged
@@ -775,6 +776,21 @@ MonoBehaviour:
   _windowGameplayMenu: {fileID: 9022671571554907178}
   _windowGeneralMenu: {fileID: 3388108976496029060}
   _windowWin: {fileID: 8857184819326777741}
+--- !u!114 &1675063603482736656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158998466532052606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6ffb5647a74ec281b6c0d97c1db56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pointerArrowPrefab: {fileID: 8408387527195695771, guid: b539d56eb954d2c448c806c809ac4d47,
+    type: 3}
+  _canvas: {fileID: 7994364641566164190}
 --- !u!1 &1211432786392636744
 GameObject:
   m_ObjectHideFlags: 0

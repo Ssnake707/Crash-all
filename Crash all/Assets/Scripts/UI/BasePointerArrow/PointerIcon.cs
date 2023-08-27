@@ -13,6 +13,8 @@ namespace UI.BasePointerArrow
         private bool _isShow = false;
         private Vector3 _targetPosition;
 
+        public GameObject GameObject => this.gameObject;
+
         public void Show(bool isShow)
         {
             if (isShow == _isShow) return;
@@ -24,7 +26,7 @@ namespace UI.BasePointerArrow
             else
                 transform.DOScale(Vector3.zero, .5f).OnComplete(() => _isShow = false);
         }
-        
+
         public void SetPosition(Vector3 position, Quaternion rotation)
         {
             if (!_isShow) return;
@@ -32,7 +34,7 @@ namespace UI.BasePointerArrow
             _targetPosition = position;
             transform.rotation = rotation;
         }
-        
+
         private void Awake() => 
             transform.localPosition = Vector3.zero;
 

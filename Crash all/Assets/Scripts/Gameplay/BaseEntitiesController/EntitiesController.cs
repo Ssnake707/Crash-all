@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.Interface;
 using Gameplay.Game.Interfaces;
+using StaticData.Entity;
 using UnityEngine;
 
 namespace Gameplay.BaseEntitiesController
 {
     public class EntitiesController : MonoBehaviour, IEntitiesController
     {
+        [SerializeField] private StaticDataEntitySettings _entitySettings;
         [SerializeField] private Entity[] _entities;
         [SerializeField] private DestroyedPiece[] _destroyedPiece;
         private readonly List<IEntity> _allEntities = new List<IEntity>();
@@ -54,6 +56,11 @@ namespace Gameplay.BaseEntitiesController
             _totalDestroyedPieces++;
             Destroy(other.gameObject);
             _gameController.DestroyPiece(_totalPieces, _totalDestroyedPieces);
+            
+            if ((_totalPieces - _totalDestroyedPieces) <= _entitySettings.CountForShowPointerArrow)
+            {
+                // TODO: Активировать PointerArrow и передать ей все объекты
+            }
         }
     }
 }
