@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.Interface;
+using Gameplay.BreakdownSystem.PoolParticleSystem;
 using Gameplay.Game.Interfaces;
 using StaticData.Entity;
 using UI.BasePointerArrow.Interface;
@@ -24,11 +25,21 @@ namespace Gameplay.BaseEntitiesController
 
         public GameObject GameObject => gameObject;
 
-        public void Construct(IPointerArrowController pointerArrowController, PlayerMediator playerMediator)
+        public void Construct(IPointerArrowController pointerArrowController, PlayerMediator playerMediator,
+            PoolParticleSystemHit poolParticleSystemHit)
         {
             _pointerArrowController = pointerArrowController;
             _playerMediator = playerMediator;
             _pointerArrowController.WarmUp(_entitySettings.CountForShowPointerArrow);
+            
+            _totalPieces = _destroyedPiece.Length;
+            InitEntities(poolParticleSystemHit);
+            foreach (DestroyedPiece piece in _destroyedPiece)
+            {
+                piece.SetPoolParticleSystemHit(poolParticleSystemHit);
+                _targetsPointerArrow.Add((ITargetPointerArrow)piece);
+            } 
+                
         }
 
         public void CleanUp()
@@ -39,15 +50,7 @@ namespace Gameplay.BaseEntitiesController
         public void SetGameController(IGameController gameController) =>
             _gameController = gameController;
 
-        private void Awake()
-        {
-            _totalPieces = _destroyedPiece.Length;
-            InitEntities();
-            foreach (DestroyedPiece piece in _destroyedPiece) 
-                _targetsPointerArrow.Add((ITargetPointerArrow)piece);
-        }
-
-        private void InitEntities()
+        private void InitEntities(PoolParticleSystemHit poolParticleSystemHit)
         {
             IEntityFactory entityFactory = new EntityFactory(this);
             foreach (Entity item in _entities)
@@ -59,7 +62,11 @@ namespace Gameplay.BaseEntitiesController
                 _targetsPointerArrow.Add(item);
                 List<IDestroyedPiece> destroyedPieces = item.GetDestroyedPieces();
                 foreach (IDestroyedPiece piece in destroyedPieces)
+                {
+                    piece.SetPoolParticleSystemHit(poolParticleSystemHit);
                     _targetsPointerArrow.Add((ITargetPointerArrow)piece);
+                }
+                    
             }
         }
 

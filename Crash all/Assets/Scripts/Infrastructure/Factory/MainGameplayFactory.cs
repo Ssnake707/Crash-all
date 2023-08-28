@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Cinemachine;
 using Gameplay.BaseEntitiesController;
 using Gameplay.BasePlayer;
+using Gameplay.BreakdownSystem.PoolParticleSystem;
 using Gameplay.Game;
 using Gameplay.Game.Interfaces;
 using Infrastructure.AssetManagement;
@@ -32,6 +33,7 @@ namespace Infrastructure.Factory
         private CinemachineVirtualCamera _cameraPlayerWin;
         private IGameController _gameController;
         private GameObject _mainCanvas;
+        private PoolParticleSystemHit _poolParticleSystemHit;
 
         [Inject]
         public MainGameplayFactory(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
@@ -49,6 +51,7 @@ namespace Infrastructure.Factory
 
         public override async void Init()
         {
+            await CreatePoolParticleSystemHitEntity();
             await CreateLevel();
             await CreateCanvas();
             await CreatePlayer();
@@ -71,7 +74,13 @@ namespace Infrastructure.Factory
         }
 
         private void InitEntityController() => 
-            _entitiesController.Construct(_mainCanvas.GetComponent<IPointerArrowController>(), _playerMediator);
+            _entitiesController.Construct(_mainCanvas.GetComponent<IPointerArrowController>(), _playerMediator, _poolParticleSystemHit);
+
+        private async Task CreatePoolParticleSystemHitEntity()
+        {
+            GameObject prefab = await AssetProvider.Load<GameObject>(AssetAddress.EffectDustHit);
+            _poolParticleSystemHit = new PoolParticleSystemHit(prefab);
+        }
 
         private async Task CreateCanvas()
         {

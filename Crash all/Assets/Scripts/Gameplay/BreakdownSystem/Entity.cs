@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay.BasePlayer;
@@ -14,9 +15,13 @@ namespace Gameplay.BreakdownSystem
         [SerializeField] private Transform _centerOfMass;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
+        private Rigidbody _rigidbody;
 
         public bool IsActive => _destroyedPieces.Count > 0;
         public Vector3 Position => transform.position;
+
+        private void Awake() => 
+            _rigidbody = GetComponent<Rigidbody>();
 
         public void Construct(IEntityFactory entityFactory) => 
             _entityFactory = entityFactory;
@@ -124,12 +129,12 @@ namespace Gameplay.BreakdownSystem
             {
                 collision.rigidbody.velocity = Vector3.zero;
                 if (_dataEntity.MinImpulsePlayerForDestroy > collision.impulse.magnitude) return;
-                destroyedPiece.Collision(collision);
+                destroyedPiece.Collision(collision, _rigidbody.velocity);
             }
             else
             {
                 if (_dataEntity.MinImpulseOtherForDestroy > collision.impulse.magnitude) return;
-                destroyedPiece.Collision(collision);
+                destroyedPiece.Collision(collision, _rigidbody.velocity);
             }
         }
     }

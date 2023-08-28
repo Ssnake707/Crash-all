@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gameplay.BreakdownSystem.PoolParticleSystem;
 using StaticData.Entity;
 using UI.BasePointerArrow.Interface;
 using UnityEngine;
@@ -14,8 +15,9 @@ namespace Gameplay.BreakdownSystem.Interface
         bool IsDisconnect { get; }
         void InitDestroyedPieces(IEntity entity, List<IDestroyedPiece> destroyedPieces,
             DestroyedPiecesId destroyedPiecesId);
-        void Collision(Collision collision);
+        void Collision(Collision collision, Vector3 velocity);
         void SetEntity(IEntity entity);
         void DestroyPiece();
+        void SetPoolParticleSystemHit(PoolParticleSystemHit poolParticleSystemHit);
     }
 }
