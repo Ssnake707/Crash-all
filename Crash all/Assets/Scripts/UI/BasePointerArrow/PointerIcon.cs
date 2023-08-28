@@ -9,8 +9,8 @@ namespace UI.BasePointerArrow
     public class PointerIcon : MonoBehaviour, IPointerIcon
     {
         public RotationForPlane RotationForPlane => _rotationForPlane;
-        [SerializeField] private Image _pointerImage;
         [SerializeField] private RotationForPlane _rotationForPlane;
+        [SerializeField] private Image _pointerImage;
         [SerializeField, Range(0f, 1f)] private float _smooth = .9f;
        
         private bool _isShow = false;
