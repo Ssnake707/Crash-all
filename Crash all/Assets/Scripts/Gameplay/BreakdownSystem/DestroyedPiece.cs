@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Gameplay.BreakdownSystem.Interface;
+using Gameplay.BreakdownSystem.PoolParticleSystem;
 using StaticData.Entity;
 using UI.BasePointerArrow.Interface;
 using Unity.VisualScripting;
@@ -18,6 +20,7 @@ namespace Gameplay.BreakdownSystem
         [SerializeField] private int _id;
 
         private IEntity _entity;
+        private PoolParticleSystemHit _poolParticleSystemHit;
 
         public bool IsActive => ConnectedTo.Count == 0;
 
@@ -38,6 +41,9 @@ namespace Gameplay.BreakdownSystem
             }
         }
 
+        public void SetPoolParticleSystemHit(PoolParticleSystemHit poolParticleSystemHit) => 
+            _poolParticleSystemHit = poolParticleSystemHit;
+
         public void SetEntity(IEntity entity) =>
             _entity = entity;
 
@@ -47,22 +53,37 @@ namespace Gameplay.BreakdownSystem
             Destroy(this.gameObject);
         }
 
-        public void Collision(Collision collision)
+        public void Collision(Collision collision, Vector3 velocity)
         {
             if (ConnectedTo == null) return;
             if (ConnectedTo.Count == 0) return;
-            DisconnectPiece(collision);
+            DisconnectPiece();
             _entity?.RecalculateEntity();
+            Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
+            rigidBody.AddForce(velocity, ForceMode.VelocityChange);
+            HitEffectPlay(collision);
+        }
+
+        private void OnCollisionEnter(Collision collision) => 
+            HitEffectPlay(collision);
+
+        private void HitEffectPlay(Collision collision)
+        {
+            if (collision.impulse.magnitude < 1f) return;
+            if (collision.gameObject.TryGetComponent<IDestroyedPiece>(out IDestroyedPiece piece)) return;
+            if (collision.gameObject.TryGetComponent<IEntity>(out IEntity entity)) return;
+            ParticleSystem effect = _poolParticleSystemHit.Pool.Get();
+            effect.transform.rotation = Quaternion.Euler(collision.GetContact(0).normal);
+            effect.transform.position = collision.GetContact(0).point;
+            effect.Play();
         }
 
 
-        private void DisconnectPiece(Collision collision)
+        private void DisconnectPiece()
         {
             transform.parent = null;
             ConnectedTo.Clear();
             IsDisconnect = true;
-            Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
-            rigidBody.AddForce(collision.impulse);
             _entity?.RemoveDestroyedPiece(this);
             _entity = null;
         }
