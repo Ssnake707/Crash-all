@@ -1,4 +1,6 @@
+using Gameplay.BasePlayer;
 using Gameplay.Game.Interfaces;
+using UI.BasePointerArrow.Interface;
 using UnityEngine;
 
 namespace Gameplay.BaseEntitiesController
@@ -8,5 +10,6 @@ namespace Gameplay.BaseEntitiesController
         void SetGameController(IGameController gameController);
         GameObject GameObject { get; }
         void CleanUp();
+        void Construct(IPointerArrowController pointerArrowController, PlayerMediator playerMediator);
     }
 }

@@ -20,7 +20,6 @@ namespace Gameplay.BreakdownSystem
             entity.Construct(this, staticDataEntity);
             entity.SetDestroyedPieces(destroyedPieces);
             gameObjectEntity.AddComponent<Rigidbody>();
-            _entitiesController.AddEntity(entity);
         }
     }
 }

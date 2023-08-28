@@ -19,7 +19,8 @@ namespace Gameplay.BreakdownSystem
 
         private IEntity _entity;
 
-        public bool IsActive => true;
+        public bool IsActive => ConnectedTo.Count == 0;
+
         public Vector3 Position => transform.position;
 
         public void InitDestroyedPieces(IEntity entity, List<IDestroyedPiece> destroyedPieces,
@@ -41,6 +42,12 @@ namespace Gameplay.BreakdownSystem
         public void SetEntity(IEntity entity) =>
             _entity = entity;
 
+        public void DestroyPiece()
+        {
+            _entity.RemoveDestroyedPiece(this);
+            Destroy(this.gameObject);
+        }
+
         public void Collision(Collision collision)
         {
             if (ConnectedTo == null) return;
@@ -57,6 +64,7 @@ namespace Gameplay.BreakdownSystem
             IsDisconnect = true;
             Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
             rigidBody.AddForce(collision.impulse);
+            _entity.RemoveDestroyedPiece(this);
         }
     }
 }

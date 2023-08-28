@@ -15,7 +15,6 @@ namespace Gameplay.BreakdownSystem
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
 
-        public GameObject GameObject => this.gameObject;
         public bool IsActive => _destroyedPieces.Count > 0;
         public Vector3 Position => transform.position;
 
@@ -36,7 +35,9 @@ namespace Gameplay.BreakdownSystem
             _destroyedPieces = new List<IDestroyedPiece>();
             foreach (IDestroyedPiece destroyedPiece in transform.GetComponentsInChildren<IDestroyedPiece>())
                 _destroyedPieces.Add(destroyedPiece);
+            
             _destroyedPieces.OrderBy(x => x.Id);
+            
             foreach (IDestroyedPiece destroyedPiece in _destroyedPieces)
                 destroyedPiece.InitDestroyedPieces(this, _destroyedPieces,
                     _dataEntity.DestroyedPiecesIds[destroyedPiece.Id]);
@@ -55,6 +56,13 @@ namespace Gameplay.BreakdownSystem
 
         public List<IDestroyedPiece> GetDestroyedPieces() =>
             _destroyedPieces;
+
+        public void RemoveDestroyedPiece(DestroyedPiece destroyedPiece)
+        {
+            _destroyedPieces.Remove(destroyedPiece);
+            if (_destroyedPieces.Count == 0)
+                Destroy(this.gameObject);
+        }
 
         public void RecalculateEntity()
         {

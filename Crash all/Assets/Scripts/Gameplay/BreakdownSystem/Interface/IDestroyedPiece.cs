@@ -16,5 +16,6 @@ namespace Gameplay.BreakdownSystem.Interface
             DestroyedPiecesId destroyedPiecesId);
         void Collision(Collision collision);
         void SetEntity(IEntity entity);
+        void DestroyPiece();
     }
 }

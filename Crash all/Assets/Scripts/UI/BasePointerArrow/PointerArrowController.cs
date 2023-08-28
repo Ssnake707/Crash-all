@@ -8,12 +8,12 @@ namespace UI.BasePointerArrow
     {
         [SerializeField] private GameObject _pointerArrowPrefab;
         [SerializeField] private Canvas _canvas;
-        
+        [SerializeField] private bool _isAlwaysShow;
+
+        private readonly List<PointerArrowData> _targetsPointerArrow = new List<PointerArrowData>();
         private Camera _camera;
         private bool _isActive;
         private Transform _playerTransform;
-        private List<IPointerIcon> _pointerIcons;
-        private List<PointerArrowData> _targetsPointerArrow = new List<PointerArrowData>();
 
         public void Init(List<ITargetPointerArrow> targets, Transform playerTransform)
         {
@@ -24,13 +24,13 @@ namespace UI.BasePointerArrow
 
         public void AddTarget(ITargetPointerArrow target) =>
             _targetsPointerArrow.Add(new PointerArrowData(target,
-                Instantiate(_pointerArrowPrefab, _canvas.transform).GetComponent<IPointerIcon>()));
+                Instantiate(_pointerArrowPrefab, _canvas.transform).GetComponent<PointerIcon>()));
 
         public void Activate(bool isActivate)
         {
             _isActive = isActivate;
-            foreach (IPointerIcon pointerIcon in _pointerIcons) 
-                pointerIcon.Show(_isActive);
+            foreach (PointerArrowData item in _targetsPointerArrow) 
+                item.PointerIcon.Show(_isActive);
         }
 
         private void Awake() => 
@@ -39,12 +39,12 @@ namespace UI.BasePointerArrow
         private void FixedUpdate()
         {
             if (!_isActive) return;
-
+            RemoveNullTargets();
             // Left, Right, Down, Up
             Plane[] planes = GeometryUtility.CalculateFrustumPlanes(_camera);
             foreach (PointerArrowData target in _targetsPointerArrow)
             {
-                if (target.Target == null || !target.Target.IsActive)
+                if ((target.Target == null || target.Target.Equals(null)) || !target.Target.IsActive)
                 {
                     target.PointerIcon.Show(false);
                     continue;
@@ -69,19 +69,17 @@ namespace UI.BasePointerArrow
                 Vector3 worldPosition = ray.GetPoint(rayMinDistance);
                 Vector3 position = _camera.WorldToScreenPoint(worldPosition);
                 Quaternion rotation = GetIconRotation(index);
-
-                target.PointerIcon.Show(toTarget.magnitude > rayMinDistance);
+                
+                target.PointerIcon.Show(_isAlwaysShow || toTarget.magnitude > rayMinDistance);
                 target.PointerIcon.SetPosition(position, rotation);
             }
-            
-            RemoveNullTargets();
         }
 
         private void RemoveNullTargets()
         {
             for (int i = _targetsPointerArrow.Count - 1; i >= 0; i--)
             {
-                if (_targetsPointerArrow[i].Target != null) continue;
+                if (_targetsPointerArrow[i].Target != null && !_targetsPointerArrow[i].Target.Equals(null)) continue;
                 
                 Destroy(_targetsPointerArrow[i].PointerIcon.GameObject);
                 _targetsPointerArrow.RemoveAt(i);

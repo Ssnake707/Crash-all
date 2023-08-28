@@ -10,6 +10,7 @@ using Infrastructure.States;
 using Services.PersistentProgress;
 using Services.SaveLoad;
 using Services.StaticData;
+using UI.BasePointerArrow.Interface;
 using UI.Gameplay;
 using UI.Gameplay.Interface;
 using UI.MainMenu;
@@ -49,8 +50,10 @@ namespace Infrastructure.Factory
         public override async void Init()
         {
             await CreateLevel();
-            await CreatePlayer();
             await CreateCanvas();
+            await CreatePlayer();
+            CreateMainMenuAdapter();
+            InitEntityController();
             await CreateVirtualCameraPlayer();
             CreateGameController();
 
@@ -62,18 +65,25 @@ namespace Infrastructure.Factory
             _entitiesController.CleanUp();
             Object.Destroy(_entitiesController.GameObject);
             await CreateLevel();
+            InitEntityController();
             SetPositionPlayer();
             CreateGameController();
         }
+
+        private void InitEntityController() => 
+            _entitiesController.Construct(_mainCanvas.GetComponent<IPointerArrowController>(), _playerMediator);
 
         private async Task CreateCanvas()
         {
             GameObject mainCanvasPrefab = await AssetProvider.Load<GameObject>(AssetAddress.MainCanvas);
             _mainCanvas = DiContainer.InstantiatePrefab(mainCanvasPrefab);
-            new MainMenuAdapter(_mainCanvas.GetComponent<IMainMenuView>(), _playerMediator);
             IWindowsController windowsController = _mainCanvas.GetComponent<IWindowsController>();
             windowsController.ShowWindow(WindowType.MainMenu);
         }
+
+        private void CreateMainMenuAdapter() => 
+            new MainMenuAdapter(_mainCanvas.GetComponent<IMainMenuView>(), _playerMediator);
+
         private void SetPositionPlayer() =>
             _playerMediator.SetPosition(
                 _staticDataService.DataLevels.DataLevels[
