@@ -22,9 +22,9 @@ namespace UI.BasePointerArrow
             _isShow = isShow;
 
             if (_isShow)
-                transform.DOScale(Vector3.one, .5f);
+                transform.DOScale(Vector3.one, .5f).SetAutoKill(true).SetLink(this.gameObject);
             else
-                transform.DOScale(Vector3.zero, .5f).OnComplete(() => _isShow = false);
+                transform.DOScale(Vector3.zero, .5f).OnComplete(() => _isShow = false).SetAutoKill(true).SetLink(this.gameObject);
         }
 
         public void SetPosition(Vector3 position, Quaternion rotation)
