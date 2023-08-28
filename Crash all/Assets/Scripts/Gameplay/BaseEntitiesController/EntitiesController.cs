@@ -28,11 +28,11 @@ namespace Gameplay.BaseEntitiesController
         {
             _pointerArrowController = pointerArrowController;
             _playerMediator = playerMediator;
-            ActivatePointerArrowToEntity();
         }
 
         public void CleanUp()
         {
+            _pointerArrowController.CleanUp();
         }
 
         public void SetGameController(IGameController gameController) =>

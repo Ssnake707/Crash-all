@@ -26,7 +26,7 @@ namespace Gameplay.BreakdownSystem
         public void InitDestroyedPieces(IEntity entity, List<IDestroyedPiece> destroyedPieces,
             DestroyedPiecesId destroyedPiecesId)
         {
-            _entity = entity;
+            SetEntity(entity);
             ConnectedTo = new List<IDestroyedPiece>();
             foreach (int idPiece in destroyedPiecesId.IdPieces)
                 ConnectedTo.Add(destroyedPieces[idPiece]);
@@ -44,7 +44,7 @@ namespace Gameplay.BreakdownSystem
 
         public void DestroyPiece()
         {
-            _entity.RemoveDestroyedPiece(this);
+            _entity?.RemoveDestroyedPiece(this);
             Destroy(this.gameObject);
         }
 
@@ -53,7 +53,7 @@ namespace Gameplay.BreakdownSystem
             if (ConnectedTo == null) return;
             if (ConnectedTo.Count == 0) return;
             DisconnectPiece(collision);
-            _entity.RecalculateEntity();
+            _entity?.RecalculateEntity();
         }
 
 
@@ -64,7 +64,8 @@ namespace Gameplay.BreakdownSystem
             IsDisconnect = true;
             Rigidbody rigidBody = transform.AddComponent<Rigidbody>();
             rigidBody.AddForce(collision.impulse);
-            _entity.RemoveDestroyedPiece(this);
+            _entity?.RemoveDestroyedPiece(this);
+            _entity = null;
         }
     }
 }

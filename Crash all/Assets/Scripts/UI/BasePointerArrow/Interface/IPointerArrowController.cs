@@ -8,5 +8,6 @@ namespace UI.BasePointerArrow.Interface
         void Init(List<ITargetPointerArrow> targets, Transform playerTransform);
         void AddTarget(ITargetPointerArrow target);
         void Activate(bool isActivate);
+        void CleanUp();
     }
 }

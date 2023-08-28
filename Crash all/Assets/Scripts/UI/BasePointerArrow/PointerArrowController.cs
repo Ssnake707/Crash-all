@@ -22,6 +22,14 @@ namespace UI.BasePointerArrow
                 AddTarget(target);
         }
 
+        public void CleanUp()
+        {
+            foreach (PointerArrowData target in _targetsPointerArrow) 
+                target.PointerIcon.DestroyPointerIcon();
+            
+            _targetsPointerArrow.Clear();
+        }
+
         public void AddTarget(ITargetPointerArrow target) =>
             _targetsPointerArrow.Add(new PointerArrowData(target,
                 Instantiate(_pointerArrowPrefab, _canvas.transform).GetComponent<PointerIcon>()));
@@ -80,8 +88,8 @@ namespace UI.BasePointerArrow
             for (int i = _targetsPointerArrow.Count - 1; i >= 0; i--)
             {
                 if (_targetsPointerArrow[i].Target != null && !_targetsPointerArrow[i].Target.Equals(null)) continue;
-                
-                Destroy(_targetsPointerArrow[i].PointerIcon.GameObject);
+
+                _targetsPointerArrow[i].PointerIcon.DestroyPointerIcon();
                 _targetsPointerArrow.RemoveAt(i);
             }
         }

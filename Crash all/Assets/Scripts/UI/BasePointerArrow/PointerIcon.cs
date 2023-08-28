@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UI.BasePointerArrow.Interface;
 using UnityEngine;
@@ -13,18 +14,18 @@ namespace UI.BasePointerArrow
         private bool _isShow = false;
         private Vector3 _targetPosition;
 
-        public GameObject GameObject => this.gameObject;
-
-        public void Show(bool isShow)
+        public void Show(bool isShow, Action onComplete = null)
         {
             if (isShow == _isShow) return;
 
             _isShow = isShow;
 
             if (_isShow)
-                transform.DOScale(Vector3.one, .5f).SetAutoKill(true).SetLink(this.gameObject);
+                transform.DOScale(Vector3.one, .5f).SetAutoKill(true).SetLink(this.gameObject)
+                    .OnComplete(() => onComplete?.Invoke());
             else
-                transform.DOScale(Vector3.zero, .5f).OnComplete(() => _isShow = false).SetAutoKill(true).SetLink(this.gameObject);
+                transform.DOScale(Vector3.zero, .5f).OnComplete(() => _isShow = false).SetAutoKill(true)
+                    .SetLink(this.gameObject).OnComplete(() => onComplete?.Invoke());
         }
 
         public void SetPosition(Vector3 position, Quaternion rotation)
@@ -35,13 +36,24 @@ namespace UI.BasePointerArrow
             transform.rotation = rotation;
         }
 
-        private void Awake() => 
+        public void DestroyPointerIcon()
+        {
+            if (!_isShow)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+
+            Show(false, () => Destroy(this.gameObject));
+        }
+
+        private void Awake() =>
             transform.localPosition = Vector3.zero;
 
         private void FixedUpdate()
         {
             if (!_isShow) return;
-            
+
             transform.position = Vector3.Lerp(transform.position, _targetPosition, _smooth);
         }
     }
