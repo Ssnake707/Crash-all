@@ -1,14 +1,15 @@
-using Gameplay.BreakdownSystem.Interface;
+using Gameplay.BasePlayer;
 using Gameplay.Game.Interfaces;
+using UI.BasePointerArrow.Interface;
 using UnityEngine;
 
 namespace Gameplay.BaseEntitiesController
 {
     public interface IEntitiesController
     {
-        void AddEntity(IEntity entity);
         void SetGameController(IGameController gameController);
         GameObject GameObject { get; }
         void CleanUp();
+        void Construct(IPointerArrowController pointerArrowController, PlayerMediator playerMediator);
     }
 }

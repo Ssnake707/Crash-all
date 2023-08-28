@@ -752,6 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2849c3f1cb554458b6891583bc39ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entitySettings: {fileID: 11400000, guid: 5871f93a4ddc92f41912f6c4d19d9bff, type: 2}
   _entities:
   - {fileID: 8586904820154089024}
   - {fileID: 8944965501202245224}

@@ -15,8 +15,8 @@ namespace Gameplay.Game
         private readonly PlayerMediator _playerMediator;
         private readonly IPersistentProgressService _progressService;
         private readonly StaticDataLevels _dataLevels;
-        private IGameplayUIAdapter _gameplayUIAdapter;
         private readonly float _totalCoinsOnLevel;
+        private IGameplayUIAdapter _gameplayUIAdapter;
         private CinemachineVirtualCamera _playerCamera;
         private CinemachineVirtualCamera _playerCameraWin;
 

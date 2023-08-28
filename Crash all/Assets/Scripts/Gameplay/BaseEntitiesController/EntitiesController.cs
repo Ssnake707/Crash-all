@@ -1,59 +1,88 @@
 using System.Collections.Generic;
+using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem;
 using Gameplay.BreakdownSystem.Interface;
 using Gameplay.Game.Interfaces;
+using StaticData.Entity;
+using UI.BasePointerArrow.Interface;
 using UnityEngine;
 
 namespace Gameplay.BaseEntitiesController
 {
     public class EntitiesController : MonoBehaviour, IEntitiesController
     {
+        [SerializeField] private StaticDataEntitySettings _entitySettings;
         [SerializeField] private Entity[] _entities;
         [SerializeField] private DestroyedPiece[] _destroyedPiece;
-        private readonly List<IEntity> _allEntities = new List<IEntity>();
-        private IEntityFactory _entityFactory;
+        private readonly List<ITargetPointerArrow> _targetsPointerArrow = new List<ITargetPointerArrow>();
+        private IPointerArrowController _pointerArrowController;
+        private PlayerMediator _playerMediator;
         private int _totalPieces;
         private int _totalDestroyedPieces = 0;
         private IGameController _gameController;
-        private GameObject _gameObject;
+        private bool _pointerArrowActivated = false;
 
         public GameObject GameObject => gameObject;
-        public void CleanUp()
+
+        public void Construct(IPointerArrowController pointerArrowController, PlayerMediator playerMediator)
         {
-            foreach (IEntity item in _allEntities) 
-                Destroy(item.GameObject);
+            _pointerArrowController = pointerArrowController;
+            _playerMediator = playerMediator;
+            _pointerArrowController.WarmUp(_entitySettings.CountForShowPointerArrow);
         }
 
-        public void AddEntity(IEntity entity) => 
-            _allEntities.Add(entity);
+        public void CleanUp()
+        {
+            _pointerArrowController.CleanUp();
+        }
 
         public void SetGameController(IGameController gameController) =>
             _gameController = gameController;
-        
+
         private void Awake()
         {
             _totalPieces = _destroyedPiece.Length;
-            _entityFactory = new EntityFactory(this);
             InitEntities();
+            foreach (DestroyedPiece piece in _destroyedPiece) 
+                _targetsPointerArrow.Add((ITargetPointerArrow)piece);
         }
 
         private void InitEntities()
         {
+            IEntityFactory entityFactory = new EntityFactory(this);
             foreach (Entity item in _entities)
             {
-                _allEntities.Add(item);
                 _totalPieces += item.transform.childCount;
-                item.Construct(_entityFactory);
+                item.Construct(entityFactory);
                 item.InitDestroyedPieces();
+
+                _targetsPointerArrow.Add(item);
+                List<IDestroyedPiece> destroyedPieces = item.GetDestroyedPieces();
+                foreach (IDestroyedPiece piece in destroyedPieces)
+                    _targetsPointerArrow.Add((ITargetPointerArrow)piece);
             }
         }
 
         public void TriggerEnter(Collider other)
         {
-            if (!other.TryGetComponent<IDestroyedPiece>(out IDestroyedPiece destroyedPiece)) return;
-            _totalDestroyedPieces++;
-            Destroy(other.gameObject);
-            _gameController.DestroyPiece(_totalPieces, _totalDestroyedPieces);
+            if (other.TryGetComponent<IDestroyedPiece>(out IDestroyedPiece destroyedPiece))
+            {
+                _totalDestroyedPieces++;
+                destroyedPiece.DestroyPiece();
+                _gameController.DestroyPiece(_totalPieces, _totalDestroyedPieces);
+
+                if ((_totalPieces - _totalDestroyedPieces) <= _entitySettings.CountForShowPointerArrow)
+                    ActivatePointerArrowToEntity();
+            }
+        }
+
+        private void ActivatePointerArrowToEntity()
+        {
+            if (_pointerArrowActivated) return;
+
+            _pointerArrowActivated = true;
+            _pointerArrowController.Init(_targetsPointerArrow, _playerMediator.transform);
+            _pointerArrowController.Activate(true);
         }
     }
 }

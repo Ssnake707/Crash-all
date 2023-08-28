@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using StaticData.Entity;
+using UI.BasePointerArrow.Interface;
 using UnityEngine;
 
 namespace Gameplay.BreakdownSystem.Interface
@@ -15,5 +16,6 @@ namespace Gameplay.BreakdownSystem.Interface
             DestroyedPiecesId destroyedPiecesId);
         void Collision(Collision collision);
         void SetEntity(IEntity entity);
+        void DestroyPiece();
     }
 }

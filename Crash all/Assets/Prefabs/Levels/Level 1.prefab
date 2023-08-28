@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: a69705de22bc6f24282112945fac095b, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &1920814303096909106
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2138,8 +2139,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2461066262602684138}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 20}
+  m_LocalPosition: {x: 0, y: 0, z: -32.2397}
+  m_LocalScale: {x: 20, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9063855752167903026}
@@ -3742,6 +3743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataEntity: {fileID: 11400000, guid: 7db66fdcb60710a4caa69f5efd7367c5, type: 2}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &7571147595670447
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5994,9 +5996,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2849c3f1cb554458b6891583bc39ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entitySettings: {fileID: 11400000, guid: 5871f93a4ddc92f41912f6c4d19d9bff, type: 2}
   _entities:
   - {fileID: 7082465734434930719}
   - {fileID: 4176116858295606418}
+  _destroyedPiece: []
 --- !u!1 &6671798853237278722
 GameObject:
   m_ObjectHideFlags: 0
