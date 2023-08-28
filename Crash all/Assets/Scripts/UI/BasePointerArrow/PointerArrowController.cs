@@ -11,10 +11,18 @@ namespace UI.BasePointerArrow
         [SerializeField] private bool _isAlwaysShow;
 
         private readonly List<PointerArrowData> _targetsPointerArrow = new List<PointerArrowData>();
+        private readonly Queue<IPointerIcon> _warmUpPointerIcon = new Queue<IPointerIcon>();
         private Camera _camera;
         private bool _isActive;
         private Transform _playerTransform;
 
+        public void WarmUp(int countPointerIcon)
+        {
+            for (int i = 0; i < countPointerIcon; i++)
+                _warmUpPointerIcon.Enqueue(Instantiate(_pointerArrowPrefab, _canvas.transform)
+                    .GetComponent<PointerIcon>());
+        }
+        
         public void Init(List<ITargetPointerArrow> targets, Transform playerTransform)
         {
             _playerTransform = playerTransform;
@@ -24,15 +32,28 @@ namespace UI.BasePointerArrow
 
         public void CleanUp()
         {
-            foreach (PointerArrowData target in _targetsPointerArrow) 
-                target.PointerIcon.DestroyPointerIcon();
+            foreach (PointerArrowData item in _targetsPointerArrow) 
+                item.PointerIcon.DestroyPointerIcon();
             
             _targetsPointerArrow.Clear();
+            
+            foreach (IPointerIcon item in _warmUpPointerIcon) 
+                item.DestroyPointerIcon();
+            
+            _warmUpPointerIcon.Clear();
         }
 
-        public void AddTarget(ITargetPointerArrow target) =>
-            _targetsPointerArrow.Add(new PointerArrowData(target,
-                Instantiate(_pointerArrowPrefab, _canvas.transform).GetComponent<PointerIcon>()));
+        public void AddTarget(ITargetPointerArrow target)
+        {
+            IPointerIcon pointerIcon = null;
+            if (_warmUpPointerIcon.TryDequeue(out IPointerIcon result))
+                pointerIcon = result;
+            else
+                pointerIcon = Instantiate(_pointerArrowPrefab, _canvas.transform)
+                    .GetComponent<PointerIcon>();
+            
+            _targetsPointerArrow.Add(new PointerArrowData(target, pointerIcon));
+        }
 
         public void Activate(bool isActivate)
         {

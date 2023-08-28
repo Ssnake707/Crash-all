@@ -47,8 +47,11 @@ namespace UI.BasePointerArrow
             Show(false, () => Destroy(this.gameObject));
         }
 
-        private void Awake() =>
+        private void Awake()
+        {
             transform.localPosition = Vector3.zero;
+            transform.localScale = Vector3.zero;
+        }
 
         private void FixedUpdate()
         {

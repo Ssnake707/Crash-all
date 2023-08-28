@@ -9,5 +9,6 @@ namespace UI.BasePointerArrow.Interface
         void AddTarget(ITargetPointerArrow target);
         void Activate(bool isActivate);
         void CleanUp();
+        void WarmUp(int countPointerIcon);
     }
 }

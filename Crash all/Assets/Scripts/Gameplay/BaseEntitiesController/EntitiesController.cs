@@ -28,6 +28,7 @@ namespace Gameplay.BaseEntitiesController
         {
             _pointerArrowController = pointerArrowController;
             _playerMediator = playerMediator;
+            _pointerArrowController.WarmUp(_entitySettings.CountForShowPointerArrow);
         }
 
         public void CleanUp()
