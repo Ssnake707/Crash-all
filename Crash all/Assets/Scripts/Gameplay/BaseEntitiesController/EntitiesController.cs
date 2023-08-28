@@ -43,6 +43,8 @@ namespace Gameplay.BaseEntitiesController
         {
             _totalPieces = _destroyedPiece.Length;
             InitEntities();
+            foreach (DestroyedPiece piece in _destroyedPiece) 
+                _targetsPointerArrow.Add((ITargetPointerArrow)piece);
         }
 
         private void InitEntities()

@@ -28,7 +28,10 @@ namespace UI.BasePointerArrow
         {
             _playerTransform = playerTransform;
             foreach (ITargetPointerArrow target in targets)
+            {
+                if (target == null || target.Equals(null)) continue;
                 AddTarget(target);
+            }
         }
 
         public void CleanUp()

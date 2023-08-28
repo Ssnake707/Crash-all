@@ -13,7 +13,7 @@ namespace Gameplay.BreakdownSystem
         public Transform Transform => transform;
         public bool IsVisited { get; set; }
         public bool IsDisconnect { get; set; }
-        public List<IDestroyedPiece> ConnectedTo { get; private set; }
+        public List<IDestroyedPiece> ConnectedTo { get; private set; } = new List<IDestroyedPiece>();
 
         [SerializeField] private int _id;
 
@@ -27,7 +27,6 @@ namespace Gameplay.BreakdownSystem
             DestroyedPiecesId destroyedPiecesId)
         {
             SetEntity(entity);
-            ConnectedTo = new List<IDestroyedPiece>();
             foreach (int idPiece in destroyedPiecesId.IdPieces)
                 ConnectedTo.Add(destroyedPieces[idPiece]);
 

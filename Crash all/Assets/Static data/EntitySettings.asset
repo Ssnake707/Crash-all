@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f26cce7d1d1fd740a84a7e1b8611c5f, type: 3}
   m_Name: EntitySettings
   m_EditorClassIdentifier: 
-  CountForShowPointerArrow: 100
+  CountForShowPointerArrow: 20
   MinImpulsePlayerForDestroy: 0.1
   MinImpulseOtherForDestroy: 1
