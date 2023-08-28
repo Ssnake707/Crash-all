@@ -19,6 +19,7 @@ namespace Gameplay.BasePlayer
         [SerializeField] private Transform _centerOfMass;
         [SerializeField] private Transform _transformPlayer;
         [SerializeField] private Animator _animator;
+        [SerializeField] private ParticleSystem _vfxUpgrade;
 
         private IPlayerMovement _playerMovement;
         private IPlayerAnimation _playerAnimation;
@@ -37,6 +38,7 @@ namespace Gameplay.BasePlayer
         {
             _playerMovement.SetMaxAngularVelocity(levelRotatingSpeed, maxLevelRotatingSpeed);
             if (!isEffects) return;
+            _vfxUpgrade.Play();
             // Use vfx upgrade
         }
 
@@ -44,6 +46,7 @@ namespace Gameplay.BasePlayer
         {
             if (isEffects)
             {
+                _vfxUpgrade.Play();
                 _playerWeapon.AddSize(levelSizeWeapon, maxLevelSizeWeapon, 
                     _playerSettings.DefaultSizeWeapon, _playerSettings.MaxSizeWeapon, _playerSettings.DurationAnimSize);
             }
