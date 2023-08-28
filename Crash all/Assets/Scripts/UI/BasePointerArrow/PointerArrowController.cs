@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UI.BasePointerArrow.Interface;
 using UnityEngine;
@@ -22,24 +23,24 @@ namespace UI.BasePointerArrow
                 _warmUpPointerIcon.Enqueue(Instantiate(_pointerArrowPrefab, _canvas.transform)
                     .GetComponent<PointerIcon>());
         }
-        
+
         public void Init(List<ITargetPointerArrow> targets, Transform playerTransform)
         {
             _playerTransform = playerTransform;
-            foreach (ITargetPointerArrow target in targets) 
+            foreach (ITargetPointerArrow target in targets)
                 AddTarget(target);
         }
 
         public void CleanUp()
         {
-            foreach (PointerArrowData item in _targetsPointerArrow) 
+            foreach (PointerArrowData item in _targetsPointerArrow)
                 item.PointerIcon.DestroyPointerIcon();
-            
+
             _targetsPointerArrow.Clear();
-            
-            foreach (IPointerIcon item in _warmUpPointerIcon) 
+
+            foreach (IPointerIcon item in _warmUpPointerIcon)
                 item.DestroyPointerIcon();
-            
+
             _warmUpPointerIcon.Clear();
         }
 
@@ -51,25 +52,24 @@ namespace UI.BasePointerArrow
             else
                 pointerIcon = Instantiate(_pointerArrowPrefab, _canvas.transform)
                     .GetComponent<PointerIcon>();
-            
+
             _targetsPointerArrow.Add(new PointerArrowData(target, pointerIcon));
         }
 
         public void Activate(bool isActivate)
         {
             _isActive = isActivate;
-            foreach (PointerArrowData item in _targetsPointerArrow) 
+            foreach (PointerArrowData item in _targetsPointerArrow)
                 item.PointerIcon.Show(_isActive);
         }
 
-        private void Awake() => 
+        private void Awake() =>
             _camera = Camera.main;
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             if (!_isActive) return;
             RemoveNullTargets();
-            // Left, Right, Down, Up
             Plane[] planes = GeometryUtility.CalculateFrustumPlanes(_camera);
             foreach (PointerArrowData target in _targetsPointerArrow)
             {
@@ -89,19 +89,37 @@ namespace UI.BasePointerArrow
                 {
                     if (!planes[i].Raycast(ray, out float distance)) continue;
                     if (!(distance < rayMinDistance)) continue;
-                    
+
                     rayMinDistance = distance;
                     index = i;
                 }
 
                 rayMinDistance = Mathf.Clamp(rayMinDistance, 0, toTarget.magnitude);
-                Vector3 worldPosition = ray.GetPoint(rayMinDistance);
-                Vector3 position = _camera.WorldToScreenPoint(worldPosition);
-                Quaternion rotation = GetIconRotation(index);
-                
-                target.PointerIcon.Show(_isAlwaysShow || toTarget.magnitude > rayMinDistance);
-                target.PointerIcon.SetPosition(position, rotation);
+
+                if (toTarget.magnitude > rayMinDistance)
+                {
+                    target.PointerIcon.Show(true);
+                    Vector3 position = GetPositionArrowIcon(ray, rayMinDistance);
+                    Quaternion rotation = GetIconRotation(target.PointerIcon, index);
+                    target.PointerIcon.SetPosition(position, rotation);
+                }else if (_isAlwaysShow)
+                {
+                    target.PointerIcon.Show(true);
+                    Vector3 position = GetPositionArrowIcon(ray, rayMinDistance);
+                    Vector3 playerScreenPos = _camera.WorldToScreenPoint(_playerTransform.position);
+                    Vector3 targetScreenPos = _camera.WorldToScreenPoint(target.Target.Position);
+                    Vector3 toTargetScreenPos = targetScreenPos - playerScreenPos;
+                    float angle = Mathf.Atan2(toTargetScreenPos.y, toTargetScreenPos.x) * Mathf.Rad2Deg;
+                    target.PointerIcon.SetPosition(position, Quaternion.Euler(new Vector3(0f, 0f, angle)));
+                }
             }
+        }
+
+        private Vector3 GetPositionArrowIcon(Ray ray, float rayMinDistance)
+        {
+            Vector3 worldPosition = ray.GetPoint(rayMinDistance);
+            Vector3 position = _camera.WorldToScreenPoint(worldPosition);
+            return position;
         }
 
         private void RemoveNullTargets()
@@ -115,14 +133,14 @@ namespace UI.BasePointerArrow
             }
         }
 
-        private Quaternion GetIconRotation(int planeIndex)
+        private Quaternion GetIconRotation(IPointerIcon pointerIcon, int planeIndex)
         {
             return planeIndex switch
             {
-                0 => Quaternion.Euler(0f, 0f, 90f),
-                1 => Quaternion.Euler(0f, 0f, -90f),
-                2 => Quaternion.Euler(0f, 0f, 180),
-                3 => Quaternion.Euler(0f, 0f, 0f),
+                0 => Quaternion.Euler(pointerIcon.RotationForPlane.Right),
+                1 => Quaternion.Euler(pointerIcon.RotationForPlane.Left),
+                2 => Quaternion.Euler(pointerIcon.RotationForPlane.Down),
+                3 => Quaternion.Euler(pointerIcon.RotationForPlane.Up),
                 _ => Quaternion.identity
             };
         }

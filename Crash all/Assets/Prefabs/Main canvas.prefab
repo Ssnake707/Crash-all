@@ -791,6 +791,7 @@ MonoBehaviour:
   _pointerArrowPrefab: {fileID: 8408387527195695771, guid: b539d56eb954d2c448c806c809ac4d47,
     type: 3}
   _canvas: {fileID: 7994364641566164190}
+  _isAlwaysShow: 1
 --- !u!1 &1211432786392636744
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,11 +8,15 @@ namespace UI.BasePointerArrow
 {
     public class PointerIcon : MonoBehaviour, IPointerIcon
     {
+        public RotationForPlane RotationForPlane => _rotationForPlane;
         [SerializeField] private Image _pointerImage;
+        [SerializeField] private RotationForPlane _rotationForPlane;
         [SerializeField, Range(0f, 1f)] private float _smooth = .9f;
-
+       
         private bool _isShow = false;
         private Vector3 _targetPosition;
+
+        public bool IsShow { get; }
 
         public void Show(bool isShow, Action onComplete = null)
         {
@@ -53,7 +57,7 @@ namespace UI.BasePointerArrow
             transform.localScale = Vector3.zero;
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             if (!_isShow) return;
 
