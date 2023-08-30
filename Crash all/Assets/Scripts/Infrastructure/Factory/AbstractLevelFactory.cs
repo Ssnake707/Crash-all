@@ -5,6 +5,8 @@ using Infrastructure.Factory.Interface;
 using Infrastructure.States;
 using Services.PersistentProgress;
 using Services.SaveLoad;
+using Services.StaticData;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.Factory
@@ -13,6 +15,7 @@ namespace Infrastructure.Factory
     {
         protected IPersistentProgressService ProgressService { get; }
         protected IAssetProvider AssetProvider { get; }
+        protected IStaticDataService StaticDataService { get; }
         protected GameStateMachine StateMachine { get; }
         private List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         private List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
@@ -24,6 +27,7 @@ namespace Infrastructure.Factory
         [Inject]
         protected AbstractLevelFactory(IPersistentProgressService progressService,
             ISaveLoadService saveLoadService,
+            IStaticDataService staticDataService,
             IAssetProvider assetProvider,
             GameStateMachine stateMachine, 
             DiContainer diContainer,
@@ -31,6 +35,7 @@ namespace Infrastructure.Factory
         {
             _coroutineRunnerWithDestroyEvent = coroutineRunnerWithDestroyEvent;
             DiContainer = diContainer;
+            StaticDataService = staticDataService;
             ProgressService = progressService;
             _saveLoadService = saveLoadService;
             AssetProvider = assetProvider;
@@ -54,6 +59,27 @@ namespace Infrastructure.Factory
 
         public virtual void SaveProgress() =>
             _saveLoadService.SaveProgress(ProgressWriters);
+        
+        public void IncreaseLevelOrRandomLevel()
+        {
+            ProgressService.Progress.DataLevels.CountFinishLevel++;
+
+            if (ProgressService.Progress.DataLevels.CountFinishLevel >= StaticDataService.DataLevels.TotalLevels)
+                ProgressService.Progress.DataLevels.CurrentLevel = RandomNextLevel();
+            else
+                ProgressService.Progress.DataLevels.CurrentLevel += 1;
+        }
+        
+        private int RandomNextLevel()
+        {
+            int currentLevel = ProgressService.Progress.DataLevels.CurrentLevel;
+            int nextLevel;
+            do
+                nextLevel = Random.Range(1, StaticDataService.DataLevels.TotalLevels + 1);
+            while (currentLevel == nextLevel);
+
+            return nextLevel;
+        }
 
         private void OnDestroyHandler()
         {

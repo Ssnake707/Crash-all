@@ -5,7 +5,9 @@ using Gameplay.BasePlayer;
 using Gameplay.BreakdownSystem.PoolParticleSystem;
 using Gameplay.Game;
 using Gameplay.Game.Interfaces;
+using Infrastructure;
 using Infrastructure.AssetManagement;
+using Infrastructure.Factory;
 using Infrastructure.Factory.Interface;
 using Infrastructure.States;
 using Services.PersistentProgress;
@@ -21,12 +23,10 @@ using UI.WindowController.Interface;
 using UnityEngine;
 using Zenject;
 
-namespace Infrastructure.Factory
+namespace Gameplay
 {
     public sealed class MainGameplayFactory : AbstractLevelFactory, IMainGameplayFactory
     {
-        private readonly IStaticDataService _staticDataService;
-        
         private IEntitiesController _entitiesController;
         private PlayerMediator _playerMediator;
         private CinemachineVirtualCamera _cameraPlayer;
@@ -36,15 +36,21 @@ namespace Infrastructure.Factory
         private PoolParticleSystemHit _poolParticleSystemHit;
 
         [Inject]
-        public MainGameplayFactory(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
+        public MainGameplayFactory(IPersistentProgressService progressService,
+            ISaveLoadService saveLoadService,
+            IStaticDataService staticDataService,
             IAssetProvider assetProvider,
             GameStateMachine stateMachine,
-            IStaticDataService staticDataService,
             DiContainer diContainer,
-            ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent) : base(progressService, saveLoadService,
-            assetProvider, stateMachine, diContainer, coroutineRunnerWithDestroyEvent)
+            ICoroutineRunnerWithDestroyEvent coroutineRunnerWithDestroyEvent)
+            : base(progressService,
+                saveLoadService,
+                staticDataService,
+                assetProvider,
+                stateMachine,
+                diContainer,
+                coroutineRunnerWithDestroyEvent)
         {
-            _staticDataService = staticDataService;
             WarmUp();
             Init();
         }
@@ -63,7 +69,7 @@ namespace Infrastructure.Factory
             StateMachine.Enter<MainGameLoopState, ILevelFactory>(this);
         }
 
-        public async void CreateNewLevel()
+        public async void NextLevel()
         {
             _entitiesController.CleanUp();
             Object.Destroy(_entitiesController.GameObject);
@@ -95,16 +101,16 @@ namespace Infrastructure.Factory
 
         private void SetPositionPlayer() =>
             _playerMediator.SetPosition(
-                _staticDataService.DataLevels.DataLevels[
+                StaticDataService.DataLevels.DataLevels[
                     ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition);
 
         private void CreateGameController()
         {
             _gameController = new GameController(this,
                 ProgressService,
-                _staticDataService.DataLevels,
+                StaticDataService.DataLevels,
                 _playerMediator, 
-                _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].TotalCoins,
+                StaticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].TotalCoins,
                 _cameraPlayer,
                 _cameraPlayerWin);
             _entitiesController.SetGameController(_gameController);
@@ -132,17 +138,17 @@ namespace Infrastructure.Factory
         {
             GameObject playerPrefab = await AssetProvider.Load<GameObject>(AssetAddress.Player);
             _playerMediator = DiContainer.InstantiatePrefab(playerPrefab,
-                _staticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
+                StaticDataService.DataLevels.DataLevels[ProgressService.Progress.DataLevels.CurrentLevel - 1].SpawnPosition,
                 Quaternion.identity, null).GetComponent<PlayerMediator>();
             
-            await _playerMediator.InitPlayer(AssetProvider, _staticDataService.DataWeapons[ProgressService.Progress.DataPlayers.IdWeapon]);
+            await _playerMediator.InitPlayer(AssetProvider, StaticDataService.DataWeapons[ProgressService.Progress.DataPlayers.IdWeapon]);
         }
 
         private async Task CreateLevel()
         {
 #if UNITY_EDITOR
-            if (_staticDataService.DataLevels.AlwaysLoadLevel != -1)
-                ProgressService.Progress.DataLevels.CurrentLevel = _staticDataService.DataLevels.AlwaysLoadLevel;
+            if (StaticDataService.DataLevels.AlwaysLoadLevel != -1)
+                ProgressService.Progress.DataLevels.CurrentLevel = StaticDataService.DataLevels.AlwaysLoadLevel;
 #endif
             GameObject levelPrefab =
                 await AssetProvider.Load<GameObject>(

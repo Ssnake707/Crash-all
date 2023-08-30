@@ -66,7 +66,7 @@ namespace Gameplay.Game
         public void NextLevel()
         {
             _playerMediator.PlayerResetAnimation();
-            _mainGameplayFactory.CreateNewLevel();
+            _mainGameplayFactory.NextLevel();
         }
 
         public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) =>
@@ -77,25 +77,8 @@ namespace Gameplay.Game
 
         private void LevelComplete()
         {
-            _progressService.Progress.DataLevels.CountFinishLevel++;
-
-            if (_progressService.Progress.DataLevels.CountFinishLevel >= _dataLevels.TotalLevels)
-                _progressService.Progress.DataLevels.CurrentLevel = RandomNextLevel();
-            else
-                _progressService.Progress.DataLevels.CurrentLevel += 1;
-
+            _mainGameplayFactory.IncreaseLevelOrRandomLevel();
             _gameplayUIAdapter.LevelComplete();
-        }
-
-        private int RandomNextLevel()
-        {
-            int currentLevel = _progressService.Progress.DataLevels.CurrentLevel;
-            int nextLevel;
-            do
-                nextLevel = Random.Range(1, _dataLevels.TotalLevels + 1);
-            while (currentLevel == nextLevel);
-
-            return nextLevel;
         }
     }
 }

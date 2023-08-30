@@ -1,10 +1,9 @@
-using Infrastructure.Factory;
 using Infrastructure.Factory.Interface;
 using Zenject;
 
 namespace Gameplay
 {
-    public class SceneInstallerMainGameplay : MonoInstaller
+    public class InstallerMainGameplay : MonoInstaller
     {
         public override void InstallBindings()
         {
