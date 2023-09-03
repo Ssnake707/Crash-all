@@ -1,4 +1,6 @@
 using Infrastructure.AssetManagement;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using Infrastructure.SceneLoaders;
 using Services.PersistentProgress;
 using Services.SaveLoad;

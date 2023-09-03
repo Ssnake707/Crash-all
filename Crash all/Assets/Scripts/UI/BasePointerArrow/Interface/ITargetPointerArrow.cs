@@ -6,5 +6,6 @@ namespace UI.BasePointerArrow.Interface
     {
         bool IsActive { get; }
         Vector3 Position { get; }
+        GameObject GameObject { get; }
     }
 }

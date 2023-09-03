@@ -25,6 +25,12 @@ namespace UI.Gameplay
             _gameplayUIModel.ActivateCameraWin();
         }
 
+        public void RestartLevel()
+        {
+            _gameplayUIModel.RestartGame();
+            _gameplayView.ShowWindowMainMenu();
+        }
+
         public void GameplayViewOnShow() =>
             _gameplayUIModel.StartGame();
 

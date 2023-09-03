@@ -6,6 +6,7 @@ namespace UI.Gameplay.Interface
         void StartGame();
         void StopGame();
         void NextLevel();
+        void RestartGame();
         void ActivateCameraPlayer();
         void ActivateCameraWin();
     }

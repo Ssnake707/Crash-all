@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure.AssetManagement;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using Infrastructure.Factory.Interface;
 using Infrastructure.States;
 using Services.PersistentProgress;

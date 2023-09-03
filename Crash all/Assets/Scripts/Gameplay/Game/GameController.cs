@@ -66,7 +66,13 @@ namespace Gameplay.Game
         public void NextLevel()
         {
             _playerMediator.PlayerResetAnimation();
-            _mainGameplayFactory.NextLevel();
+            _mainGameplayFactory.CreateNewLevel();
+        }
+
+        public void RestartGame()
+        {
+            _playerMediator.PlayerResetAnimation();
+            _mainGameplayFactory.CreateNewLevel();
         }
 
         public void SetGameplayUIAdapter(IGameplayUIAdapter adapter) =>

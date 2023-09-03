@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7a4c78a5dc3ef408d7267d9008a7e7, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  Id: 0
   AssetWeapon:
     m_AssetGUID: bb1e2d5da3d87e245b16aed0ddd9831d
     m_SubObjectName: 
@@ -23,3 +24,9 @@ MonoBehaviour:
   MaxColliderData:
     BoxColliderCenter: {x: 3.2149687, y: -0.00029410297, z: 0.7285109}
     BoxColliderSize: {x: 6.8179264, y: 0.14844158, z: 1.6054637}
+  MinParticleSystemData:
+    Position: {x: 1.415, y: -0.011, z: 0}
+    ShapeEdgeSize: 1.1
+  MaxParticleSystemData:
+    Position: {x: 3.418, y: -0.011, z: 0}
+    ShapeEdgeSize: 3

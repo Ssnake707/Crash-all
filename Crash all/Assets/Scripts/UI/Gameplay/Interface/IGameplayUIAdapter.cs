@@ -4,6 +4,7 @@ namespace UI.Gameplay.Interface
     {
         void DestroyPiece(int totalPieces, int totalDestroyedPieces);
         void LevelComplete();
+        void RestartLevel();
         void GameplayViewOnShow();
         void GameplayViewOnHide();
         void WinMenuOnHide();

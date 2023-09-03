@@ -5,5 +5,6 @@ namespace UI.Gameplay.Interface
         void SetAdapter(IGameplayUIAdapter gameplayUIAdapter);
         void SetProgressBar(float amount);
         void LevelComplete();
+        void ShowWindowMainMenu();
     }
 }

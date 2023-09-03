@@ -6,5 +6,6 @@ namespace Gameplay.BasePlayer.BaseWeapon
     {
         public BoxCollider Collider;
         public SkinnedMeshRenderer SkinnedMeshRenderer;
+        public ParticleSystem SlashVFX;
     }
 }

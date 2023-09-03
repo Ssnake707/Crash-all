@@ -13,6 +13,7 @@ namespace Gameplay.BreakdownSystem
     {
         public int Id => _id;
         public Transform Transform => transform;
+        public GameObject GameObject => this.gameObject;
         public bool IsVisited { get; set; }
         public bool IsDisconnect { get; set; }
         public List<IDestroyedPiece> ConnectedTo { get; private set; } = new List<IDestroyedPiece>();
@@ -72,6 +73,7 @@ namespace Gameplay.BreakdownSystem
             if (collision.impulse.magnitude < 1f) return;
             if (collision.gameObject.TryGetComponent<IDestroyedPiece>(out IDestroyedPiece piece)) return;
             if (collision.gameObject.TryGetComponent<IEntity>(out IEntity entity)) return;
+            if (_poolParticleSystemHit == null) return;
             ParticleSystem effect = _poolParticleSystemHit.Pool.Get();
             effect.transform.rotation = Quaternion.Euler(collision.GetContact(0).normal);
             effect.transform.position = collision.GetContact(0).point;

@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.AssetManagement;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using StaticData.Weapon;
 using UI.MainMenu;
 using UI.MainMenu.Interface;

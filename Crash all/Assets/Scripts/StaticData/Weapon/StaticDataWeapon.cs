@@ -10,5 +10,7 @@ namespace StaticData.Weapon
         public AssetReference AssetWeapon;
         public ColliderData MinColliderData;
         public ColliderData MaxColliderData;
+        public ParticleSystemData MinParticleSystemData;
+        public ParticleSystemData MaxParticleSystemData;
     }
 }

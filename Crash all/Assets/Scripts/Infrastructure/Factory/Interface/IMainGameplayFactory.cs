@@ -2,7 +2,7 @@ namespace Infrastructure.Factory.Interface
 {
     public interface IMainGameplayFactory
     {
-        void NextLevel();
+        void CreateNewLevel();
         void IncreaseLevelOrRandomLevel();
     }
 }

@@ -57,11 +57,17 @@ namespace Gameplay.BasePlayer
             }
         }
 
-        public override void PlayerMove(float speed) => 
+        public override void PlayerMove(float speed)
+        {
             _playerAnimation.PlayerMove(speed);
+            _playerWeapon.PlayVFX(false);
+        }
 
-        public override void PlayerRotating() => 
+        public override void PlayerRotating()
+        {
             _playerAnimation.PlayerRotating();
+            _playerWeapon.PlayVFX(true);
+        }
 
         public override void SetPosition(Vector3 position) => 
             StartCoroutine(WaitLateUpdateAndSetPosition(position));
@@ -72,6 +78,7 @@ namespace Gameplay.BasePlayer
 
         public override void PlayerResetAnimation()
         {
+            SetCanMove(false);
             _playerAnimation.PlayerDance(false);
             _playerAnimation.PlayerMove(0f);
         }

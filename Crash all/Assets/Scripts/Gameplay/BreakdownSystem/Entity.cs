@@ -11,14 +11,15 @@ namespace Gameplay.BreakdownSystem
 {
     public class Entity : MonoBehaviour, IEntity, ITargetPointerArrow
     {
+        public GameObject GameObject => this.gameObject;
+        public bool IsActive => _destroyedPieces.Count > 0;
+        public Vector3 Position => transform.position;
+        
         [SerializeField] private StaticDataEntity _dataEntity;
         [SerializeField] private Transform _centerOfMass;
         private List<IDestroyedPiece> _destroyedPieces;
         private IEntityFactory _entityFactory;
         private Rigidbody _rigidbody;
-
-        public bool IsActive => _destroyedPieces.Count > 0;
-        public Vector3 Position => transform.position;
 
         private void Awake() => 
             _rigidbody = GetComponent<Rigidbody>();

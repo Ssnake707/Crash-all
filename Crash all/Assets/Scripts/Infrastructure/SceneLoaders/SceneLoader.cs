@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;

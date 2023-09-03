@@ -7,6 +7,8 @@ using Gameplay.Game;
 using Gameplay.Game.Interfaces;
 using Infrastructure;
 using Infrastructure.AssetManagement;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using Infrastructure.Factory;
 using Infrastructure.Factory.Interface;
 using Infrastructure.States;
@@ -69,7 +71,7 @@ namespace Gameplay
             StateMachine.Enter<MainGameLoopState, ILevelFactory>(this);
         }
 
-        public async void NextLevel()
+        public async void CreateNewLevel()
         {
             _entitiesController.CleanUp();
             Object.Destroy(_entitiesController.GameObject);

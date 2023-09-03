@@ -44,6 +44,13 @@ namespace Gameplay.BaseEntitiesController
 
         public void CleanUp()
         {
+            foreach (ITargetPointerArrow piece in _targetsPointerArrow)
+            {
+                if (piece == null || piece.Equals(null)) 
+                    continue;
+                
+                Destroy(piece.GameObject);
+            }
             _pointerArrowController.CleanUp();
         }
 

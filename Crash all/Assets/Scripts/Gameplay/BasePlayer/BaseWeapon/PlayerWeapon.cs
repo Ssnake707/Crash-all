@@ -2,6 +2,8 @@ using System.Collections;
 using System.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.AssetManagement;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using StaticData.Weapon;
 using UnityEngine;
 
@@ -15,8 +17,8 @@ namespace Gameplay.BasePlayer.BaseWeapon
         private Weapon _weapon;
         private Coroutine _coroutineAnimationSizeWeapon = null;
         private ICoroutineRunner _coroutineRunner;
-        
-        public PlayerWeapon(IAssetProvider assetProvider, ICoroutineRunner coroutineRunner, 
+
+        public PlayerWeapon(IAssetProvider assetProvider, ICoroutineRunner coroutineRunner,
             StaticDataWeapon dataWeapon, Transform handForWeapon)
         {
             _assetProvider = assetProvider;
@@ -35,7 +37,32 @@ namespace Gameplay.BasePlayer.BaseWeapon
         public void SetSize(int levelSizeWeapon, int maxLevelSizeWeapon, float defaultSizeWeapon, float maxSizeWeapon)
         {
             float interpolate = (float)levelSizeWeapon / maxLevelSizeWeapon;
-            _weapon.SkinnedMeshRenderer.SetBlendShapeWeight(0, 
+            SetSizeWeapon(defaultSizeWeapon, maxSizeWeapon, interpolate);
+            SetSizeVFX(interpolate);
+        }
+
+        public void AddSize(int levelSizeWeapon, int maxLevelSizeWeapon,
+            float defaultSizeWeapon, float maxSizeWeapon, float durationAnim)
+        {
+            if (_coroutineAnimationSizeWeapon != null)
+                _coroutineRunner.StopCoroutine(_coroutineAnimationSizeWeapon);
+
+            _coroutineAnimationSizeWeapon = _coroutineRunner.StartCoroutine(AnimationSizeWeapon(
+                levelSizeWeapon, maxLevelSizeWeapon, defaultSizeWeapon, maxSizeWeapon, durationAnim));
+            SetSizeVFX((float)levelSizeWeapon / maxLevelSizeWeapon);
+        }
+
+        public void PlayVFX(bool isPlay)
+        {
+            if (isPlay)
+                _weapon.SlashVFX.Play();
+            else
+                _weapon.SlashVFX.Stop();
+        }
+
+        private void SetSizeWeapon(float defaultSizeWeapon, float maxSizeWeapon, float interpolate)
+        {
+            _weapon.SkinnedMeshRenderer.SetBlendShapeWeight(0,
                 Mathf.Lerp(defaultSizeWeapon, maxSizeWeapon, interpolate));
             _weapon.Collider.center = Vector3.Lerp(_dataWeapon.MinColliderData.BoxColliderCenter,
                 _dataWeapon.MaxColliderData.BoxColliderCenter, interpolate);
@@ -43,14 +70,14 @@ namespace Gameplay.BasePlayer.BaseWeapon
                 _dataWeapon.MaxColliderData.BoxColliderSize, interpolate);
         }
 
-        public void AddSize(int levelSizeWeapon, int maxLevelSizeWeapon,
-            float defaultSizeWeapon, float maxSizeWeapon, float durationAnim)
+        private void SetSizeVFX(float interpolate)
         {
-            if (_coroutineAnimationSizeWeapon != null) 
-                _coroutineRunner.StopCoroutine(_coroutineAnimationSizeWeapon);
+            _weapon.SlashVFX.transform.localPosition = Vector3.Lerp(_dataWeapon.MinParticleSystemData.Position,
+                _dataWeapon.MaxParticleSystemData.Position, interpolate);
 
-            _coroutineAnimationSizeWeapon = _coroutineRunner.StartCoroutine(AnimationSizeWeapon(
-                levelSizeWeapon, maxLevelSizeWeapon, defaultSizeWeapon, maxSizeWeapon, durationAnim));
+            ParticleSystem.ShapeModule shapeModule = _weapon.SlashVFX.shape;
+            shapeModule.radius = Mathf.Lerp(_dataWeapon.MinParticleSystemData.ShapeEdgeSize,
+                _dataWeapon.MaxParticleSystemData.ShapeEdgeSize, interpolate);
         }
 
         private IEnumerator AnimationSizeWeapon(int levelSizeWeapon, int maxLevelSizeWeapon, float defaultSizeWeapon,
@@ -68,18 +95,18 @@ namespace Gameplay.BasePlayer.BaseWeapon
                 _dataWeapon.MaxColliderData.BoxColliderCenter, interpolate);
             Vector3 colliderSize = Vector3.Lerp(_dataWeapon.MinColliderData.BoxColliderSize,
                 _dataWeapon.MaxColliderData.BoxColliderSize, interpolate);
-            
+
             while (pastTime < durationAnim)
             {
                 pastTime += Time.deltaTime;
                 float t = pastTime / durationAnim;
-                _weapon.SkinnedMeshRenderer.SetBlendShapeWeight(0, 
+                _weapon.SkinnedMeshRenderer.SetBlendShapeWeight(0,
                     Mathf.Lerp(currentSize, sizeWeapon, t));
                 _weapon.Collider.center = Vector3.Lerp(currentColliderCenter, colliderCenter, t);
                 _weapon.Collider.size = Vector3.Lerp(currentColliderSize, colliderSize, t);
                 yield return null;
             }
-            
+
             _weapon.SkinnedMeshRenderer.SetBlendShapeWeight(0, sizeWeapon);
             _weapon.Collider.center = colliderCenter;
             _weapon.Collider.size = colliderSize;

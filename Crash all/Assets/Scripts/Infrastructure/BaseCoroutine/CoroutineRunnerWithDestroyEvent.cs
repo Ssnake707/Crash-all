@@ -1,7 +1,8 @@
 using System;
+using Infrastructure.BaseCoroutine.Interface;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Infrastructure.BaseCoroutine
 {
     public class CoroutineRunnerWithDestroyEvent : MonoBehaviour, ICoroutineRunnerWithDestroyEvent
     {

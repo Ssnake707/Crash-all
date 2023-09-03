@@ -1,4 +1,6 @@
 using Data;
+using Infrastructure.BaseCoroutine;
+using Infrastructure.BaseCoroutine.Interface;
 using Infrastructure.States.Interface;
 using Services.PersistentProgress;
 using Services.SaveLoad;

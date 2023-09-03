@@ -11,6 +11,7 @@ namespace UI.Gameplay
     {
         [SerializeField] private WinMenuView _winMenuView;
         [SerializeField] private Slider _progressBar;
+        [SerializeField] private Button _buttonRestart;
         [SerializeField] private float _durationSliderAnim;
         private BaseWindow _mainMenuController;
         private IGameplayUIAdapter _gameplayUIAdapter;
@@ -27,6 +28,12 @@ namespace UI.Gameplay
         {
             _gameplayUIAdapter.GameplayViewOnHide();
             WindowsController.ShowWindow(WindowType.WinMenu);
+        }
+
+        public void ShowWindowMainMenu()
+        {
+            _gameplayUIAdapter.GameplayViewOnHide();
+            WindowsController.ShowWindow(WindowType.MainMenu);
         }
 
         public void SetAdapter(IGameplayUIAdapter gameplayUIAdapter) =>
@@ -46,7 +53,13 @@ namespace UI.Gameplay
             _gameplayUIAdapter.WinMenuOnHide();
         }
 
-        private void Awake() => 
+        private void Awake()
+        {
             _winMenuView.ButtonContinue.onClick.AddListener(ClickContinueWinMenuHandler);
+            _buttonRestart.onClick.AddListener(ClickRestartLevelHandler);
+        }
+
+        private void ClickRestartLevelHandler() => 
+            _gameplayUIAdapter.RestartLevel();
     }
 }
