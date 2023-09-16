@@ -9,6 +9,7 @@ namespace Services.SaveLoad
 {
     public class SaveLoadService : ISaveLoadService
     {
+        private const bool UsePlayerPrefs = false;
         private readonly string _pathJson;
         private readonly IPersistentProgressService _progressService;
         
@@ -40,8 +41,18 @@ namespace Services.SaveLoad
         private void SaveJson()
         {
             string json = JsonUtility.ToJson(_progressService.Progress);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            if (UsePlayerPrefs)
+            {
+                PlayerPrefs.SetString(_prefsKey, json);
+                PlayerPrefs.Save();  
+            }
+            else
+            {
+                File.WriteAllText(_pathJson, json);    
+            }
+#else
             File.WriteAllText(_pathJson, json);
-#if UNITY_EDITOR
             Debug.Log($"Save data game to - {_pathJson}");
 #endif
         }
@@ -49,16 +60,30 @@ namespace Services.SaveLoad
         private DataGame LoadJson()
         {
             DataGame dataGame = null;
-            if (File.Exists(_pathJson))
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            if (UsePlayerPrefs)
             {
-                string json = File.ReadAllText(_pathJson);
-                dataGame = JsonUtility.FromJson<DataGame>(json);
-#if UNITY_EDITOR
-                Debug.Log($"Load data game to - {_pathJson}");
-#endif
+                string json = PlayerPrefs.GetString(_prefsKey, "");
+                if (!string.IsNullOrEmpty(json))
+                    dataGame = JsonUtility.FromJson<DataGame>(json);
             }
+            else
+            {
+                dataGame = LoadFromFile();
+            }
+#else
+            dataGame = LoadFromFile();
+            Debug.Log($"Load data game to - {_pathJson}");
+#endif
 
             return dataGame;
+        }
+        
+        private DataGame LoadFromFile()
+        {
+            if (!File.Exists(_pathJson)) return null;
+            string json = File.ReadAllText(_pathJson);
+            return JsonUtility.FromJson<DataGame>(json);
         }
     }
 }
